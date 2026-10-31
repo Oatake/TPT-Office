@@ -1,0 +1,22 @@
+/* Theme: Space Lab — stars, rockets, mission control. Best for 1–5, math & science. */
+:root {
+  --brand-primary: #5b3cc4;
+  --brand-accent: #12b5b0;
+  --font-heading: "Baloo2", "Andika", sans-serif;
+  --font-body: "Andika", sans-serif;
+  --thumb-bg: #ebe6fb;
+}
+.page::before { /* star cluster top-right */
+  content: ""; position: absolute; right: .2in; top: .12in; width: 1.1in; height: .4in;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 40'%3E%3Cg fill='none' stroke='%235b3cc4' stroke-width='1.6'%3E%3Cpath d='M15 8 l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z'/%3E%3Cpath d='M60 18 l2 4 4 .6-3 3 .7 4-3.7-2-3.7 2 .7-4-3-3 4-.6z'/%3E%3C/g%3E%3Cg fill='%2312b5b0'%3E%3Ccircle cx='40' cy='10' r='2'/%3E%3Ccircle cx='85' cy='8' r='2.5'/%3E%3Ccircle cx='100' cy='28' r='1.8'/%3E%3Ccircle cx='35' cy='32' r='1.5'/%3E%3C/g%3E%3Ccircle cx='85' cy='26' r='7' fill='none' stroke='%235b3cc4' stroke-width='1.6'/%3E%3Cellipse cx='85' cy='26' rx='13' ry='3.5' fill='none' stroke='%2312b5b0' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right center / contain;
+}
+h1.title { font-weight: 800; color: var(--brand-primary); }
+.directions { border: 2px solid var(--brand-primary); border-radius: 12px 12px 12px 0; position: relative; padding-top: .2in; }
+.directions::before {
+  content: "MISSION CONTROL"; position: absolute; top: -.12in; left: .15in; padding: 1px .12in;
+  background: var(--brand-primary); color: #fff; border-radius: 6px; font: 700 9.5pt var(--font-heading); letter-spacing: 1px;
+}
+.directions b { color: var(--brand-accent); }
+.cover { border: 8px solid var(--brand-primary); border-radius: 28px; outline: 3px dashed var(--brand-accent); outline-offset: -.3in; }
+.cover h1 { font-weight: 800; }
+.cover .badge { background: var(--brand-accent); }

@@ -14,11 +14,13 @@
 | 5 | **Quality Reviewer** ผู้ตรวจสอบคุณภาพ | `quality-reviewer` | ตรวจเฉลยทุกข้อ, ตัวสะกด, ความเหมาะสมกับวัย, ลิขสิทธิ์, นโยบาย TPT | `05-qa-report.md` |
 | 6 | **TPT Listing & SEO** ผู้เชี่ยวชาญหน้าร้าน | `tpt-listing-specialist` | ชื่อสินค้า, คำอธิบาย, แท็ก, หมวดหมู่, ราคา, ข้อความ thumbnail | `06-listing.md` |
 | 7 | **Marketing Specialist** การตลาด | `marketing-specialist` | Pinterest pins, โพสต์โซเชียล, อีเมลผู้ติดตาม, แผนโปรโมชัน | `07-marketing.md` |
+| 8 | **Creative Director** ผู้กำกับฝ่ายสร้างสรรค์ | `creative-director` | คุมไม่ให้สินค้าซ้ำซาก: เลือกคอนเซปต์/เรื่องราว, ธีมดีไซน์, กิจกรรม "ว้าว", ทิศทาง thumbnail และตรวจความน่าดึงดูดก่อนขาย | `02b-creative-brief.md` |
 
 ### ทำไมต้องมีตำแหน่งเหล่านี้?
 - **ขายได้หรือไม่** ขึ้นกับ Research + Listing/SEO (ครูต้องค้นเจอ และสินค้าต้องตอบโจทย์ที่ยังไม่มีใครทำดี)
 - **รีวิวดีหรือไม่** ขึ้นกับ Curriculum + Content + QA (เฉลยผิดข้อเดียวก็ได้รีวิวแย่)
-- **ดูน่าซื้อหรือไม่** ขึ้นกับ Designer (thumbnail และ preview คือหน้าร้าน)
+- **ดูน่าซื้อหรือไม่** ขึ้นกับ Creative Director + Designer (thumbnail และ preview คือหน้าร้าน)
+- **ไม่ซ้ำซากเมื่อทำทุกวัน** ขึ้นกับ Creative Director + ทะเบียนสินค้า (ดูหัวข้อ "ระบบกันซ้ำ" ด้านล่าง)
 - **ยอดขายต่อเนื่อง** ขึ้นกับ Marketing (Pinterest เป็นช่องทางหลักของผู้ขายบน TPT)
 
 ถ้าเพิ่งเริ่ม ใช้แค่ตำแหน่ง 1–6 ก่อนก็พอ ส่วน Marketing ค่อยเพิ่มเมื่อมีสินค้าหลายชิ้นแล้ว
@@ -29,15 +31,17 @@
 คุณ: /new-tpt-product 1st grade addition
         │
         ▼
- [1] Market Researcher ──► เสนอ 3–5 ไอเดีย ──► ✋ คุณเลือก
+ [1] Market Researcher ──► เสนอ 3–5 ไอเดีย (เช็กไม่ซ้ำของเดิม) ──► ✋ คุณเลือก
+        ▼
+ [8] Creative Director ──► คอนเซปต์ + ธีม + กิจกรรม "ว้าว" (ไม่ซ้ำชิ้นก่อน)
         ▼
  [2] Curriculum Designer ──► แผนสินค้า ──► ✋ คุณอนุมัติ
         ▼
- [3] Content Writer ──► [4] Worksheet Designer ──► [5] Quality Reviewer
+ [3] Content Writer ──► [4] Worksheet Designer ──► [5] QA + [8] Appeal Review
                 ▲                                         │
                 └──────────── ไม่ผ่าน: ส่งกลับแก้ (≤3 รอบ) ◄─┘
         ▼ ผ่าน
- [6] TPT Listing & SEO ──► [7] Marketing
+ [6] TPT Listing & SEO ──► [7] Marketing ──► บันทึกใน catalog
         ▼
  ✅ ไฟล์พร้อมอัปโหลดใน products/<slug>/
 ```
@@ -61,11 +65,23 @@
    ใช้ quality-reviewer ตรวจ products/2nd-grade-halloween-subtraction อีกรอบ
    ```
 
+## 🎨 ระบบกันซ้ำ (สำหรับการออกสินค้าทุกวัน)
+
+| ส่วนประกอบ | ไฟล์ | ทำอะไร |
+|---|---|---|
+| ธีมดีไซน์ 6 แบบ | `templates/themes/` | ฟอนต์ สี ของตกแต่งต่างกัน เปลี่ยนได้ด้วยบรรทัดเดียว ([ดูภาพตัวอย่าง](templates/themes/previews/all-themes-cover.png)) |
+| ฟอนต์ 7 แบบ (ใช้ขายได้) | `brand/assets/fonts/` | Andika, Fredoka, Baloo 2, Patrick Hand, Sniglet, Luckiest Guy, Lexend |
+| คลังกิจกรรม 40+ แบบ | `docs/activity-library.md` | ภาพลับ, ปริศนา, เกม, escape room, task cards ฯลฯ + กติกาการผสม |
+| กติกากันซ้ำ | `docs/variety-policy.md` | ธีมห้ามซ้ำ 3 ชิ้นล่าสุด, กิจกรรม "ว้าว" ห้ามซ้ำ 5 ชิ้น, หมุนวิชา/ชั้น ฯลฯ |
+| ทะเบียนสินค้า | `products/catalog.json` | บันทึกทุกชิ้นว่าใช้ธีม/คอนเซปต์/กิจกรรมอะไร |
+| รายงาน | `node scripts/variety-report.mjs` | สรุปการใช้งานล่าสุด, เตือนเมื่อซ้ำ, บอกตัวเลือกที่ยังว่าง |
+
 ## 📁 ผลลัพธ์ของแต่ละสินค้า
 
 ```
 products/<slug>/
 ├── 01-research.md      ผลวิจัยตลาด
+├── 02b-creative-brief.md  คอนเซปต์ ธีม ทิศทาง thumbnail + appeal review
 ├── 02-plan.md          แผนสินค้า + มาตรฐานหลักสูตร
 ├── 03-content.md       เนื้อหา + เฉลย
 ├── worksheet.html      ไฟล์ต้นฉบับ (แก้ไขได้)

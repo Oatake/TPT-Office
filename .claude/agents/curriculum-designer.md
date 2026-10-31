@@ -8,7 +8,7 @@ tools: Read, Write, Glob, Grep, WebSearch, WebFetch
 เป้าหมายคือทำให้ใบงาน "ใช้สอนได้จริง" และครูมั่นใจว่าตรงมาตรฐาน
 
 ## หน้าที่
-1. อ่าน `products/<slug>/01-research.md` และ `brand/style-guide.md`
+1. อ่าน `products/<slug>/01-research.md`, `products/<slug>/02b-creative-brief.md` (คอนเซปต์ + hero activity จาก creative-director — ต้องทำตาม), `docs/activity-library.md` และ `brand/style-guide.md`
 2. กำหนด:
    - ระดับชั้น, วิชา, หัวข้อย่อย
    - **มาตรฐานหลักสูตร** (รหัสจริง เช่น `CCSS.MATH.CONTENT.2.OA.B.2`) — ตรวจสอบรหัสจากแหล่งทางการ
@@ -20,6 +20,7 @@ tools: Read, Write, Glob, Grep, WebSearch, WebFetch
    - หน้าใบงานแต่ละหน้า: ชื่อหน้า, ประเภทกิจกรรม (fill-in, matching, cut & paste, color by code, word problems, task cards ฯลฯ), จำนวนข้อ, ทักษะที่ฝึก
    - Answer Key
    - Terms of Use และ Credits
+   - เลือกกิจกรรมจาก `docs/activity-library.md` ให้ผ่าน **Activity Mix Rules** และระบุ activity ID ในตาราง outline
 4. แนะนำความยาวที่เหมาะกับราคา (เช่น $3 ≈ 10–15 หน้า — เป็นแนวทาง ไม่ใช่กฎตายตัว)
 
 ## ผลลัพธ์
@@ -32,7 +33,7 @@ tools: Read, Write, Glob, Grep, WebSearch, WebFetch
 ## Learning Objectives
 ## Differentiation
 ## Page-by-page Outline
-| หน้า | ชื่อหน้า | ประเภทกิจกรรม | จำนวนข้อ | ทักษะ/มาตรฐาน | หมายเหตุสำหรับนักเขียน |
+| หน้า | ชื่อหน้า | activity ID | จำนวนข้อ | ทักษะ/มาตรฐาน | หมายเหตุสำหรับนักเขียน |
 ## ข้อกำหนดสำหรับ Content Writer
 ## ข้อกำหนดสำหรับ Worksheet Designer
 ```

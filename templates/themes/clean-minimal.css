@@ -1,0 +1,19 @@
+/* Theme: Clean Minimal — modern, crisp, ink-light. Best for 3–5, test prep, older students. */
+:root {
+  --brand-primary: #1e293b;
+  --brand-accent: #0ea5a4;
+  --ink: #1e293b;
+  --font-heading: "Lexend", sans-serif;
+  --font-body: "Lexend", sans-serif;
+  --thumb-bg: #e6f6f5;
+}
+.page::before { /* accent bar */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: .14in; background: var(--brand-accent);
+}
+h1.title { font-weight: 700; text-align: left; font-size: 24pt; border-bottom: 2px solid var(--brand-primary); padding-bottom: 4px; }
+.directions { border: none; border-left: 4px solid var(--brand-accent); border-radius: 0; padding: .06in .15in; }
+.directions b { color: var(--brand-accent); }
+ol.questions { font-size: 13pt; }
+.cover { border: none; align-items: flex-start; text-align: left; padding-left: 1in; }
+.cover h1 { font-weight: 700; color: var(--brand-primary); font-size: 40pt; }
+.cover .badge { background: var(--brand-accent); border-radius: 4px; }

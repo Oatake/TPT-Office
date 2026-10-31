@@ -6,7 +6,8 @@
 //   node scripts/build-pdf.mjs <input.html> <output.pdf>
 //   node scripts/build-pdf.mjs <input.html> <output-preview.pdf> --preview [--pages 4]
 //   node scripts/build-pdf.mjs <input.html> <output-dir> --thumbnails [--pages 4]
-import { mkdir, readdir } from 'node:fs/promises';
+//   add --theme <name> to override the worksheet's <meta name="tpt-theme"> (templates/themes/<name>.css)
+import { mkdir, readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -15,10 +16,11 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
+const VALUE_FLAGS = new Set(['--pages', '--theme']);
 const flags = new Set(args.filter((a) => a.startsWith('--')));
-const positional = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--pages');
-const pagesIdx = args.indexOf('--pages');
-const maxPages = pagesIdx >= 0 ? Number(args[pagesIdx + 1]) : 4;
+const positional = args.filter((a, i) => !a.startsWith('--') && !VALUE_FLAGS.has(args[i - 1]));
+const flagValue = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
+const maxPages = Number(flagValue('--pages') ?? 4);
 const [input, output] = positional;
 
 if (!input || !output) {
@@ -26,17 +28,18 @@ if (!input || !output) {
   process.exit(1);
 }
 
-// Brand fonts: every brand/assets/fonts/<family>/<Family>-<Weight>.woff2 is
-// registered as @font-face so worksheets can use it by family name.
+// Brand fonts: every brand/assets/fonts/<dir>/<Family>-<Style>.(woff2|ttf|...)
+// is registered as @font-face so worksheets and themes can use it by family
+// name. <Style> is Regular, Bold, ExtraBold, or Variable (variable-weight font).
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 async function brandFontCss() {
   const dir = path.join(repoRoot, 'brand', 'assets', 'fonts');
-  const weights = { regular: 400, bold: 700 };
+  const weights = { regular: '400', bold: '700', extrabold: '800', variable: '100 900' };
   let css = '';
   for (const fam of await readdir(dir, { withFileTypes: true }).catch(() => [])) {
     if (!fam.isDirectory()) continue;
     for (const f of await readdir(path.join(dir, fam.name))) {
-      const m = f.match(/^(.+)-(Regular|Bold)\.(woff2|woff|ttf|otf)$/i);
+      const m = f.match(/^(.+)-(Regular|Bold|ExtraBold|Variable)\.(woff2|woff|ttf|otf)$/i);
       if (!m) continue;
       const url = pathToFileURL(path.join(dir, fam.name, f)).href;
       css += `@font-face{font-family:"${m[1]}";font-weight:${weights[m[2].toLowerCase()]};src:url("${url}");}\n`;
@@ -45,12 +48,30 @@ async function brandFontCss() {
   return css;
 }
 
+// Theme: --theme flag, else <meta name="tpt-theme" content="...">. The theme
+// stylesheet is appended last so it overrides the template's base styles.
+async function applyTheme(page) {
+  const name = flagValue('--theme')
+    ?? await page.$eval('meta[name="tpt-theme"]', (m) => m.content).catch(() => undefined);
+  if (!name) return null;
+  const file = path.join(repoRoot, 'templates', 'themes', `${name}.css`);
+  try {
+    await page.addStyleTag({ content: await readFile(file, 'utf8') });
+  } catch {
+    throw new Error(`Theme "${name}" not found: ${file}`);
+  }
+  await page.evaluate((n) => document.body.classList.add(`theme-${n}`), name);
+  return name;
+}
+
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage();
   await page.goto(pathToFileURL(path.resolve(input)).href, { waitUntil: 'networkidle' });
   const fontCss = await brandFontCss();
   if (fontCss) await page.addStyleTag({ content: fontCss });
+  const theme = await applyTheme(page);
+  if (theme) console.log('theme:', theme);
   await page.evaluate(async () => {
     // Force-load every declared face, then wait until fonts are ready.
     await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
@@ -60,13 +81,15 @@ try {
   if (flags.has('--thumbnails')) {
     await mkdir(output, { recursive: true });
     const sheets = await page.$$('.page');
+    const thumbBg = await page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue('--thumb-bg').trim() || '#f3f6fc');
     const count = Math.min(maxPages, sheets.length);
     // Square canvas: one letter page centered on a brand-colored background.
     for (let i = 0; i < count; i++) {
       const png = await sheets[i].screenshot({ type: 'png' });
       const thumb = await browser.newPage({ viewport: { width: 1400, height: 1400 } });
       await thumb.setContent(`<!DOCTYPE html><html><body style="margin:0;width:1400px;height:1400px;
-        display:flex;align-items:center;justify-content:center;background:#f3f6fc">
+        display:flex;align-items:center;justify-content:center;background:${thumbBg}">
         <img src="data:image/png;base64,${png.toString('base64')}"
              style="height:1300px;box-shadow:0 8px 30px rgba(0,0,0,.25)"></body></html>`);
       const file = path.join(output, `thumbnail-${i + 1}.png`);

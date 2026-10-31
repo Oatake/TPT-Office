@@ -1,0 +1,36 @@
+{
+  "_schema": {
+    "slug": "folder name under products/",
+    "date": "YYYY-MM-DD the product was started",
+    "status": "planning | in-progress | ready | published | archived",
+    "title": "working or final TPT title",
+    "series": "series id if this is a reskin/part of a series, else null",
+    "subject": "Math | ELA | Science | Social Studies | SEL | ...",
+    "grades": "array, e.g. [\"2\"]",
+    "topic": "main skill/topic",
+    "theme": "templates/themes/<theme>.css name",
+    "concept": "unique hook / storyline for the set",
+    "hero_activity": "activity ID used as the 'wow' feature (docs/activity-library.md)",
+    "activities": "array of activity IDs used",
+    "standards": "array of standard codes",
+    "price": "USD number"
+  },
+  "products": [
+    {
+      "slug": "2nd-grade-regroup-or-not-subtraction",
+      "date": "2026-10-31",
+      "status": "in-progress",
+      "title": "Regroup or Not? 2-Digit Subtraction Practice: Differentiated, No Prep",
+      "series": "2-digit-subtraction",
+      "subject": "Math",
+      "grades": ["2"],
+      "topic": "2-digit subtraction with and without regrouping",
+      "theme": null,
+      "concept": null,
+      "hero_activity": null,
+      "activities": ["fill-in", "vertical-practice", "draw-model", "sort", "cut-paste", "solve-shade", "spot-mistake", "word-problems", "missing-digits", "exit-ticket"],
+      "standards": ["2.NBT.B.5", "2.NBT.B.9", "2.OA.A.1", "2.NBT.B.7"],
+      "price": 5.0
+    }
+  ]
+}

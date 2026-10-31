@@ -1,0 +1,31 @@
+/* Theme: Doodle Notebook — hand-drawn, notebook paper, sticky notes. Best for 1–4, ELA & math. */
+:root {
+  --brand-primary: #1f2a44;
+  --brand-accent: #ff6b6b;
+  --font-heading: "PatrickHand", "Andika", sans-serif;
+  --font-body: "Andika", sans-serif;
+  --thumb-bg: #fdf6e3;
+}
+.page::before { /* notebook margin line + holes */
+  content: ""; position: absolute; top: 0; bottom: 0; left: .35in; width: 2px;
+  background: rgba(255,107,107,.45);
+}
+h1.title { font-size: 30pt; color: var(--brand-primary); }
+h1.title::after {
+  content: ""; display: block; height: 12px; width: 55%; margin: 0 auto;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C40 2 80 11 120 6 S180 3 198 7' fill='none' stroke='%23ff6b6b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+.directions {
+  border: 2px solid var(--brand-primary); border-radius: 2px; transform: rotate(-.6deg);
+  position: relative; margin-top: .15in;
+}
+.directions::before { /* tape */
+  content: ""; position: absolute; top: -.13in; left: 50%; width: 1.1in; height: .24in;
+  transform: translateX(-50%) rotate(2deg); background: rgba(255,107,107,.25);
+  border: 1px dashed rgba(255,107,107,.6);
+}
+.directions b { color: var(--brand-accent); }
+.name-line span { border-bottom-style: dashed; }
+.cover { border: 3px solid var(--brand-primary); border-radius: 4px; outline: 2px solid var(--brand-primary); outline-offset: -.18in; }
+.cover h1 { font-size: 50pt; }
+.cover .badge { background: var(--brand-accent); transform: rotate(-3deg); }

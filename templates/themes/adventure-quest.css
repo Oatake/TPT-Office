@@ -1,0 +1,24 @@
+/* Theme: Adventure Quest — treasure map, missions, badges. Best for 1–5, gamified practice. */
+:root {
+  --brand-primary: #2d6a4f;
+  --brand-accent: #d4a017;
+  --quest-brown: #7f5539;
+  --font-heading: "LuckiestGuy", "Andika", sans-serif;
+  --font-body: "Andika", sans-serif;
+  --thumb-bg: #f4ead5;
+}
+.page { outline: 2px solid var(--quest-brown); outline-offset: -.22in; }
+.page::before { /* compass rose, bottom-right margin */
+  content: ""; position: absolute; right: .25in; top: .2in; width: .45in; height: .45in; opacity: .7;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%237f5539' stroke-width='2'/%3E%3Cpath d='M20 3 L24 20 L20 37 L16 20Z' fill='%23d4a017' stroke='%237f5539'/%3E%3Cpath d='M3 20 L20 16 L37 20 L20 24Z' fill='none' stroke='%237f5539'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+h1.title { font-weight: 400; letter-spacing: 1.5px; color: var(--brand-primary); font-size: 28pt; }
+.directions { border: 2px solid var(--quest-brown); border-radius: 6px; background: none; position: relative; padding-top: .2in; }
+.directions::before {
+  content: "YOUR MISSION"; position: absolute; top: -.13in; left: .2in; padding: 0 .1in;
+  background: #fff; font-family: var(--font-heading); color: var(--quest-brown); font-size: 11pt; letter-spacing: 1px;
+}
+.directions b { display: none; }
+.cover { border: 6px double var(--quest-brown); }
+.cover h1 { font-weight: 400; color: var(--brand-primary); letter-spacing: 2px; }
+.cover .badge { background: var(--brand-accent); color: #3b2a14; border: 2px solid var(--quest-brown); }

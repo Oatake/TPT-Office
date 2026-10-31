@@ -1,0 +1,32 @@
+/* Theme: Playful Pop — bright, bouncy, rounded. Best for K–2, any subject. */
+:root {
+  --brand-primary: #2463d6;
+  --brand-accent: #ffb703;
+  --pop-pink: #ef476f;
+  --font-heading: "Fredoka", "Andika", sans-serif;
+  --font-body: "Andika", sans-serif;
+  --thumb-bg: #fff4d6;
+}
+h1.title { font-weight: 700; letter-spacing: .5px; }
+h1.title::after {
+  content: ""; display: block; height: 10px; margin: 4px auto 0; width: 60%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5 T30 5 T40 5' fill='none' stroke='%23ffb703' stroke-width='3'/%3E%3C/svg%3E") repeat-x center;
+}
+.directions { border: 3px solid var(--brand-accent); border-radius: 18px; position: relative; padding-left: .5in; }
+.directions::before {
+  content: "★"; position: absolute; left: .12in; top: 50%; transform: translateY(-50%);
+  font-size: 20pt; color: var(--pop-pink);
+}
+.page::before { /* confetti dots in the top corners */
+  content: ""; position: absolute; top: .12in; left: .15in; right: .15in; height: .3in;
+  background:
+    radial-gradient(circle, var(--pop-pink) 4px, transparent 5px) 0 0 / .9in .3in no-repeat,
+    radial-gradient(circle, var(--brand-accent) 5px, transparent 6px) .3in .05in / .9in .3in no-repeat,
+    radial-gradient(circle, var(--brand-primary) 3px, transparent 4px) .55in 0 / .9in .3in no-repeat,
+    radial-gradient(circle, var(--pop-pink) 4px, transparent 5px) right 0 top 0 / .9in .3in no-repeat,
+    radial-gradient(circle, var(--brand-accent) 5px, transparent 6px) right .3in top .05in / .9in .3in no-repeat,
+    radial-gradient(circle, var(--brand-primary) 3px, transparent 4px) right .55in top 0 / .9in .3in no-repeat;
+}
+.cover { border: none; outline: 8px dotted var(--brand-accent); outline-offset: -.35in; }
+.cover h1 { font-weight: 700; }
+.cover .badge { background: var(--pop-pink); }
