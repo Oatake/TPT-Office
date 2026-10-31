@@ -6,6 +6,7 @@
 //   node scripts/build-pdf.mjs <input.html> <output.pdf>
 //   node scripts/build-pdf.mjs <input.html> <output-preview.pdf> --preview [--pages 4]
 //   node scripts/build-pdf.mjs <input.html> <output-dir> --thumbnails [--pages 4]
+//   node scripts/build-pdf.mjs <thumbnails.html> <output-dir> --thumbnails --raw   (each .page saved at its own size)
 //   add --theme <name> to override the worksheet's <meta name="tpt-theme"> (templates/themes/<name>.css)
 import { mkdir, readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -86,6 +87,15 @@ try {
     const count = Math.min(maxPages, sheets.length);
     // Square canvas: one letter page centered on a brand-colored background.
     for (let i = 0; i < count; i++) {
+      if (flags.has('--raw')) {
+        // Designed thumbnails (e.g. 1400x1400 .page elements in thumbnails.html): save as-is.
+        const box = await sheets[i].boundingBox();
+        await page.setViewportSize({ width: Math.ceil(box.width), height: Math.ceil(box.height) });
+        const file = path.join(output, `thumbnail-${i + 1}.png`);
+        await sheets[i].screenshot({ path: file, type: 'png' });
+        console.log('wrote', file);
+        continue;
+      }
       const png = await sheets[i].screenshot({ type: 'png' });
       const thumb = await browser.newPage({ viewport: { width: 1400, height: 1400 } });
       await thumb.setContent(`<!DOCTYPE html><html><body style="margin:0;width:1400px;height:1400px;

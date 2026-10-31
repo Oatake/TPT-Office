@@ -240,3 +240,7 @@ html:root {
 | Bundle | หลังมีครบ 3 เวอร์ชัน | "Regroup or Not? Year-Round Bundle" | – | – | – |
 
 **ข้อกำหนดให้ designer เพื่อให้ reskin ง่าย:** แยก SVG ตามคอนเซปต์ (หมวก, เครน, กรวย, คลิปบอร์ด, ลายเตือน) ไว้ในบล็อก `<defs>`/`<symbol>` เดียวที่ต้นไฟล์ แล้วใช้ `<use href="#hardhat">` ทุกจุด และเก็บ flavor line + ชื่อหน้าไว้รวมกันในที่เดียว เวลาทำ reskin จะได้เปลี่ยนชั้นภาพและข้อความทีเดียวทั้งไฟล์ (ตรงกับข้อกำหนด "แยก theme tokens" ใน plan)
+
+## Owner Decisions (2026-10-31)
+- Concept "Join the Regroup Crew!" + theme `playful-pop` — **approved**.
+- Activity Mix Rule exception — **approved by owner**: Category A pages are 9/16 (56%), above the 50% cap. Keep content as approved (fluency-focused topic with ○ → □ → △ progression). QA should treat this as an accepted exception, not a blocker.
