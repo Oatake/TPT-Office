@@ -4,7 +4,7 @@
 //
 // Usage:
 //   node scripts/build-pdf.mjs <input.html> <output.pdf>
-//   node scripts/build-pdf.mjs <input.html> <output-preview.pdf> --preview [--pages 4]
+//   node scripts/build-pdf.mjs <input.html> <output-preview.pdf> --preview [--pages 4 | --select 1,5,13,14]
 //   node scripts/build-pdf.mjs <input.html> <output-dir> --thumbnails [--pages 4]
 //   node scripts/build-pdf.mjs <thumbnails.html> <output-dir> --thumbnails --raw   (each .page saved at its own size)
 //   add --theme <name> to override the worksheet's <meta name="tpt-theme"> (templates/themes/<name>.css)
@@ -17,7 +17,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
-const VALUE_FLAGS = new Set(['--pages', '--theme']);
+const VALUE_FLAGS = new Set(['--pages', '--theme', '--select']);
 const flags = new Set(args.filter((a) => a.startsWith('--')));
 const positional = args.filter((a, i) => !a.startsWith('--') && !VALUE_FLAGS.has(args[i - 1]));
 const flagValue = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
@@ -110,10 +110,14 @@ try {
   } else {
     await mkdir(path.dirname(path.resolve(output)), { recursive: true });
     if (flags.has('--preview')) {
-      await page.evaluate((n) => {
+      // --select 1,4,10,13 keeps those pages (1-based); otherwise the first --pages N.
+      const select = flagValue('--select')?.split(',').map((x) => Number(x.trim()) - 1);
+      await page.evaluate(({ n, select }) => {
         document.body.classList.add('preview');
-        document.querySelectorAll('.page').forEach((p, i) => { if (i >= n) p.remove(); });
-      }, maxPages);
+        document.querySelectorAll('.page').forEach((p, i) => {
+          if (select ? !select.includes(i) : i >= n) p.remove();
+        });
+      }, { n: maxPages, select });
     }
     await page.emulateMedia({ media: 'print' });
     await page.pdf({ path: output, format: 'Letter', printBackground: true, preferCSSPageSize: true });

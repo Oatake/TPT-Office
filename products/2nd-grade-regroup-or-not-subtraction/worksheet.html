@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Visual theme: playful-pop (approved in 02b-creative-brief.md). Product-only overrides live in the <style> below. -->
+<meta name="tpt-theme" content="playful-pop">
+<title>Regroup or Not? 2-Digit Subtraction Practice</title>
+<style>
+  /* ===== Base template styles (from templates/worksheet-template.html) ===== */
+  :root {
+    --brand-primary: #2f6fdd;
+    --brand-accent: #f5a623;
+    --ink: #222;
+    --muted: #777;
+    --line: #bbb;
+    --font-heading: "Andika", sans-serif;
+    --font-body: "Andika", sans-serif;
+    --store-name: "Your Store Name";
+  }
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-body); color: var(--ink); background: #e9e9e9; }
+  .page {
+    width: 8.5in; height: 11in;
+    padding: 0.45in 0.6in 0.62in;
+    margin: 0 auto 0.25in;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+  }
+  @media print { body { background: #fff; } .page { margin: 0; } }
+  .name-line { display: flex; gap: 0.3in; font-size: 13pt; }
+  .name-line span { flex: 1; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+  .name-line span.short { flex: 0 0 1.8in; }
+  h1.title { font-family: var(--font-heading); font-size: 24pt; text-align: center; margin: 0 0 0.04in; color: var(--brand-primary); }
+  .directions { font-size: 12.5pt; border: 2px dashed var(--brand-accent); border-radius: 10px; padding: 0.1in 0.15in; margin-bottom: 0.2in; }
+  .directions b { color: var(--brand-primary); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; column-gap: 0.4in; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 0.2in; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 0.15in; }
+  .write-lines .row { height: 0.55in; border-bottom: 1.5px solid var(--ink); position: relative; }
+  .write-lines .row::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed var(--line); }
+  .answer-key { color: #c0392b; font-weight: bold; }
+  .footer {
+    position: absolute; left: 0.6in; right: 0.6in; bottom: 0.28in;
+    display: flex; justify-content: space-between; font-size: 9pt; color: var(--muted);
+  }
+  .footer > span { flex: 1; }
+  .footer .std { text-align: center; }
+  .footer .pnum { text-align: right; }
+  .footer .store::before { content: "© " var(--store-name); }
+  body.preview .page::after {
+    content: "PREVIEW"; position: absolute; top: 45%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 110pt; font-weight: bold; color: rgba(0,0,0,0.08); pointer-events: none; z-index: 50;
+  }
+
+  /* ===== PRODUCT OVERRIDES (Regroup Crew). html:root beats the theme's :root (theme CSS is appended last) ===== */
+  html:root {
+    --brand-primary: #2f6fdd;   /* blueprint blue */
+    --brand-accent:  #f5a623;   /* hard-hat amber */
+    --pop-pink:      #f26b1d;   /* safety orange */
+    --thumb-bg:      #e8f0fd;   /* blueprint paper */
+    --navy:          #1d2b53;
+    --flavor:        #4a5568;
+    --work-ink:      #4d4d4d;   /* "student handwriting" in Spot the Mistake */
+    --grid-line:     #555;
+  }
+  /* theme uses a ★ glyph that our fonts do not contain -> replace with an original SVG star (no system-font fallback) */
+  html .directions::before {
+    content: ""; width: .22in; height: .22in; left: .12in;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3l5 11 12 1.5-9 8.3 2.5 12L20 30l-10.5 5.8L12 23.8 3 15.5 15 14z' fill='%23f26b1d' stroke='%231d2b53' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  html .directions { padding: .06in .12in .06in .44in; margin-bottom: .12in; border-radius: 14px; line-height: 1.3; }
+  html h1.title::after { height: 8px; margin-top: 2px; width: 46%; }
+  h1.title { white-space: nowrap; line-height: 1.08; }
+  h1.title .hat { width: .36in; height: .25in; vertical-align: -.02in; margin-right: .08in; color: var(--navy); }
+  .flavor { text-align: center; font-style: italic; font-size: 11pt; line-height: 1.15; color: var(--flavor); margin: 0 0 .05in; }
+  .name-row { display: flex; align-items: flex-end; gap: .25in; margin-bottom: .06in; }
+  .name-row .name-line { flex: 1; }
+  svg.lvl { width: .35in; height: .35in; flex: none; color: #111; }
+  svg.lvl-sm { width: .17in; height: .17in; vertical-align: -.03in; color: #111; }
+  .hidden-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .sub { font-size: 10.5pt; color: #333; margin: -.06in 0 .1in; text-align: center; }
+
+  /* ---- Vertical problem (.vp) — digits sit in fixed-width grid cells so tens/ones always line up ---- */
+  .vp {
+    --dw: .34in; --opw: .32in; --rgh: .42in; --rowh: .4in; --ansh: .52in;
+    display: inline-grid;
+    grid-template-columns: var(--opw) repeat(var(--cols), var(--dw));
+    grid-template-rows: var(--rgh) var(--rowh) var(--rowh) var(--ansh);
+    font-size: 24pt; line-height: 1; font-variant-numeric: tabular-nums; vertical-align: top;
+  }
+  .vp .c { display: flex; align-items: center; justify-content: center; position: relative; }
+  .vp .b { border-bottom: 3px solid #111; }
+  .vp .lbl { font-size: 12pt; font-weight: bold; align-items: flex-start; justify-content: flex-start; padding-top: .02in; }
+  .vp .rg { align-items: flex-end; padding-bottom: .03in; }
+  .vp .rgbox { width: .3in; height: .32in; border: 1.6px dashed #666; border-radius: 4px; }
+  .vp .rgbox.wide { width: .36in; }
+  .vp .toh { font-size: 13pt; font-weight: bold; align-items: flex-end; padding-bottom: .04in; color: var(--brand-primary); }
+  .vp .dbox { width: .42in; height: .45in; border: 2px solid #333; border-radius: 4px; }
+  .vp .mbox { width: .3in; height: .36in; border: 2.2px solid #111; border-radius: 3px; background: #fff; }
+  .vp .ans { align-items: flex-end; padding-bottom: .06in; }
+  .vp .small { font-size: 13pt; color: var(--work-ink); font-style: italic; align-items: flex-end; padding-bottom: .02in; }
+  .vp .ink { color: var(--work-ink); font-style: italic; }
+  .vp .x::before { content: ""; position: absolute; left: 4%; right: 4%; top: 50%; border-top: 3px solid var(--work-ink); transform: rotate(-60deg); }
+  .vp .blankline { grid-column: 2 / -1; border: 1.6px dashed #777; border-radius: 4px; margin: .03in 0; }
+  .vp.to { --dw: .5in; }
+  .vp.compact { --rgh: .38in; --rowh: .37in; --ansh: .5in; --dw: .31in; --opw: .3in; font-size: 22pt; }
+  .vp.three { --dw: .31in; --opw: .3in; }
+
+  .yn { font-size: 13pt; white-space: nowrap; }
+  .yn .q { font-weight: bold; }
+  .yn .o { display: inline-block; padding: 0 .07in; margin-left: .06in; letter-spacing: .5px; }
+  .yn.stack { display: flex; flex-direction: column; align-items: center; gap: .07in; }
+  .yn.stack .o { margin: 0; }
+
+  /* ---- Page-specific layouts ---- */
+  .cell { display: flex; justify-content: center; }
+  .rows-4 { row-gap: .12in; }
+  .p9cell { display: flex; align-items: center; justify-content: center; gap: .1in; }
+
+  .sketch { border: 2px solid #222; border-radius: 6px; position: relative; background: #fff; }
+  .p7grid { display: grid; grid-template-columns: 1fr 1fr; gap: .14in .2in; }
+  .p7box { border: 1.5px solid #999; border-radius: 10px; padding: .06in .1in .06in; height: 2.62in; display: flex; flex-direction: column; }
+  .p7box .hd { font-size: 14pt; margin-bottom: .05in; }
+  .p7box .hd b { margin-right: .06in; }
+  .p7box .bd { display: flex; gap: .1in; flex: 1; min-height: 0; }
+  .p7box .sketch { flex: 1; }
+  .p7box .vp { --rgh: .4in; --ansh: .45in; }
+  .p7box .cap { font-size: 10.5pt; line-height: 1.25; margin-top: .03in; }
+  .eqline { display: inline-block; border-bottom: 1.5px solid #111; min-width: .8in; height: .3in; vertical-align: bottom; }
+  .key7 { display: flex; flex-direction: row; gap: .14in; font-size: 11pt; align-items: flex-start; border-left: 1.5px solid #ccc; padding-left: .12in; white-space: nowrap; }
+  .key7 span { display: flex; align-items: center; gap: .05in; }
+  .key7 svg { vertical-align: middle; }
+
+  .cards { display: grid; grid-template-columns: repeat(5, 1fr); border: 2px dashed #333; }
+  .card { height: 1.38in; border-right: 2px dashed #333; border-bottom: 2px dashed #333; position: relative; display: flex; justify-content: center; align-items: center; }
+  .card:nth-child(5n) { border-right: none; }
+  .card:nth-child(n+6) { border-bottom: none; }
+  .card .no { position: absolute; top: .05in; left: .07in; font-size: 10pt; font-weight: bold; border: 1.4px solid #333; border-radius: 50%; width: .24in; height: .24in; display: flex; align-items: center; justify-content: center; }
+  .card .vp { --rgh: .14in; --ansh: .1in; --rowh: .4in; }
+  .cutnote { display: flex; align-items: center; gap: .08in; font-size: 10pt; color: #444; margin: 0 0 .05in; }
+  .cutnote svg { width: .32in; height: .2in; }
+  .ws-title { font-family: var(--font-heading); font-size: 15pt; color: var(--navy); margin: .14in 0 .05in; font-weight: 600; }
+  .ws-title span { font-family: var(--font-body); font-size: 10.5pt; color: #444; font-weight: normal; }
+  .ws { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 2.06in; border: 1.5px solid #555; }
+  .ws > div { border-right: 1.5px solid #999; border-bottom: 1.5px solid #999; position: relative; }
+  .ws > div:nth-child(5n) { border-right: none; }
+  .ws > div:nth-child(n+6) { border-bottom: none; }
+  .ws .no { position: absolute; top: .05in; left: .07in; font-size: 11pt; font-weight: bold; }
+
+  .mat { display: grid; grid-template-columns: 1fr 1fr; column-gap: .2in; }
+  .mat-h { border: 2.5px solid var(--navy); border-radius: 10px; text-align: center; padding: .05in .08in; font-family: var(--font-heading); font-size: 15pt; font-weight: 600; color: var(--navy); display: flex; align-items: center; justify-content: center; gap: .12in; height: .56in; margin-bottom: .07in; }
+  .mat-h svg { height: .46in; width: .4in; }
+  .slot { display: flex; align-items: center; gap: .1in; height: 1.35in; margin-bottom: .05in; }
+  .glue { width: 2.35in; height: 1.35in; border: 2px dashed #888; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 11pt; }
+  .slot .eq { font-size: 20pt; display: flex; align-items: flex-end; gap: .04in; }
+  .slot .eq .eqline { min-width: .8in; height: .55in; }
+  .reflect { font-size: 14pt; margin-top: .06in; display: flex; align-items: flex-end; gap: .08in; }
+  .reflect .eqline { flex: 1; height: .45in; }
+
+  .p12 { display: grid; grid-template-columns: 1fr 1fr; gap: .2in .25in; }
+  .chk { border: 1.5px solid #999; border-radius: 10px; display: flex; justify-content: space-around; align-items: flex-start; padding: .06in .05in 0; position: relative; }
+  .chk .tag { position: absolute; top: -.1in; background: #fff; padding: 0 .05in; font-size: 10pt; font-weight: bold; color: var(--navy); }
+  .chk .tag.l { left: .7in; } .chk .tag.r { right: .45in; }
+  .chk .arrow { align-self: center; font-size: 18pt; color: #777; margin-top: .25in; }
+
+  .p13probs { display: grid; grid-template-columns: repeat(6, 1fr); row-gap: .04in; margin-bottom: .1in; }
+  table.shade { border-collapse: collapse; margin: 0 auto; }
+  table.shade td { width: .55in; height: .55in; border: 1.6px solid var(--grid-line); text-align: center; font-size: 14pt; padding: 0; }
+  table.shade td.on { background: #9a9a9a; }
+  .seeline { font-size: 15pt; margin-top: .12in; display: flex; justify-content: center; align-items: flex-end; gap: .08in; }
+  .seeline .eqline { width: 3.2in; height: .4in; }
+
+  .p14 { display: grid; grid-template-columns: 1fr 1fr; gap: .16in .2in; }
+  .ecard { border: 2px solid #333; border-radius: 12px; padding: .08in .12in .05in; }
+  .ecard h3 { margin: 0 0 .02in; font-family: var(--font-heading); font-size: 14pt; color: var(--navy); font-weight: 600; }
+  .ecard .row1 { display: flex; justify-content: space-between; align-items: stretch; }
+  .fixit { border: 2px dashed #777; border-radius: 8px; width: 1.55in; height: 1.82in; position: relative; }
+  .fixit span { position: absolute; top: .03in; left: .07in; font-size: 10.5pt; font-weight: bold; color: #555; }
+  .choose { font-size: 13pt; margin: .06in 0 .02in; }
+  .choose .o { display: inline-block; padding: 0 .08in; margin-left: .08in; }
+  .frame { font-size: 13pt; display: flex; align-items: flex-end; gap: .06in; height: .5in; }
+  .frame .ln { flex: 1; border-bottom: 1.5px solid #111; height: .36in; }
+  .blankrow { height: .5in; border-bottom: 1.5px solid #111; }
+
+  .p15item { border: 2px solid #333; border-radius: 12px; padding: .06in .14in .06in; margin-bottom: .12in; }
+  .p15item h3 { margin: 0; font-family: var(--font-heading); font-size: 14pt; color: var(--navy); font-weight: 600; }
+  .p15item .r { display: flex; gap: .16in; align-items: flex-start; }
+  .p15item .frames { flex: 1; padding-top: .1in; }
+  .p15item .frame { height: .55in; }
+  .p15item .fixit { width: 1.45in; height: 1.75in; }
+
+  .wp { display: grid; grid-template-columns: 1fr 2.75in; column-gap: .16in; border: 2px solid #333; border-radius: 12px; padding: .08in .14in .04in; margin-bottom: .1in; }
+  .wp .txt { font-size: 14pt; line-height: 1.32; }
+  .wp .txt b { margin-right: .04in; }
+  .wp .yn { margin-top: .08in; }
+  .wp .work { border: 2px dashed #777; border-radius: 8px; height: 1.32in; position: relative; grid-row: span 2; }
+  .wp .work span { position: absolute; top: .03in; left: .07in; font-size: 10pt; color: #666; }
+  .wp .foot { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 14pt; margin-top: .02in; }
+  .wp .foot > div { display: flex; align-items: flex-end; gap: .06in; }
+  .wp .foot .eqline { height: .4in; }
+  .star-sm { width: .2in; height: .2in; vertical-align: -.03in; }
+
+  .p18 { display: grid; grid-template-columns: repeat(4, 1fr); row-gap: .4in; }
+  .p18 .cell { flex-direction: column; align-items: center; }
+  .hint { text-align: center; font-size: 12pt; margin: -.04in 0 .12in; }
+
+  .p19 { display: grid; grid-template-columns: repeat(4, 1fr); row-gap: .35in; margin-top: .1in; }
+  .p19 .vp { --rgh: .4in; }
+  .know { margin-top: .3in; }
+  .know .lbl2 { font-size: 13pt; font-weight: bold; margin-top: .06in; }
+  .know .ln { height: .58in; border-bottom: 1.5px solid #111; }
+
+  /* exit tickets */
+  .tickets { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 9.15in; margin: 0 -.15in; }
+  .ticket { padding: .14in .2in .1in; position: relative; display: flex; flex-direction: column; }
+  .ticket:nth-child(1), .ticket:nth-child(2) { border-bottom: 2px dashed #333; }
+  .ticket:nth-child(odd) { border-right: 2px dashed #333; }
+  .ticket .th { display: flex; align-items: center; gap: .07in; font-family: var(--font-heading); font-size: 13.5pt; color: var(--navy); font-weight: 600; }
+  .ticket .th .clock { width: .25in; height: .25in; flex: none; }
+  .ticket .th .lvl { width: .3in; height: .3in; margin-left: auto; }
+  .ticket .nm { display: flex; font-size: 12pt; margin: .08in 0 .08in; gap: .05in; }
+  .ticket .nm span { flex: 1; border-bottom: 1.5px solid #222; }
+  .ticket .td { font-size: 12.5pt; margin-bottom: .06in; }
+  .ticket .td b { color: var(--brand-primary); }
+  .ticket .pp { display: flex; justify-content: space-around; flex: 1; align-items: center; }
+  .ticket .pp > div { display: flex; flex-direction: column; align-items: center; gap: .04in; }
+  .ticket .wtxt { font-size: 13.5pt; line-height: 1.3; }
+  .ticket .work { border: 2px dashed #777; border-radius: 8px; flex: 1; margin: .08in 0; position: relative; }
+  .ticket .work span { position: absolute; top: .03in; left: .07in; font-size: 10pt; color: #666; }
+  .ticket .ef { font-size: 13pt; display: flex; align-items: flex-end; gap: .05in; margin-top: .04in; }
+  .ticket .ef .eqline { flex: 1; height: .38in; }
+  .ticket .ef .eqline.s { flex: 0 0 .75in; }
+  .scissor-mark { position: absolute; width: .3in; height: .2in; background: #fff; }
+
+  /* student helper */
+  .helper { height: 4.92in; padding: .05in 0 .1in; display: flex; flex-direction: column; }
+  .helper + .helper { border-top: 2px dashed #333; padding-top: .2in; }
+  .helper .cols { display: flex; gap: .2in; flex: 1; }
+  .helper ol { font-size: 13.5pt; margin: .02in 0 0; padding-left: .3in; line-height: 1.25; width: 2.75in; flex: none; }
+  .helper ol li { margin-bottom: .1in; }
+  .helper ol li b { color: var(--brand-primary); }
+  .helper .ex { flex: 1; border: 2px solid var(--navy); border-radius: 12px; padding: .05in .12in; }
+  .helper .ex h3 { margin: 0; font-family: var(--font-heading); font-size: 14pt; color: var(--navy); font-weight: 600; }
+  .helper .panels { display: flex; justify-content: space-between; margin: .03in 0; }
+  .helper .panel { text-align: center; font-size: 10pt; font-weight: bold; color: var(--navy); }
+  .helper .lower { display: flex; gap: .12in; align-items: center; }
+  .helper .lower .vp { --rgh: .36in; --rowh: .36in; --ansh: .4in; font-size: 22pt; }
+  .helper .caps { font-size: 11pt; line-height: 1.32; margin: 0; padding-left: .18in; }
+  .helper .rhyme { text-align: center; font-family: var(--font-heading); font-size: 13pt; color: var(--brand-primary); margin-top: .06in; font-weight: 600; }
+  .helper .ttl { font-size: 22pt; }
+
+  /* teacher pages */
+  .tpage { font-size: 10pt; line-height: 1.28; }
+  .tpage h2 { font-family: var(--font-heading); color: var(--navy); font-size: 13pt; margin: .1in 0 .03in; font-weight: 600; }
+  .tpage h2:first-child { margin-top: 0; }
+  .tpage p { margin: 0 0 .05in; }
+  .tpage ul { margin: 0 0 .04in; padding-left: .2in; }
+  .tpage li { margin-bottom: .02in; }
+  .tcols { columns: 2; column-gap: .3in; }
+  .tcols .keep { break-inside: avoid; }
+  table.tt { border-collapse: collapse; width: 100%; font-size: 9.3pt; margin: .03in 0 .05in; }
+  table.tt th, table.tt td { border: 1px solid #999; padding: .025in .05in; text-align: left; vertical-align: top; }
+  table.tt th { background: #fff; color: var(--navy); border-bottom: 2px solid var(--navy); font-family: var(--font-heading); font-weight: 600; }
+  .intro { text-align: center; font-size: 11pt; margin: 0 0 .1in; color: #333; }
+  .std-list { font-size: 9.4pt; line-height: 1.3; margin-top: .08in; }
+  .std-list p { margin: 0 0 .05in; }
+
+  /* answer keys */
+  .key h3 { font-family: var(--font-heading); font-size: 13pt; color: var(--navy); margin: .1in 0 .04in; font-weight: 600; border-bottom: 1.5px solid #ccc; padding-bottom: .02in; }
+  .key h3:first-of-type { margin-top: .04in; }
+  .key .alist { display: grid; font-size: 12.5pt; row-gap: .03in; }
+  .key .alist.c6 { grid-template-columns: repeat(6, 1fr); }
+  .key .alist.c4 { grid-template-columns: repeat(4, 1fr); }
+  .key .alist.c3 { grid-template-columns: repeat(3, 1fr); }
+  .key .alist.c2 { grid-template-columns: repeat(2, 1fr); }
+  .key table.tt { font-size: 10.5pt; }
+  .key table.tt td { vertical-align: middle; }
+  .key .note { font-size: 10.5pt; font-style: italic; margin: .03in 0; color: #333; }
+  .key p { font-size: 11pt; margin: .03in 0; line-height: 1.3; }
+  .unk { display: inline-block; width: .16in; height: .17in; border: 1.5px solid currentColor; vertical-align: -.02in; border-radius: 1px; }
+  table.mini { border-collapse: collapse; }
+  table.mini td { width: .38in; height: .38in; border: 1px solid #666; font-size: 10pt; text-align: center; padding: 0; }
+  table.mini td.on { background: #8c8c8c; color: #fff; font-weight: bold; }
+
+  /* cover */
+  .cover { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .cover::before { display: none; }
+  .cover .badge { background: var(--pop-pink); color: #fff; font-weight: bold; border-radius: 999px; }
+  .cover { justify-content: flex-start !important; padding: .55in .62in .5in !important; gap: 0; }
+  .ribbon { position: relative; width: 5.4in; height: .62in; margin-top: .02in; }
+  .ribbon svg.band { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ribbon .txt { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 19pt; color: var(--navy); padding-left: .3in; }
+  .ribbon .hh { position: absolute; left: .18in; top: -.12in; width: .78in; height: .5in; }
+  .cover .badge { margin-top: .12in; font-family: var(--font-heading); font-size: 17pt; padding: .04in .32in; }
+  .cover h1 { font-size: 58pt !important; margin: .02in 0 0 !important; line-height: 1.02; color: var(--brand-primary); }
+  .cover .wave { width: 3.6in; height: .16in; margin: .02in 0 .02in; }
+  .cover .line2 { font-family: var(--font-heading); font-size: 26pt; color: var(--navy); font-weight: 600; margin: 0 0 .1in; }
+  .cover .art { width: 6.2in; height: 3.55in; }
+  .cover .subtitle { font-weight: bold; font-size: 16pt !important; color: var(--navy); margin-top: .1in !important; }
+  .cover .lowrow { display: flex; gap: .3in; align-items: center; margin-top: .12in; width: 6.6in; }
+  .clip { position: relative; width: 3.45in; height: 2.15in; flex: none; }
+  .clip svg.board { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .clip ul { position: absolute; left: .32in; right: .2in; top: .42in; list-style: none; margin: 0; padding: 0; font-size: 12.5pt; color: var(--navy); }
+  .clip li { display: flex; align-items: center; gap: .08in; margin-bottom: .045in; }
+  .clip li svg { width: .2in; height: .2in; flex: none; }
+  .levels { flex: 1; text-align: center; }
+  .levels .icons { display: flex; justify-content: space-around; }
+  .levels .icons div { display: flex; flex-direction: column; align-items: center; font-size: 10.5pt; color: var(--navy); font-weight: bold; gap: .03in; }
+  .levels .icons svg { width: .45in; height: .45in; color: var(--navy); }
+  .levels .sign { width: 1.25in; height: 1.3in; margin-top: .08in; }
+  .bottom-band { position: absolute; left: .5in; right: .5in; bottom: .5in; height: .7in; border-radius: 8px; overflow: hidden; }
+  .bottom-band svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bottom-band .lab { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #fff; border-radius: 12px; padding: .04in .3in; font-family: var(--font-heading); font-size: 18pt; color: var(--navy); font-weight: 600; white-space: nowrap; border: 2px solid var(--navy); }
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     CONCEPT ART — every concept SVG lives in this ONE hidden defs block.
+     Reskins (Winter / Halloween) swap the art here; pages only use <use href="#id">.
+     All art: original geometric SVG drawn for this product (no clip art).
+     Student-page variants are line-only (fill: none) via CSS custom properties.
+     ===================================================================== -->
+<svg class="hidden-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 1. Hard hat (fill via --hat-fill; student pages = none) -->
+    <symbol id="hardhat" viewBox="0 0 64 40">
+      <g style="fill:var(--hat-fill,none);stroke:var(--hat-stroke,currentColor)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 30 C8 13 19 6 32 6 C45 6 56 13 56 30 Z"/>
+        <rect x="29" y="5" width="6" height="24" rx="2.5"/>
+        <rect x="2" y="28" width="60" height="8" rx="4"/>
+      </g>
+    </symbol>
+    <!-- 2. Tower crane lifting a horizontal ten-rod -->
+    <symbol id="crane" viewBox="0 0 250 230">
+      <g stroke="#1d2b53" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="26" y="210" width="48" height="12" rx="3" fill="#1d2b53"/>
+        <rect x="40" y="48" width="20" height="162" fill="var(--crane-fill,#f5a623)"/>
+        <polyline fill="none" stroke-width="2.2" points="40,210 60,192 40,174 60,156 40,138 60,120 40,102 60,84 40,66 60,48"/>
+        <path d="M50 26 L50 6 M50 6 L12 26 M50 6 L196 26" fill="none" stroke-width="2.2"/>
+        <rect x="8" y="26" width="200" height="16" fill="var(--crane-fill,#f5a623)"/>
+        <polyline fill="none" stroke-width="2" points="8,42 20,26 32,42 44,26 56,42 68,26 80,42 92,26 104,42 116,26 128,42 140,26 152,42 164,26 176,42 188,26 200,42 208,30"/>
+        <rect x="6" y="42" width="24" height="16" rx="2" fill="#1d2b53"/>
+        <rect x="35" y="42" width="30" height="22" rx="3" fill="#fff"/>
+        <rect x="41" y="47" width="11" height="9" rx="1.5" fill="#cfe0fb" stroke-width="2"/>
+        <rect x="166" y="42" width="18" height="8" rx="2" fill="#1d2b53"/>
+        <line x1="175" y1="50" x2="175" y2="122"/>
+        <path d="M175 122 L175 132 C175 140 166 140 166 133" fill="none" stroke-width="3.2"/>
+        <path d="M168 136 L124 158 M168 136 L226 158" fill="none" stroke-width="2"/>
+        <rect x="118" y="158" width="114" height="14" rx="2" fill="#fff"/>
+        <g stroke-width="1.6"><line x1="129.4" y1="158" x2="129.4" y2="172"/><line x1="140.8" y1="158" x2="140.8" y2="172"/><line x1="152.2" y1="158" x2="152.2" y2="172"/><line x1="163.6" y1="158" x2="163.6" y2="172"/><line x1="175" y1="158" x2="175" y2="172"/><line x1="186.4" y1="158" x2="186.4" y2="172"/><line x1="197.8" y1="158" x2="197.8" y2="172"/><line x1="209.2" y1="158" x2="209.2" y2="172"/><line x1="220.6" y1="158" x2="220.6" y2="172"/></g>
+      </g>
+    </symbol>
+    <!-- 3. Base-ten rod (vertical, 12 x 120) and unit (12 x 12) -->
+    <symbol id="rod" viewBox="0 0 12 120" overflow="visible">
+      <rect x="0" y="0" width="12" height="120" rx="1" style="fill:var(--bt-fill,#fff)" stroke="var(--bt-stroke,#1d2b53)" stroke-width="1.8"/>
+      <path d="M0 12H12M0 24H12M0 36H12M0 48H12M0 60H12M0 72H12M0 84H12M0 96H12M0 108H12" stroke="var(--bt-stroke,#1d2b53)" stroke-width="0.9"/>
+    </symbol>
+    <symbol id="unit" viewBox="0 0 12 12" overflow="visible">
+      <rect x="0" y="0" width="12" height="12" rx="1" style="fill:var(--bt-fill,#fff)" stroke="var(--bt-stroke,#1d2b53)" stroke-width="1.8"/>
+    </symbol>
+    <!-- 4. Decision signpost YES / NO -->
+    <symbol id="signpost" viewBox="0 0 200 220">
+      <g stroke="#1d2b53" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="92" y="20" width="16" height="190" rx="4" fill="#fff"/>
+        <path d="M6 34 H164 L194 62 L164 90 H6 Z" fill="#f5a623"/>
+        <path d="M170 104 H40 L10 132 L40 160 H170 Z" fill="#fff" stroke="#2f6fdd"/>
+        <rect x="70" y="204" width="60" height="12" rx="4" fill="#1d2b53"/>
+      </g>
+      <text x="16" y="71" font-family="Fredoka" font-weight="700" font-size="25" fill="#1d2b53">YES</text>
+      <path d="M66 62 H82 M76 56 L83 62 L76 68" fill="none" stroke="#1d2b53" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="88" y="70" font-family="Fredoka" font-weight="600" font-size="20" fill="#1d2b53">regroup</text>
+      <path d="M86 132 H62 M69 125 L62 132 L69 139" fill="none" stroke="#2f6fdd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="96" y="143" font-family="Fredoka" font-weight="700" font-size="30" fill="#2f6fdd">NO</text>
+    </symbol>
+    <!-- 5. Traffic cone -->
+    <symbol id="cone" viewBox="0 0 60 70">
+      <g stroke="#1d2b53" stroke-width="3" stroke-linejoin="round">
+        <path d="M24 6 H36 L50 60 H10 Z" fill="var(--cone-fill,#f26b1d)"/>
+        <path d="M20 22 H40 L42.5 32 H17.5 Z M15 42 H45 L47 50 H13 Z" fill="#fff" stroke-width="2"/>
+        <rect x="3" y="58" width="54" height="9" rx="3" fill="#1d2b53"/>
+      </g>
+    </symbol>
+    <!-- 6. Clipboard -->
+    <symbol id="clipboard" viewBox="0 0 345 215" preserveAspectRatio="none">
+      <rect x="4" y="12" width="337" height="199" rx="16" fill="#d9b382" stroke="#1d2b53" stroke-width="3"/>
+      <rect x="18" y="28" width="309" height="172" rx="6" fill="#fff" stroke="#1d2b53" stroke-width="2"/>
+      <rect x="132" y="2" width="82" height="26" rx="8" fill="#8a94a8" stroke="#1d2b53" stroke-width="3"/>
+      <circle cx="173" cy="13" r="4" fill="#fff" stroke="#1d2b53" stroke-width="2"/>
+    </symbol>
+    <!-- checkbox with blue tick (for clipboard lists) -->
+    <symbol id="checkbox" viewBox="0 0 24 24">
+      <rect x="2" y="2" width="20" height="20" rx="4" fill="#fff" stroke="#1d2b53" stroke-width="2"/>
+      <path d="M6 12.5 L10.5 17 L18.5 7" fill="none" stroke="#2f6fdd" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 7. Hazard stripe pattern (0.18in stripes = ~17px) — cover / thumbnails only -->
+    <pattern id="hazard" patternUnits="userSpaceOnUse" width="34" height="34" patternTransform="rotate(45)">
+      <rect width="34" height="34" fill="#f5a623"/><rect width="17" height="34" fill="#1d2b53"/>
+    </pattern>
+    <!-- 8. Blueprint grid pattern — cover / thumbnails only -->
+    <pattern id="bpgrid-fine" patternUnits="userSpaceOnUse" width="20" height="20">
+      <path d="M20 0H0V20" fill="none" stroke="#c7d8f7" stroke-width="1"/>
+    </pattern>
+    <pattern id="bpgrid" patternUnits="userSpaceOnUse" width="100" height="100">
+      <rect width="100" height="100" fill="#e8f0fd"/>
+      <rect width="100" height="100" fill="url(#bpgrid-fine)"/>
+      <path d="M100 0H0V100" fill="none" stroke="#c7d8f7" stroke-width="2"/>
+    </pattern>
+    <!-- 9. Inspector shield -->
+    <symbol id="shield" viewBox="0 0 120 140">
+      <path id="shield-arc" d="M22 52 A40 40 0 0 1 98 52" fill="none"/>
+      <path d="M60 6 L108 22 V66 C108 100 86 122 60 134 C34 122 12 100 12 66 V22 Z" fill="#fff" stroke="#1d2b53" stroke-width="5" stroke-linejoin="round"/>
+      <text font-family="Fredoka" font-weight="700" font-size="15" fill="#1d2b53" letter-spacing="1"><textPath href="#shield-arc" startOffset="50%" text-anchor="middle">INSPECTED</textPath></text>
+      <path d="M38 80 L54 96 L84 62" fill="none" stroke="#2f6fdd" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 10. Time-card clock (line only) -->
+    <symbol id="clock" viewBox="0 0 40 40">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="20" cy="20" r="16"/><path d="M20 20 V9 M20 20 L28 24"/></g>
+      <circle cx="20" cy="20" r="2.4" fill="currentColor"/>
+    </symbol>
+    <!-- 11. Pencil -->
+    <symbol id="pencil" viewBox="0 0 240 40">
+      <g stroke="#1d2b53" stroke-width="3" stroke-linejoin="round">
+        <rect x="40" y="6" width="170" height="28" fill="#f5a623"/>
+        <line x1="40" y1="20" x2="210" y2="20" stroke-width="1.5"/>
+        <rect x="210" y="6" width="16" height="28" fill="#c7c7c7"/>
+        <rect x="226" y="6" width="12" height="28" rx="5" fill="#f4a6b6"/>
+        <path d="M40 6 L6 20 L40 34 Z" fill="#f6dfb9"/>
+        <path d="M17 15.5 L6 20 L17 24.5 Z" fill="#1d2b53"/>
+      </g>
+    </symbol>
+    <!-- 12. Scissors (line) -->
+    <symbol id="scissors" viewBox="0 0 64 40">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <circle cx="10" cy="10" r="7"/><circle cx="10" cy="30" r="7"/>
+        <path d="M16 13 L60 32 M16 27 L60 8"/>
+      </g>
+    </symbol>
+    <!-- Level icons (line only, no fill) -->
+    <symbol id="lvl-1" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="3.2"/></symbol>
+    <symbol id="lvl-2" viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/></symbol>
+    <symbol id="lvl-3" viewBox="0 0 40 40"><path d="M20 5 L36 34 H4 Z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/></symbol>
+    <symbol id="lvl-4" viewBox="0 0 40 40"><path d="M20 3.5 L24.9 14.2 L36.6 15.5 L27.9 23.4 L30.3 35 L20 29.1 L9.7 35 L12.1 23.4 L3.4 15.5 L15.1 14.2 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <!-- arrow head for base-ten trade arrows -->
+    <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="context-stroke"/>
+    </marker>
+    <marker id="ah-o" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#f26b1d"/>
+    </marker>
+    <marker id="ah-k" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#222"/>
+    </marker>
+    <!-- wave underline (cover) -->
+    <symbol id="wave" viewBox="0 0 240 16" preserveAspectRatio="none">
+      <path d="M2 8 Q12 1 22 8 T42 8 T62 8 T82 8 T102 8 T122 8 T142 8 T162 8 T182 8 T202 8 T222 8 T238 8" fill="none" stroke="#f5a623" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===================== PAGE 1 — COVER ===================== -->
+<section class="page cover" data-std="">
+  <div class="ribbon">
+    <svg class="band" viewBox="0 0 540 62" preserveAspectRatio="none"><path d="M0 2 H540 L516 31 L540 60 H0 L24 31 Z" fill="#f5a623" stroke="#1d2b53" stroke-width="3" stroke-linejoin="round"/></svg>
+    <svg class="hh" style="--hat-fill:#f5a623;--hat-stroke:#1d2b53"><use href="#hardhat"/></svg>
+    <div class="txt">Join the Regroup Crew!</div>
+  </div>
+  <div class="badge">2nd Grade</div>
+  <h1>Regroup or Not?</h1>
+  <svg class="wave"><use href="#wave"/></svg>
+  <div class="line2">2-Digit Subtraction Practice</div>
+
+  <svg class="art" viewBox="0 0 620 355" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="2" width="616" height="351" rx="15" fill="url(#bpgrid)" stroke="#2f6fdd" stroke-width="3"/>
+    <!-- left: vertical problem 52 − 27 with regroup marks (no answer shown) -->
+    <g font-family="Andika" fill="#1d2b53" font-size="80">
+      <text x="98" y="160" text-anchor="middle">5</text><text x="160" y="160" text-anchor="middle">2</text>
+      <text x="40" y="250" text-anchor="middle">−</text>
+      <text x="98" y="250" text-anchor="middle">2</text><text x="160" y="250" text-anchor="middle">7</text>
+    </g>
+    <line x1="80" y1="98" x2="117" y2="160" stroke="#f5a623" stroke-width="7" stroke-linecap="round" transform="rotate(-8 98 130)"/>
+    <line x1="142" y1="98" x2="179" y2="160" stroke="#f5a623" stroke-width="7" stroke-linecap="round" transform="rotate(-8 160 130)"/>
+    <g font-family="Andika" font-weight="700" fill="#c97a00" font-size="38"><text x="98" y="82" text-anchor="middle">4</text><text x="163" y="82" text-anchor="middle">12</text></g>
+    <line x1="20" y1="276" x2="200" y2="276" stroke="#1d2b53" stroke-width="7" stroke-linecap="round"/>
+    <rect x="62" y="290" width="58" height="48" rx="6" fill="#fff" stroke="#1d2b53" stroke-width="2.5" stroke-dasharray="7 5"/>
+    <rect x="128" y="290" width="58" height="48" rx="6" fill="#fff" stroke="#1d2b53" stroke-width="2.5" stroke-dasharray="7 5"/>
+    <!-- right: crane lifting one ten-rod, arrow to 10 units; 4 rods + 2 units on the ground -->
+    <use href="#crane" x="232" y="8" width="300" height="276"/>
+    <path d="M508 214 C 540 232, 532 268, 500 286" fill="none" stroke="#f26b1d" stroke-width="5" stroke-linecap="round" marker-end="url(#ah-o)"/>
+    <g style="--bt-fill:#fff"><use href="#unit" x="430" y="296" width="15" height="15"/><use href="#unit" x="449" y="296" width="15" height="15"/><use href="#unit" x="468" y="296" width="15" height="15"/><use href="#unit" x="487" y="296" width="15" height="15"/><use href="#unit" x="506" y="296" width="15" height="15"/><use href="#unit" x="430" y="315" width="15" height="15"/><use href="#unit" x="449" y="315" width="15" height="15"/><use href="#unit" x="468" y="315" width="15" height="15"/><use href="#unit" x="487" y="315" width="15" height="15"/><use href="#unit" x="506" y="315" width="15" height="15"/></g>
+    <g style="--bt-fill:#fff">
+      <use href="#rod" x="318" y="232" width="13" height="115"/><use href="#rod" x="336" y="232" width="13" height="115"/>
+      <use href="#rod" x="354" y="232" width="13" height="115"/><use href="#rod" x="372" y="232" width="13" height="115"/>
+      <use href="#unit" x="396" y="316" width="13" height="13"/><use href="#unit" x="396" y="333" width="13" height="13"/>
+    </g>
+    <use href="#cone" x="548" y="282" width="52" height="62"/>
+  </svg>
+
+  <div class="subtitle">Differentiated • No Prep • With &amp; Without Regrouping</div>
+
+  <div class="lowrow">
+    <div class="clip">
+      <svg class="board"><use href="#clipboard"/></svg>
+      <ul>
+        <li><svg><use href="#checkbox"/></svg>3 levels + challenge</li>
+        <li><svg><use href="#checkbox"/></svg>Regroup or Not? sort</li>
+        <li><svg><use href="#checkbox"/></svg>Spot the Mistake</li>
+        <li><svg><use href="#checkbox"/></svg>Solve &amp; Shade mystery build</li>
+        <li><svg><use href="#checkbox"/></svg>Word problems &amp; exit tickets</li>
+      </ul>
+    </div>
+    <div class="levels">
+      <div class="icons">
+        <div><svg><use href="#lvl-1"/></svg>Level 1</div>
+        <div><svg><use href="#lvl-2"/></svg>Level 2</div>
+        <div><svg><use href="#lvl-3"/></svg>Level 3</div>
+        <div><svg><use href="#lvl-4"/></svg>Challenge</div>
+      </div>
+      <svg class="sign"><use href="#signpost"/></svg>
+    </div>
+  </div>
+
+  <div class="bottom-band">
+    <svg preserveAspectRatio="none"><rect width="100%" height="100%" fill="url(#hazard)"/></svg>
+    <div class="lab">16 Student Pages + Answer Keys</div>
+  </div>
+</section>
+
+<!-- ===================== PAGE 2 — TEACHER GUIDE ===================== -->
+<section class="page tpage" data-std="">
+  <h1 class="title">How to Use This Resource</h1>
+  <p class="intro">Students join the Regroup Crew: each page is a job on the build site.</p>
+  <div class="tcols">
+    <h2>What’s inside</h2>
+    <ul>
+      <li>Student Helper card (p. 4) — two copies per page. Cut in half and glue into math notebooks.</li>
+      <li>16 student pages (pp. 5–20) at three levels, plus challenge pages.</li>
+      <li>Regroup or Not? cut-and-paste sort (pp. 10–11).</li>
+      <li>Spot the Mistake error analysis (pp. 14–15).</li>
+      <li>Word problems (pp. 16–17) and exit tickets (p. 20).</li>
+      <li>Answer keys (pp. 21–26).</li>
+    </ul>
+    <div class="keep">
+    <h2>What the shapes mean</h2>
+    <p>Each student page has a small shape in the top corner. The shapes help you group students without labels like “easy” or “hard.”</p>
+    <table class="tt">
+      <tr><th>Shape</th><th>Level</th><th>What students do</th></tr>
+      <tr><td><svg class="lvl-sm"><use href="#lvl-1"/></svg> circle</td><td>Level 1</td><td>Subtract with <b>no regrouping</b>.</td></tr>
+      <tr><td><svg class="lvl-sm"><use href="#lvl-2"/></svg> square</td><td>Level 2</td><td>Subtract <b>with regrouping</b> on every problem.</td></tr>
+      <tr><td><svg class="lvl-sm"><use href="#lvl-3"/></svg> triangle</td><td>Level 3</td><td><b>Mixed</b> problems. Students decide first: regroup or not?</td></tr>
+      <tr><td><svg class="lvl-sm"><use href="#lvl-4"/></svg> star</td><td>Challenge</td><td>3-digit subtraction, missing digits, two-step word problems.</td></tr>
+    </table>
+    </div>
+    <div class="keep">
+    <h2>Suggested sequence (about 6–8 days, 15–20 minutes per page)</h2>
+    <table class="tt">
+      <tr><th style="width:.62in">Day</th><th style="width:1.3in">Pages</th><th>Focus</th></tr>
+      <tr><td>Day 1</td><td>p. 4 Student Helper + p. 5 <svg class="lvl-sm"><use href="#lvl-1"/></svg></td><td>Subtract the ones, then the tens (no regrouping)</td></tr>
+      <tr><td>Day 2</td><td>p. 6 <svg class="lvl-sm"><use href="#lvl-1"/></svg> + p. 7 <svg class="lvl-sm"><use href="#lvl-2"/></svg></td><td>No-regrouping fluency; trade a ten with base-ten drawings</td></tr>
+      <tr><td>Day 3</td><td>p. 8 <svg class="lvl-sm"><use href="#lvl-2"/></svg></td><td>Regrouping practice</td></tr>
+      <tr><td>Day 4</td><td>p. 9 + pp. 10–11 <svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Decide first: regroup or not? Sort the cards.</td></tr>
+      <tr><td>Day 5</td><td>p. 12 + p. 13 <svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Check by adding; Solve &amp; Shade</td></tr>
+      <tr><td>Day 6</td><td>p. 14 + p. 15 <svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Spot the Mistake and explain</td></tr>
+      <tr><td>Day 7</td><td>p. 16 + p. 17 + p. 20</td><td>Word problems; exit tickets</td></tr>
+      <tr><td>Any day after Day 4</td><td>pp. 18–19 <svg class="lvl-sm"><use href="#lvl-4"/></svg></td><td>Challenge for students who are ready</td></tr>
+    </table>
+    <p>Add a day of review if students need more time with regrouping (pp. 7–8).</p>
+    </div>
+    <div class="keep">
+    <h2>Differentiation tips</h2>
+    <ul>
+      <li>Level 1 students can join the mixed pages. Assign <b>only problems 1–2</b> on pp. 14, 15, 16, and 17. These problems do not need regrouping.</li>
+      <li>Use the exit tickets (p. 20) to form small groups for the next day.</li>
+      <li>Problem 4 on p. 17 is a two-step challenge (<svg class="lvl-sm"><use href="#lvl-4"/></svg>). It is optional.</li>
+    </ul>
+    </div>
+    <div class="keep">
+    <h2>Printing and prep</h2>
+    <ul>
+      <li>Print <b>one-sided</b>. Page 10 (cards) must be on its own sheet, separate from page 11 (sort mat). Do not print double-sided.</li>
+      <li>Everything prints well in black and white.</li>
+      <li><b>No scissors?</b> Students can skip cutting. They write <b>R</b> (regroup) or <b>N</b> (no regrouping) next to each card on page 10, then copy the problems onto the sort mat.</li>
+    </ul>
+    </div>
+    <div class="keep">
+    <h2>A note about strategies</h2>
+    <p>Base-ten drawings are always OK. The standard algorithm for subtraction is not required in 2nd grade (Common Core places it in 4.NBT.B.4). The vertical problems here are a written method. Let students show their thinking with drawings, number lines, or adding up, and connect each strategy to place value.</p>
+    </div>
+    <div class="keep">
+    <h2>Vocabulary</h2>
+    <p>We use <b>regroup</b> and <b>trade a ten</b> on every student page. We do not use “borrow,” because nothing is given back. Key words: subtract, difference, tens, ones, regroup, trade a ten, place value, check.</p>
+    </div>
+    <div class="keep">
+    <h2>Extension ideas</h2>
+    <ul>
+      <li><b>Whiteboards:</b> Write a problem. Students show a thumbs-up for “regroup” or thumbs-down for “no regrouping” before they solve.</li>
+      <li><b>Small group:</b> Use the Student Helper and real base-ten blocks with p. 7.</li>
+      <li><b>Math center:</b> Laminate the sort cards (p. 10) and mat (p. 11) for a reusable center.</li>
+      <li><b>Make your own mistake:</b> Students write a “Spot the Mistake” problem for a partner.</li>
+    </ul>
+    </div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 3 — WHAT'S INSIDE ===================== -->
+<section class="page tpage" data-std="">
+  <h1 class="title">What’s Inside</h1>
+  <table class="tt" id="map-table" style="font-size:10pt">
+    <tr><th>Page</th><th>Title</th><th>Level</th><th>Regroup?</th><th>Standards</th><th>Answer Key</th></tr>
+    <tr><td>4</td><td data-title-of="p4"></td><td>–</td><td>Example (Yes)</td><td>2.NBT.B.5, 2.NBT.B.9</td><td>–</td></tr>
+    <tr><td>5</td><td data-title-of="p5"></td><td><svg class="lvl-sm"><use href="#lvl-1"/></svg></td><td>No</td><td>2.NBT.B.5</td><td>p. 21</td></tr>
+    <tr><td>6</td><td data-title-of="p6"></td><td><svg class="lvl-sm"><use href="#lvl-1"/></svg></td><td>No</td><td>2.NBT.B.5</td><td>p. 21</td></tr>
+    <tr><td>7</td><td data-title-of="p7"></td><td><svg class="lvl-sm"><use href="#lvl-2"/></svg></td><td>Yes</td><td>2.NBT.B.5, 2.NBT.B.9</td><td>p. 21</td></tr>
+    <tr><td>8</td><td data-title-of="p8"></td><td><svg class="lvl-sm"><use href="#lvl-2"/></svg></td><td>Yes</td><td>2.NBT.B.5</td><td>p. 22</td></tr>
+    <tr><td>9</td><td data-title-of="p9"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.5, 2.NBT.B.9</td><td>p. 22</td></tr>
+    <tr><td>10</td><td data-title-of="p10"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.5, 2.NBT.B.9</td><td>p. 22</td></tr>
+    <tr><td>11</td><td data-title-of="p11"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.5, 2.NBT.B.9</td><td>p. 22</td></tr>
+    <tr><td>12</td><td data-title-of="p12"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.5</td><td>p. 23</td></tr>
+    <tr><td>13</td><td data-title-of="p13"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.5</td><td>p. 23</td></tr>
+    <tr><td>14</td><td data-title-of="p14"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.9</td><td>p. 24</td></tr>
+    <tr><td>15</td><td data-title-of="p15"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.9</td><td>p. 24</td></tr>
+    <tr><td>16</td><td data-title-of="p16"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.OA.A.1, 2.NBT.B.5</td><td>p. 25</td></tr>
+    <tr><td>17</td><td data-title-of="p17"></td><td><svg class="lvl-sm"><use href="#lvl-3"/></svg> (<svg class="lvl-sm"><use href="#lvl-4"/></svg> #4)</td><td>Mixed</td><td>2.OA.A.1, 2.NBT.B.5</td><td>p. 25</td></tr>
+    <tr><td>18</td><td data-title-of="p18"></td><td><svg class="lvl-sm"><use href="#lvl-4"/></svg></td><td>Mixed</td><td>2.NBT.B.7</td><td>p. 26</td></tr>
+    <tr><td>19</td><td data-title-of="p19"></td><td><svg class="lvl-sm"><use href="#lvl-4"/></svg></td><td>Mixed</td><td>2.NBT.B.5, 2.NBT.B.9</td><td>p. 26</td></tr>
+    <tr><td>20</td><td data-title-of="p20"></td><td><svg class="lvl-sm"><use href="#lvl-1"/></svg> <svg class="lvl-sm"><use href="#lvl-2"/></svg> <svg class="lvl-sm"><use href="#lvl-3"/></svg></td><td>Mixed</td><td>2.NBT.B.5, 2.OA.A.1</td><td>p. 26</td></tr>
+  </table>
+  <div class="std-list">
+    <h2>Common Core State Standards (Math)</h2>
+    <p><b>2.NBT.B.5</b> — Fluently add and subtract within 100 using strategies based on place value, properties of operations, and/or the relationship between addition and subtraction.</p>
+    <p><b>2.NBT.B.9</b> — Explain why addition and subtraction strategies work, using place value and the properties of operations. (Explanations may be supported by drawings or objects.)</p>
+    <p><b>2.OA.A.1</b> — Use addition and subtraction within 100 to solve one- and two-step word problems involving situations of adding to, taking from, putting together, taking apart, and comparing, with unknowns in all positions, e.g., by using drawings and equations with a symbol for the unknown number to represent the problem.</p>
+    <p><b>2.NBT.B.7</b> — Add and subtract within 1000, using concrete models or drawings and strategies based on place value, properties of operations, and/or the relationship between addition and subtraction; relate the strategy to a written method. Understand that in adding or subtracting three-digit numbers, one adds or subtracts hundreds and hundreds, tens and tens, ones and ones; and sometimes it is necessary to compose or decompose tens or hundreds.</p>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 4 — STUDENT HELPER (2 identical cards) ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.NBT.B.9" id="pg-helper">
+  <div class="helper" data-helper>
+    <h1 class="title ttl"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p4"></span></h1>
+    <div class="cols">
+      <ol>
+        <li><b>Look</b> at the ones.</li>
+        <li>Are there <b>enough ones</b> to take away?</li>
+        <li>No? <b>Trade</b> 1 ten for 10 ones.</li>
+        <li><b>Subtract</b> the ones.</li>
+        <li><b>Subtract</b> the tens.</li>
+        <li><b>Check:</b> add up!</li>
+      </ol>
+      <div class="ex">
+        <h3>Example: 52 − 27</h3>
+        <div class="panels">
+          <div class="panel"><svg class="bt" data-bt='{"rods":5,"units":2}' style="height:1.5in"></svg><div>Start</div></div>
+          <div class="panel"><svg class="bt" data-bt='{"rods":4,"trade":"dashed","units":2,"newUnits":10}' style="height:1.5in"></svg><div>Trade a ten</div></div>
+          <div class="panel"><svg class="bt" data-bt='{"rods":4,"xRods":2,"units":12,"xUnits":7}' style="height:1.5in"></svg><div>Take away</div></div>
+        </div>
+        <div class="lower">
+          <div class="vp" data-top="52" data-bot="27" data-ans="25" data-x="0,1" data-small="4,12" data-ansink="0"></div>
+          <ul class="caps">
+            <li>2 ones is not enough to take away 7.</li>
+            <li>Trade 1 ten. Now there are 4 tens and 12 ones.</li>
+            <li>12 − 7 = 5.&nbsp; 4 − 2 = 2.</li>
+            <li><b>52 − 27 = 25</b></li>
+            <li>Check: 25 + 27 = 52 ✓</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="rhyme">“Look at the ones before you begin!”</div>
+  </div>
+  <!-- second copy is cloned by script (identical card) -->
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 5 ===================== -->
+<section class="page" data-std="2.NBT.B.5">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-1"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p5"></span></h1>
+  <div class="directions"><b>Directions:</b> Subtract the ones first. Then subtract the tens. Write one digit in each box.</div>
+  <div class="grid-3 rows-4">
+    <div class="cell"><div class="vp to" data-n="1" data-top="37" data-bot="4"></div></div>
+    <div class="cell"><div class="vp to" data-n="2" data-top="58" data-bot="6"></div></div>
+    <div class="cell"><div class="vp to" data-n="3" data-top="29" data-bot="5"></div></div>
+    <div class="cell"><div class="vp to" data-n="4" data-top="66" data-bot="3"></div></div>
+    <div class="cell"><div class="vp to" data-n="5" data-top="85" data-bot="2"></div></div>
+    <div class="cell"><div class="vp to" data-n="6" data-top="49" data-bot="7"></div></div>
+    <div class="cell"><div class="vp to" data-n="7" data-top="46" data-bot="21"></div></div>
+    <div class="cell"><div class="vp to" data-n="8" data-top="78" data-bot="35"></div></div>
+    <div class="cell"><div class="vp to" data-n="9" data-top="97" data-bot="52"></div></div>
+    <div class="cell"><div class="vp to" data-n="10" data-top="64" data-bot="32"></div></div>
+    <div class="cell"><div class="vp to" data-n="11" data-top="89" data-bot="36"></div></div>
+    <div class="cell"><div class="vp to" data-n="12" data-top="75" data-bot="13"></div></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 6 ===================== -->
+<section class="page" data-std="2.NBT.B.5">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-1"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p6"></span></h1>
+  <div class="flavor" data-flavor="p6"></div>
+  <div class="directions"><b>Directions:</b> Subtract. Start with the ones.</div>
+  <div class="grid-4 rows-4" data-probs="48-23 79-56 86-42 68-38 57-31 99-65 65-22 38-14 80-40 74-52 96-13 87-25 59-47 93-43 45-32 69-18"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 7 ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-2"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p7"></span></h1>
+  <div class="directions" style="display:flex;align-items:center;gap:.15in">
+    <div style="flex:1"><b>Directions:</b> Draw tens and ones. Cross out to subtract. Trade a ten if you need more ones.</div>
+    <div class="key7">
+      <span><svg width="62" height="9" viewBox="-1 -1 122 14"><use href="#rod" width="12" height="120" transform="translate(0,12) rotate(-90)"/></svg> = 1 ten</span>
+      <span><svg width="13" height="13" viewBox="-1 -1 14 14"><use href="#unit" width="12" height="12"/></svg> = 1 one</span>
+    </div>
+  </div>
+  <div class="p7grid">
+    <div class="p7box">
+      <div class="hd"><b>1.</b> Example: 43 − 7 = <span class="answer-ex" style="font-weight:bold">36</span></div>
+      <div class="bd">
+        <div class="sketch" style="display:flex;align-items:center;justify-content:center"><svg class="bt" data-bt='{"rods":3,"trade":"circled","units":3,"newUnits":10,"xUnits":7}' style="height:1.45in;max-width:100%"></svg></div>
+        <div class="vp" data-top="43" data-bot="7" data-ans="36" data-x="0,1" data-small="3,13" data-ansink="0"></div>
+      </div>
+      <div class="cap">3 ones is not enough. I trade a ten. 13 − 7 = 6. 43 − 7 = 36</div>
+    </div>
+    <div class="p7box"><div class="hd"><b>2.</b> 34 − 8 = <span class="eqline"></span></div><div class="bd"><div class="sketch"></div><div class="vp" data-top="34" data-bot="8"></div></div></div>
+    <div class="p7box"><div class="hd"><b>3.</b> 52 − 18 = <span class="eqline"></span></div><div class="bd"><div class="sketch"></div><div class="vp" data-top="52" data-bot="18"></div></div></div>
+    <div class="p7box"><div class="hd"><b>4.</b> 61 − 24 = <span class="eqline"></span></div><div class="bd"><div class="sketch"></div><div class="vp" data-top="61" data-bot="24"></div></div></div>
+    <div class="p7box"><div class="hd"><b>5.</b> 45 − 29 = <span class="eqline"></span></div><div class="bd"><div class="sketch"></div><div class="vp" data-top="45" data-bot="29"></div></div></div>
+    <div class="p7box"><div class="hd"><b>6.</b> 73 − 35 = <span class="eqline"></span></div><div class="bd"><div class="sketch"></div><div class="vp" data-top="73" data-bot="35"></div></div></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 8 ===================== -->
+<section class="page" data-std="2.NBT.B.5">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-2"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p8"></span></h1>
+  <div class="directions"><b>Directions:</b> Trade a ten for 10 ones. Then subtract. Use the boxes to show your trade.</div>
+  <div class="grid-3 rows-4">
+    <div class="cell"><div class="vp" data-mode="rg" data-n="1" data-top="62" data-bot="5"></div></div>
+    <div class="cell"><div class="vp" data-mode="rg" data-n="2" data-top="70" data-bot="23"></div></div>
+    <div class="cell"><div class="vp" data-mode="rg" data-n="3" data-top="54" data-bot="37"></div></div>
+    <div class="cell"><div class="vp" data-mode="rg" data-n="4" data-top="81" data-bot="6"></div></div>
+    <div class="cell"><div class="vp" data-mode="rg" data-n="5" data-top="83" data-bot="49"></div></div>
+    <div class="cell"><div class="vp" data-mode="rg" data-n="6" data-top="91" data-bot="58"></div></div>
+    <div class="cell"><div class="vp" data-n="7" data-top="60" data-bot="34"></div></div>
+    <div class="cell"><div class="vp" data-n="8" data-top="46" data-bot="19"></div></div>
+    <div class="cell"><div class="vp" data-n="9" data-top="75" data-bot="46"></div></div>
+    <div class="cell"><div class="vp" data-n="10" data-top="32" data-bot="14"></div></div>
+    <div class="cell"><div class="vp" data-n="11" data-top="97" data-bot="69"></div></div>
+    <div class="cell"><div class="vp" data-n="12" data-top="84" data-bot="26"></div></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 9 ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p9"></span></h1>
+  <div class="flavor" data-flavor="p9"></div>
+  <div class="directions"><b>Directions:</b> Look at the ones. Circle YES or NO. Then subtract.</div>
+  <div class="grid-3 rows-4" style="row-gap:.3in" data-probs="58-23 91-36 76-46 50-17 42-28 87-51 64-39 39-16 95-71 83-45 67-23 72-18" data-yn="side"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 10 — SORT CARDS ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p10"></span></h1>
+  <div class="directions"><b>Directions:</b> Cut out the 10 cards. Solve each problem in the work space. Glue each card on the sort mat.</div>
+  <div class="cutnote"><svg><use href="#scissors"/></svg><span>Cut on the dashed lines. &nbsp;<b>No scissors?</b> Write R (regroup) or N (no regrouping) on each card.</span></div>
+  <div class="cards">
+    <div class="card"><span class="no">1</span><div class="vp" data-top="47" data-bot="12"></div></div>
+    <div class="card"><span class="no">2</span><div class="vp" data-top="63" data-bot="27"></div></div>
+    <div class="card"><span class="no">3</span><div class="vp" data-top="40" data-bot="13"></div></div>
+    <div class="card"><span class="no">4</span><div class="vp" data-top="85" data-bot="35"></div></div>
+    <div class="card"><span class="no">5</span><div class="vp" data-top="92" data-bot="41"></div></div>
+    <div class="card"><span class="no">6</span><div class="vp" data-top="56" data-bot="38"></div></div>
+    <div class="card"><span class="no">7</span><div class="vp" data-top="81" data-bot="43"></div></div>
+    <div class="card"><span class="no">8</span><div class="vp" data-top="78" data-bot="54"></div></div>
+    <div class="card"><span class="no">9</span><div class="vp" data-top="74" data-bot="29"></div></div>
+    <div class="card"><span class="no">10</span><div class="vp" data-top="69" data-bot="25"></div></div>
+  </div>
+  <div class="ws-title">Work Space <span>(do not cut)</span></div>
+  <div class="ws">
+    <div><span class="no">1</span></div><div><span class="no">2</span></div><div><span class="no">3</span></div><div><span class="no">4</span></div><div><span class="no">5</span></div>
+    <div><span class="no">6</span></div><div><span class="no">7</span></div><div><span class="no">8</span></div><div><span class="no">9</span></div><div><span class="no">10</span></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 11 — SORT MAT ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p11"></span></h1>
+  <div class="directions"><b>Directions:</b> Look at the ones on each card. Glue it in the right column. Write the difference.</div>
+  <div class="mat">
+    <div>
+      <div class="mat-h"><svg viewBox="-4 -14 90 140"><use href="#rod" x="0" y="0" width="12" height="120"/><path d="M8 -4 C 30 -14, 52 -8, 56 20" fill="none" stroke="#222" stroke-width="3" marker-end="url(#ah-k)"/><g id="m10"></g></svg>I need to regroup.</div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+    </div>
+    <div>
+      <div class="mat-h"><svg viewBox="-4 -4 50 128"><use href="#rod" x="0" y="0" width="12" height="120"/><use href="#unit" x="22" y="108" width="12" height="12"/><use href="#unit" x="22" y="90" width="12" height="12"/><use href="#unit" x="22" y="72" width="12" height="12"/></svg>No regrouping needed.</div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+      <div class="slot"><div class="glue">glue card here</div><div class="eq">= <span class="eqline"></span></div></div>
+    </div>
+  </div>
+  <div class="reflect">How did you decide? I looked at the <span class="eqline"></span>.</div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 12 ===================== -->
+<section class="page" data-std="2.NBT.B.5">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p12"></span></h1>
+  <div class="flavor" data-flavor="p12"></div>
+  <div class="directions"><b>Directions:</b> Subtract. Then add to check. Your check should match the top number.</div>
+  <div class="p12" data-check="68-24 53-26 90-45 77-37 84-59 96-61 35-17 49-26"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 13 — HERO: MYSTERY BUILD ===================== -->
+<section class="page" data-std="2.NBT.B.5" id="pg-shade">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p13"></span></h1>
+  <div class="directions"><b>Directions:</b> Solve each problem. Find the answer in the grid. Shade every box with that answer. What picture do you see?</div>
+  <div class="p13probs" data-probs="75-34 82-46 90-52 89-37 84-34 71-28 68-47 54-27 61-45 97-42 93-64 59-24" data-cls="compact"></div>
+  <table class="shade" id="shade-grid"></table>
+  <div class="seeline">I see a <span class="eqline"></span>.</div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 14 — SPOT THE MISTAKE ===================== -->
+<section class="page" data-std="2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p14"></span></h1>
+  <div class="directions"><b>Directions:</b> Look at each student’s work. Circle Correct or Not correct. If it is not correct, fix it.</div>
+  <div class="p14">
+    <div class="ecard">
+      <h3>1. Maya’s work</h3>
+      <div class="row1"><div class="vp" data-top="87" data-bot="4_" data-ans="47"></div><div class="fixit"><span>Fix it</span></div></div>
+      <div class="choose">Circle: <span class="o">Correct</span> <span class="o">Not correct</span></div>
+      <div class="frame">The mistake is<span class="ln"></span></div>
+      <div class="blankrow"></div>
+    </div>
+    <div class="ecard">
+      <h3>2. Leo’s work</h3>
+      <div class="row1"><div class="vp" data-top="69" data-bot="35" data-ans="34"></div><div class="fixit"><span>Fix it</span></div></div>
+      <div class="choose">Circle: <span class="o">Correct</span> <span class="o">Not correct</span></div>
+      <div class="frame">The mistake is<span class="ln"></span></div>
+      <div class="blankrow"></div>
+    </div>
+    <div class="ecard">
+      <h3>3. Diego’s work</h3>
+      <div class="row1"><div class="vp" data-top="72" data-bot="36" data-ans="44"></div><div class="fixit"><span>Fix it</span></div></div>
+      <div class="choose">Circle: <span class="o">Correct</span> <span class="o">Not correct</span></div>
+      <div class="frame">The mistake is<span class="ln"></span></div>
+      <div class="blankrow"></div>
+    </div>
+    <div class="ecard">
+      <h3>4. Kenji’s work</h3>
+      <div class="row1"><div class="vp" data-top="43" data-bot="26" data-ans="18" data-x="0,1" data-small="3,13"></div><div class="fixit"><span>Fix it</span></div></div>
+      <div class="choose">Circle: <span class="o">Correct</span> <span class="o">Not correct</span></div>
+      <div class="frame">The mistake is<span class="ln"></span></div>
+      <div class="blankrow"></div>
+    </div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 15 — EXPLAIN IT ===================== -->
+<section class="page" data-std="2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p15"></span></h1>
+  <div class="flavor" data-flavor="p15"></div>
+  <div class="directions"><b>Directions:</b> Find the mistake. Explain it. Then fix it.</div>
+  <div class="p15item">
+    <h3>1. Zara’s work</h3>
+    <div class="r">
+      <div class="vp" data-top="79" data-bot="34" data-ans="315" data-x="0,1" data-small="6,19"></div>
+      <div class="frames">
+        <div class="frame">The mistake is<span class="ln"></span></div>
+        <div class="frame">I know because<span class="ln"></span></div>
+        <div class="blankrow"></div>
+      </div>
+      <div class="fixit"><span>Fix it</span></div>
+    </div>
+  </div>
+  <div class="p15item">
+    <h3>2. Sam’s work</h3>
+    <div class="r">
+      <div class="vp" data-top="81" data-bot="47" data-ans="44" data-x="1" data-small=",11"></div>
+      <div class="frames">
+        <div class="frame">There were not enough ones, so<span class="ln"></span></div>
+        <div class="frame">The mistake is<span class="ln"></span></div>
+        <div class="blankrow"></div>
+      </div>
+      <div class="fixit"><span>Fix it</span></div>
+    </div>
+  </div>
+  <div class="p15item">
+    <h3>3. Prove it!</h3>
+    <div class="r" style="align-items:stretch">
+      <div style="width:3.4in;flex:none">
+        <div style="font-size:14pt;margin:.02in 0 .04in">Does <b>42 − 15</b> need regrouping? <span class="yn"><span class="q">Circle:</span><span class="o">YES</span><span class="o">NO</span></span></div>
+        <div style="font-size:12.5pt;margin-bottom:.05in">Draw base-ten blocks to show why.</div>
+        <div class="sketch" style="width:3.4in;height:2.2in">
+          <div style="position:absolute;right:.06in;bottom:.04in;font-size:8.5pt;color:#444;display:flex;align-items:center;gap:.04in">
+            <svg width="5" height="30" viewBox="-1 -1 14 122"><use href="#rod" width="12" height="120"/></svg>= 1 ten
+            <svg width="8" height="8" viewBox="-1 -1 14 14" style="margin-left:.05in"><use href="#unit" width="12" height="12"/></svg>= 1 one
+          </div>
+        </div>
+      </div>
+      <div class="frames" style="display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="font-size:16pt;display:flex;align-items:flex-end;gap:.06in;margin-bottom:.15in">42 − 15 = <span class="eqline" style="height:.45in;width:1in"></span></div>
+        <div class="frame">I know because<span class="ln"></span></div>
+        <div class="blankrow"></div>
+        <div class="blankrow"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 16 — WORD PROBLEMS 1 ===================== -->
+<section class="page" data-std="2.OA.A.1 · 2.NBT.B.5">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p16"></span></h1>
+  <div class="directions"><b>Directions:</b> Read the problem. Circle YES or NO for regrouping. Write an equation. Solve.</div>
+  <div data-wp='[
+    ["1.","Amara has 57 stickers. She gives 24 stickers to a friend. How many stickers does Amara have now?","stickers"],
+    ["2.","A box has 46 crayons. There are 15 red crayons, and the rest are blue. How many crayons are blue?","crayons"],
+    ["3.","The class library has 62 books. Students check out 28 books. How many books are still in the library?","books"],
+    ["4.","Jin has 71 marbles. Rosa has 35 marbles. How many more marbles does Jin have than Rosa?","marbles"]]'></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 17 — WORD PROBLEMS 2 ===================== -->
+<section class="page" data-std="2.OA.A.1 · 2.NBT.B.5">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-3"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p17"></span></h1>
+  <div class="flavor" data-flavor="p17"></div>
+  <div class="directions"><b>Directions:</b> Read carefully. Think: add or subtract? Write an equation. Solve.</div>
+  <div data-wp='[
+    ["1.","Lucas had 85 seeds. He planted some and has 42 seeds left. How many seeds did Lucas plant?","seeds"],
+    ["2.","Hana gave away 23 paper cranes. Now she has 45 paper cranes left. How many paper cranes did Hana have at first?","paper cranes"],
+    ["3.","Omar has 52 trading cards. Sofia has 17 trading cards. How many fewer cards does Sofia have than Omar?","trading cards"],
+    ["4.★","Aisha has 90 beads. She uses 34 beads for a necklace and 25 beads for a bracelet. How many beads does Aisha have left?","beads"]]'></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 18 — 3-DIGIT ===================== -->
+<section class="page" data-std="2.NBT.B.7">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-4"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p18"></span></h1>
+  <div class="directions"><b>Directions:</b> Look at the ones and the tens. Circle YES or NO. Then subtract.</div>
+  <div class="hint">You may need to trade a ten <b>or</b> a hundred.</div>
+  <div class="p18" data-probs="487-53 365-28 642-317 758-326 873-46 529-284 996-451 481-239 637-72 869-547 254-128 793-465" data-yn="top" data-cls="three"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 19 — MISSING DIGITS ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.NBT.B.9">
+  <div class="name-row"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><svg class="lvl"><use href="#lvl-4"/></svg></div>
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p19"></span></h1>
+  <div class="flavor" data-flavor="p19"></div>
+  <div class="directions"><b>Directions:</b> Find the missing digit. Write it in the box. Check by adding.</div>
+  <div class="p19">
+    <div class="cell"><div class="vp" data-n="1" data-top="7?" data-bot="32" data-ans="46" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="2" data-top="6?" data-bot="18" data-ans="47" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="3" data-top="86" data-bot="?3" data-ans="53" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="4" data-top="73" data-bot="2?" data-ans="44" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="5" data-top="94" data-bot="62" data-ans="3?" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="6" data-top="?8" data-bot="25" data-ans="43" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="7" data-top="82" data-bot="37" data-ans="?5" data-ansink="0"></div></div>
+    <div class="cell"><div class="vp" data-n="8" data-top="?1" data-bot="46" data-ans="25" data-ansink="0"></div></div>
+  </div>
+  <div class="know">
+    <div class="lbl2">7. How do you know?</div>
+    <div class="ln"></div><div class="ln"></div>
+    <div class="lbl2" style="margin-top:.14in">8. How do you know?</div>
+    <div class="ln"></div><div class="ln"></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 20 — EXIT TICKETS ===================== -->
+<section class="page" data-std="2.NBT.B.5 · 2.OA.A.1">
+  <h1 class="title"><svg class="hat"><use href="#hardhat"/></svg><span data-title="p20"></span></h1>
+  <div class="tickets">
+    <div class="ticket">
+      <div class="th"><svg class="clock"><use href="#clock"/></svg>Time Card A — No Regrouping<svg class="lvl"><use href="#lvl-1"/></svg></div>
+      <div class="nm">Name: <span></span></div>
+      <div class="td"><b>Directions:</b> Subtract.</div>
+      <div class="pp"><div><div class="vp" data-n="1" data-top="76" data-bot="43"></div></div><div><div class="vp" data-n="2" data-top="98" data-bot="53"></div></div></div>
+    </div>
+    <div class="ticket">
+      <div class="th"><svg class="clock"><use href="#clock"/></svg>Time Card B — Regrouping<svg class="lvl"><use href="#lvl-2"/></svg></div>
+      <div class="nm">Name: <span></span></div>
+      <div class="td"><b>Directions:</b> Trade a ten. Then subtract.</div>
+      <div class="pp"><div><div class="vp" data-n="1" data-top="54" data-bot="18"></div></div><div><div class="vp" data-n="2" data-top="80" data-bot="46"></div></div></div>
+    </div>
+    <div class="ticket">
+      <div class="th"><svg class="clock"><use href="#clock"/></svg>Time Card C — Regroup or Not?<svg class="lvl"><use href="#lvl-3"/></svg></div>
+      <div class="nm">Name: <span></span></div>
+      <div class="td"><b>Directions:</b> Circle YES or NO. Then subtract.</div>
+      <div class="pp">
+        <div><div class="yn"><b>1.</b> <span class="q">Regroup?</span></div><div class="yn"><span class="o">YES</span><span class="o">NO</span></div><div class="vp" data-top="63" data-bot="41"></div></div>
+        <div><div class="yn"><b>2.</b> <span class="q">Regroup?</span></div><div class="yn"><span class="o">YES</span><span class="o">NO</span></div><div class="vp" data-top="92" data-bot="57"></div></div>
+      </div>
+    </div>
+    <div class="ticket">
+      <div class="th"><svg class="clock"><use href="#clock"/></svg>Time Card D — Word Problem<svg class="lvl"><use href="#lvl-3"/></svg></div>
+      <div class="nm">Name: <span></span></div>
+      <div class="wtxt">Mateo has 75 craft sticks. He uses 38 craft sticks to build a bridge. How many craft sticks does Mateo have left?</div>
+      <div class="work"><span>Show your work</span></div>
+      <div class="ef">Equation: <span class="eqline"></span></div>
+      <div class="ef">Answer: <span class="eqline s"></span> craft sticks</div>
+    </div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 21 — ANSWER KEY pp. 5–7 ===================== -->
+<section class="page key" data-std="">
+  <h1 class="title">Answer Key (pp. 5–7)</h1>
+  <h3 data-keyhead="p5" data-lvl="1"></h3>
+  <div class="alist c6 answer-key"><span>1. 33</span><span>2. 52</span><span>3. 24</span><span>4. 63</span><span>5. 83</span><span>6. 42</span><span>7. 25</span><span>8. 43</span><span>9. 45</span><span>10. 32</span><span>11. 53</span><span>12. 62</span></div>
+  <h3 data-keyhead="p6" data-lvl="1"></h3>
+  <div class="alist c4 answer-key"><span>1. 25</span><span>2. 23</span><span>3. 44</span><span>4. 30</span><span>5. 26</span><span>6. 34</span><span>7. 43</span><span>8. 24</span><span>9. 40</span><span>10. 22</span><span>11. 83</span><span>12. 62</span><span>13. 12</span><span>14. 50</span><span>15. 13</span><span>16. 51</span></div>
+  <h3 data-keyhead="p7" data-lvl="2"></h3>
+  <p class="note">Drawings will vary. A sample drawing is shown for problem 2.</p>
+  <div style="display:flex;gap:.3in;align-items:flex-start">
+    <div class="alist answer-key" style="grid-template-columns:1fr;font-size:13pt">
+      <span style="color:#222;font-weight:normal">1. (example) 43 − 7 = 36</span>
+      <span><span style="color:#222;font-weight:normal">2. 34 − 8 =</span> 26</span>
+      <span><span style="color:#222;font-weight:normal">3. 52 − 18 =</span> 34</span>
+      <span><span style="color:#222;font-weight:normal">4. 61 − 24 =</span> 37</span>
+      <span><span style="color:#222;font-weight:normal">5. 45 − 29 =</span> 16</span>
+      <span><span style="color:#222;font-weight:normal">6. 73 − 35 =</span> 38</span>
+    </div>
+    <div class="sketch" style="padding:.08in .14in;text-align:center">
+      <div style="font-size:10.5pt;font-weight:bold;color:var(--navy);margin-bottom:.03in">Sample for problem 2: 34 − 8</div>
+      <svg class="bt" data-bt='{"rods":2,"trade":"circled","units":4,"newUnits":10,"xUnits":8}' style="height:1.5in"></svg>
+      <div style="font-size:10.5pt">2 tens and 6 ones are left. <span class="answer-key">34 − 8 = 26</span></div>
+    </div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 22 — ANSWER KEY pp. 8–11 ===================== -->
+<section class="page key" data-std="">
+  <h1 class="title">Answer Key (pp. 8–11)</h1>
+  <h3 data-keyhead="p8" data-lvl="2"></h3>
+  <div class="alist c6 answer-key"><span>1. 57</span><span>2. 47</span><span>3. 17</span><span>4. 75</span><span>5. 34</span><span>6. 33</span><span>7. 26</span><span>8. 27</span><span>9. 29</span><span>10. 18</span><span>11. 28</span><span>12. 58</span></div>
+  <h3 data-keyhead="p9" data-lvl="3"></h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2in">
+    <table class="tt"><tr><th>#</th><th>Problem</th><th>Regroup?</th><th>Answer</th></tr>
+      <tr><td>1</td><td>58 − 23</td><td class="answer-key">NO</td><td class="answer-key">35</td></tr>
+      <tr><td>2</td><td>91 − 36</td><td class="answer-key">YES</td><td class="answer-key">55</td></tr>
+      <tr><td>3</td><td>76 − 46</td><td class="answer-key">NO</td><td class="answer-key">30</td></tr>
+      <tr><td>4</td><td>50 − 17</td><td class="answer-key">YES</td><td class="answer-key">33</td></tr>
+      <tr><td>5</td><td>42 − 28</td><td class="answer-key">YES</td><td class="answer-key">14</td></tr>
+      <tr><td>6</td><td>87 − 51</td><td class="answer-key">NO</td><td class="answer-key">36</td></tr></table>
+    <table class="tt"><tr><th>#</th><th>Problem</th><th>Regroup?</th><th>Answer</th></tr>
+      <tr><td>7</td><td>64 − 39</td><td class="answer-key">YES</td><td class="answer-key">25</td></tr>
+      <tr><td>8</td><td>39 − 16</td><td class="answer-key">NO</td><td class="answer-key">23</td></tr>
+      <tr><td>9</td><td>95 − 71</td><td class="answer-key">NO</td><td class="answer-key">24</td></tr>
+      <tr><td>10</td><td>83 − 45</td><td class="answer-key">YES</td><td class="answer-key">38</td></tr>
+      <tr><td>11</td><td>67 − 23</td><td class="answer-key">NO</td><td class="answer-key">44</td></tr>
+      <tr><td>12</td><td>72 − 18</td><td class="answer-key">YES</td><td class="answer-key">54</td></tr></table>
+  </div>
+  <h3 data-keyhead="p10-11" data-lvl="3"></h3>
+  <table class="tt"><tr><th>I need to regroup.</th><th>No regrouping needed.</th></tr>
+    <tr><td>Card 2: 63 − 27 = <span class="answer-key">36</span></td><td>Card 1: 47 − 12 = <span class="answer-key">35</span></td></tr>
+    <tr><td>Card 3: 40 − 13 = <span class="answer-key">27</span></td><td>Card 4: 85 − 35 = <span class="answer-key">50</span></td></tr>
+    <tr><td>Card 6: 56 − 38 = <span class="answer-key">18</span></td><td>Card 5: 92 − 41 = <span class="answer-key">51</span></td></tr>
+    <tr><td>Card 7: 81 − 43 = <span class="answer-key">38</span></td><td>Card 8: 78 − 54 = <span class="answer-key">24</span></td></tr>
+    <tr><td>Card 9: 74 − 29 = <span class="answer-key">45</span></td><td>Card 10: 69 − 25 = <span class="answer-key">44</span></td></tr>
+  </table>
+  <p class="note">Cards may be in any order within each column.</p>
+  <p><b>Reflection (sample answer; answers will vary):</b> I looked at the <span class="answer-key">ones</span>. If the top ones digit is smaller than the bottom ones digit, I need to regroup.</p>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 23 — ANSWER KEY pp. 12–13 ===================== -->
+<section class="page key" data-std="">
+  <h1 class="title">Answer Key (pp. 12–13)</h1>
+  <h3 data-keyhead="p12" data-lvl="3"></h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2in">
+    <table class="tt"><tr><th>#</th><th>Subtract</th><th>Check</th></tr>
+      <tr><td>1</td><td>68 − 24 = <span class="answer-key">44</span></td><td class="answer-key">44 + 24 = 68</td></tr>
+      <tr><td>2</td><td>53 − 26 = <span class="answer-key">27</span></td><td class="answer-key">27 + 26 = 53</td></tr>
+      <tr><td>3</td><td>90 − 45 = <span class="answer-key">45</span></td><td class="answer-key">45 + 45 = 90</td></tr>
+      <tr><td>4</td><td>77 − 37 = <span class="answer-key">40</span></td><td class="answer-key">40 + 37 = 77</td></tr></table>
+    <table class="tt"><tr><th>#</th><th>Subtract</th><th>Check</th></tr>
+      <tr><td>5</td><td>84 − 59 = <span class="answer-key">25</span></td><td class="answer-key">25 + 59 = 84</td></tr>
+      <tr><td>6</td><td>96 − 61 = <span class="answer-key">35</span></td><td class="answer-key">35 + 61 = 96</td></tr>
+      <tr><td>7</td><td>35 − 17 = <span class="answer-key">18</span></td><td class="answer-key">18 + 17 = 35</td></tr>
+      <tr><td>8</td><td>49 − 26 = <span class="answer-key">23</span></td><td class="answer-key">23 + 26 = 49</td></tr></table>
+  </div>
+  <h3 data-keyhead="p13" data-lvl="3"></h3>
+  <div class="alist c6 answer-key"><span>1. 41</span><span>2. 36</span><span>3. 38</span><span>4. 52</span><span>5. 50</span><span>6. 43</span><span>7. 21</span><span>8. 27</span><span>9. 16</span><span>10. 55</span><span>11. 29</span><span>12. 35</span></div>
+  <p style="margin-top:.08in"><b>Mystery picture: <span class="answer-key">a house.</span></b></p>
+  <div style="display:flex;justify-content:center;margin:.06in 0"><table class="mini" id="mini-grid"></table></div>
+  <p><b>Teacher tip:</b> Unshaded boxes hold common wrong answers. For example, 44 comes from 82 − 46 when a student subtracts 2 from 6 in the ones. 46 comes from 82 − 46 when a student trades a ten but does not cross out the 8. If a student’s picture looks wrong, check these problems first.</p>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 24 — ANSWER KEY pp. 14–15 ===================== -->
+<section class="page key" data-std="">
+  <h1 class="title">Answer Key (pp. 14–15)</h1>
+  <p class="note">Explanations will vary. Sample answers use place-value language.</p>
+  <h3 data-keyhead="p14" data-lvl="3"></h3>
+  <table class="tt" style="font-size:10.3pt">
+    <tr><th style="width:1.15in">Card</th><th style="width:.95in">Correct / Not correct</th><th style="width:.7in">Correct answer</th><th>Sample explanation</th></tr>
+    <tr><td>1 Maya, 87 − 4</td><td class="answer-key">Not correct</td><td class="answer-key">83</td><td>The mistake is the 4 is under the tens. The 4 means 4 ones, so it goes under the 7. 7 − 4 = 3, so 87 − 4 = 83.</td></tr>
+    <tr><td>2 Leo, 69 − 35</td><td class="answer-key">Correct</td><td class="answer-key">34</td><td>There is no mistake. There are enough ones (9 ones take away 5 ones), so no regrouping is needed. 34 + 35 = 69.</td></tr>
+    <tr><td>3 Diego, 72 − 36</td><td class="answer-key">Not correct</td><td class="answer-key">36</td><td>The mistake is he took 2 from 6 instead of 6 from 2. There were not enough ones, so he needed to trade a ten. 12 − 6 = 6 and 6 − 3 = 3, so 72 − 36 = 36.</td></tr>
+    <tr><td>4 Kenji, 43 − 26</td><td class="answer-key">Not correct</td><td class="answer-key">17</td><td>The mistake is 13 − 6 is 7, not 8. He traded the ten correctly. 13 − 6 = 7 and 3 − 2 = 1, so 43 − 26 = 17.</td></tr>
+  </table>
+  <h3 data-keyhead="p15" data-lvl="3"></h3>
+  <p><b>1. Zara, 79 − 34 → correct answer <span class="answer-key">45</span>.</b><br>Sample: The mistake is she regrouped when she did not need to. I know because 9 ones is enough to take away 4 ones. 9 − 4 = 5 and 7 − 3 = 4, so 79 − 34 = 45.</p>
+  <p><b>2. Sam, 81 − 47 → correct answer <span class="answer-key">34</span>.</b><br>Sample: There were not enough ones, so he traded a ten. The mistake is he did not change the 8 tens to 7 tens. 11 − 7 = 4 and 7 − 4 = 3, so 81 − 47 = 34.</p>
+  <div style="display:flex;gap:.2in;align-items:flex-start">
+    <p style="flex:1"><b>3. Prove it: 42 − 15 → <span class="answer-key">YES</span>, it needs regrouping. 42 − 15 = <span class="answer-key">27</span>.</b><br>Sample: I know because 42 has only 2 ones, and I need to take away 5 ones. I trade 1 ten for 10 ones, so I have 3 tens and 12 ones. 12 − 5 = 7 and 3 − 1 = 2.</p>
+    <div class="sketch" style="padding:.06in .12in;text-align:center;flex:none">
+      <svg class="bt" data-bt='{"rods":3,"trade":"circled","units":2,"newUnits":10,"xRods":1,"xUnits":5}' style="height:1.35in"></svg>
+      <div style="font-size:10pt">2 tens and 7 ones are left.</div>
+    </div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 25 — ANSWER KEY pp. 16–17 ===================== -->
+<section class="page key" data-std="">
+  <h1 class="title">Answer Key (pp. 16–17)</h1>
+  <h3 data-keyhead="p16" data-lvl="3"></h3>
+  <table class="tt"><tr><th>#</th><th>Equation</th><th>Regroup?</th><th>Answer</th></tr>
+    <tr><td>1</td><td>57 − 24 = <span class="unk"></span></td><td class="answer-key">NO</td><td class="answer-key">33 stickers</td></tr>
+    <tr><td>2</td><td>46 − 15 = <span class="unk"></span></td><td class="answer-key">NO</td><td class="answer-key">31 crayons</td></tr>
+    <tr><td>3</td><td>62 − 28 = <span class="unk"></span></td><td class="answer-key">YES</td><td class="answer-key">34 books</td></tr>
+    <tr><td>4</td><td>71 − 35 = <span class="unk"></span> (or 35 + <span class="unk"></span> = 71)</td><td class="answer-key">YES</td><td class="answer-key">36 marbles</td></tr>
+  </table>
+  <h3 data-keyhead="p17" data-lvl="3"></h3>
+  <table class="tt"><tr><th>#</th><th>Equation</th><th>Regroup?</th><th>Answer</th></tr>
+    <tr><td>1</td><td>85 − <span class="unk"></span> = 42 (solve: 85 − 42 = 43)</td><td class="answer-key">NO</td><td class="answer-key">43 seeds</td></tr>
+    <tr><td>2</td><td><span class="unk"></span> − 23 = 45 (solve: 45 + 23 = 68)</td><td class="answer-key">NO</td><td class="answer-key">68 paper cranes</td></tr>
+    <tr><td>3</td><td>52 − 17 = <span class="unk"></span> (or 17 + <span class="unk"></span> = 52)</td><td class="answer-key">YES</td><td class="answer-key">35 trading cards</td></tr>
+    <tr><td>4 <svg class="lvl-sm"><use href="#lvl-4"/></svg></td><td>90 − 34 = <span class="unk"></span>, then 56 − 25 = <span class="unk"></span> (or 90 − 34 − 25 = <span class="unk"></span>)</td><td class="answer-key">YES (90 − 34)</td><td class="answer-key">31 beads</td></tr>
+  </table>
+  <p class="note">Other correct equations are OK if they match the story. Problem 4 can also be solved as 34 + 25 = 59, then 90 − 59 = 31.</p>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 26 — ANSWER KEY pp. 18–20 ===================== -->
+<section class="page key" data-std="">
+  <h1 class="title">Answer Key (pp. 18–20)</h1>
+  <h3 data-keyhead="p18" data-lvl="4"></h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2in">
+    <table class="tt"><tr><th>#</th><th>Problem</th><th>Regroup?</th><th>Answer</th></tr>
+      <tr><td>1</td><td>487 − 53</td><td class="answer-key">NO</td><td class="answer-key">434</td></tr>
+      <tr><td>2</td><td>365 − 28</td><td class="answer-key">YES (trade a ten)</td><td class="answer-key">337</td></tr>
+      <tr><td>3</td><td>642 − 317</td><td class="answer-key">YES (trade a ten)</td><td class="answer-key">325</td></tr>
+      <tr><td>4</td><td>758 − 326</td><td class="answer-key">NO</td><td class="answer-key">432</td></tr>
+      <tr><td>5</td><td>873 − 46</td><td class="answer-key">YES (trade a ten)</td><td class="answer-key">827</td></tr>
+      <tr><td>6</td><td>529 − 284</td><td class="answer-key">YES (trade a hundred)</td><td class="answer-key">245</td></tr></table>
+    <table class="tt"><tr><th>#</th><th>Problem</th><th>Regroup?</th><th>Answer</th></tr>
+      <tr><td>7</td><td>996 − 451</td><td class="answer-key">NO</td><td class="answer-key">545</td></tr>
+      <tr><td>8</td><td>481 − 239</td><td class="answer-key">YES (trade a ten)</td><td class="answer-key">242</td></tr>
+      <tr><td>9</td><td>637 − 72</td><td class="answer-key">YES (trade a hundred)</td><td class="answer-key">565</td></tr>
+      <tr><td>10</td><td>869 − 547</td><td class="answer-key">NO</td><td class="answer-key">322</td></tr>
+      <tr><td>11</td><td>254 − 128</td><td class="answer-key">YES (trade a ten)</td><td class="answer-key">126</td></tr>
+      <tr><td>12</td><td>793 − 465</td><td class="answer-key">YES (trade a ten)</td><td class="answer-key">328</td></tr></table>
+  </div>
+  <h3 data-keyhead="p19" data-lvl="4"></h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.2in">
+    <table class="tt"><tr><th>#</th><th>Missing digit</th><th>Full equation</th></tr>
+      <tr><td>1</td><td class="answer-key">8</td><td>78 − 32 = 46</td></tr>
+      <tr><td>2</td><td class="answer-key">5</td><td>65 − 18 = 47</td></tr>
+      <tr><td>3</td><td class="answer-key">3</td><td>86 − 33 = 53</td></tr>
+      <tr><td>4</td><td class="answer-key">9</td><td>73 − 29 = 44</td></tr></table>
+    <table class="tt"><tr><th>#</th><th>Missing digit</th><th>Full equation</th></tr>
+      <tr><td>5</td><td class="answer-key">2</td><td>94 − 62 = 32</td></tr>
+      <tr><td>6</td><td class="answer-key">6</td><td>68 − 25 = 43</td></tr>
+      <tr><td>7</td><td class="answer-key">4</td><td>82 − 37 = 45</td></tr>
+      <tr><td>8</td><td class="answer-key">7</td><td>71 − 46 = 25</td></tr></table>
+  </div>
+  <p class="note">How do you know? (sample answers; answers will vary)</p>
+  <ul style="font-size:11pt;margin:.02in 0 .04in;padding-left:.25in">
+    <li><b>7:</b> 2 ones is not enough to take away 7 ones, so I traded a ten. 8 tens became 7 tens. 7 − 3 = 4.</li>
+    <li><b>8:</b> I added to check: 25 + 46 = 71. So the missing digit is 7.</li>
+  </ul>
+  <h3 data-keyhead="p20" data-lvl=""></h3>
+  <ul style="font-size:11.5pt;margin:.02in 0;padding-left:.25in;line-height:1.45">
+    <li><b>A <svg class="lvl-sm"><use href="#lvl-1"/></svg>:</b> <span class="answer-key">1. 33 &nbsp; 2. 45</span></li>
+    <li><b>B <svg class="lvl-sm"><use href="#lvl-2"/></svg>:</b> <span class="answer-key">1. 36 &nbsp; 2. 34</span></li>
+    <li><b>C <svg class="lvl-sm"><use href="#lvl-3"/></svg>:</b> <span class="answer-key">1. NO, 22 &nbsp; 2. YES, 35</span></li>
+    <li><b>D:</b> 75 − 38 = <span class="unk"></span> → <span class="answer-key">37 craft sticks</span></li>
+  </ul>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================== PAGE 27 — TERMS OF USE & CREDITS ===================== -->
+<section class="page tpage" data-std="" style="font-size:12pt;line-height:1.45">
+  <h1 class="title">Terms of Use</h1>
+  <p style="margin-top:.12in">Thank you for your purchase! This resource is for use by one teacher in their own classroom or by one family for home use.</p>
+  <h2>You may:</h2>
+  <ul>
+    <li>Print and copy pages for your own students.</li>
+    <li>Use the pages in your own classroom, small groups, or home.</li>
+  </ul>
+  <h2>You may not:</h2>
+  <ul>
+    <li>Share this file with other teachers, a whole school, or a district. Additional licenses are available at a discount on my store.</li>
+    <li>Sell, resell, or claim this resource as your own.</li>
+    <li>Post this file publicly online, including on websites, shared drives, or blogs.</li>
+  </ul>
+  <p><b>Single classroom / single family use. Do not share, resell, or post publicly online.</b></p>
+  <h1 class="title" style="margin-top:.45in">Credits</h1>
+  <ul style="margin-top:.12in">
+    <li><b>Font:</b> Andika by SIL International, used under the SIL Open Font License, Version 1.1.</li>
+    <li><b>Font:</b> Fredoka by The Fredoka Project Authors, used under the SIL Open Font License, Version 1.1.</li>
+    <li><b>Clip art:</b> Original SVG by <span class="js-store"></span>.</li>
+    <li><b>Questions?</b> Visit my store: <span class="js-store-url"></span></li>
+  </ul>
+  <p style="margin-top:.3in;text-align:center">© 2026 <span class="js-store"></span>. All rights reserved.</p>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<script>
+/* ================= STORE CONFIG — owner fills these in once (matches brand/style-guide.md) ================= */
+const STORE = {
+  name: "Your Store Name",
+  url: "https://www.teacherspayteachers.com/store/your-store",
+};
+
+/* ================= CONCEPT TEXT — page titles + flavor lines in ONE place (reskin = edit here) =================
+   A flavor line prints only where the page has a <div class="flavor" data-flavor="pN">.
+   Per the creative brief, flavor lines were left off pp. 5, 7, 8, 10, 14, 16 because their two-line
+   directions would push the header past the 1.6 in budget (text kept here for listings / reskins). */
+const CONCEPT = {
+  p4:  { title: "Crew Card: Regroup or Not?" },
+  p5:  { title: "Ones First, Then Tens",              flavor: "Every good build starts with the ones." },
+  p6:  { title: "Smooth Build: No Regrouping",        flavor: "No trades needed. Build it neat!" },
+  p7:  { title: "Trade a Ten!",                       flavor: "Not enough ones? Trade a ten!" },
+  p8:  { title: "Trade-a-Ten Workshop",               flavor: "Every job today needs a trade." },
+  p9:  { title: "Check the Ones: Regroup or Not?",    flavor: "Good builders look before they build." },
+  p10: { title: "Crew Sort: Regroup or Not? (Cards)", flavor: "Solve it, then sort it." },
+  p11: { title: "Crew Sort: Regroup or Not? (Mat)" },
+  p12: { title: "Measure Twice: Subtract & Check",    flavor: "Builders measure twice. We add to check!" },
+  p13: { title: "Mystery Build: Solve & Shade" },
+  p14: { title: "Site Inspector: Spot the Mistake",   flavor: "Inspectors check every job." },
+  p15: { title: "Inspector’s Report: Explain It",     flavor: "Tell the crew what went wrong." },
+  p16: { title: "Work Orders: Word Problems 1",       flavor: "Read each work order carefully." },
+  p17: { title: "Work Orders: Word Problems 2",       flavor: "Read it twice. Then plan your work." },
+  p18: { title: "Big Build: 3-Digit Regroup or Not?" },
+  p19: { title: "Blueprint Puzzle: Missing Digits",   flavor: "Find the missing pieces of the plan." },
+  p20: { title: "Crew Time Cards: Exit Tickets" },
+  "p10-11": { title: "Crew Sort: Regroup or Not?" },
+};
+
+/* ================= Mystery Build data (p.13 + key p.23) — from 03-content.md ================= */
+const SHADE_GRID = [
+  [44,57,31,26,41,36,46,33,48,24],
+  [39,42,53,38,52,50,43,37,26,57],
+  [31,48,21,27,16,55,29,35,44,33],
+  [46,41,36,38,52,50,43,21,27,39],
+  [24,37,16,55,41,36,38,52,42,53],
+  [26,33,50,43,46,44,21,27,31,48],
+  [57,39,16,55,37,42,29,35,53,24],
+];
+const SHADE_MAP = ["....XX....","...XXXX...","..XXXXXX..",".XXXXXXXX.","..XXXXXX..","..XX..XX..","..XX..XX.."];
+
+/* ================= Renderers ================= */
+const LVL = n => `<svg class="lvl-sm"><use href="#lvl-${n}"/></svg>`;
+
+function renderVP(el) {
+  const top = el.dataset.top || "", bot = el.dataset.bot || "", ans = el.dataset.ans || "";
+  const mode = el.dataset.mode || (el.classList.contains("to") ? "to" : "");
+  const cols = +(el.dataset.cols || Math.max(top.length, bot.length));
+  const pad = s => s.padStart(cols, "_");
+  const T = pad(top), B = pad(bot);
+  const xs = (el.dataset.x || "").split(",").filter(s => s !== "").map(Number);
+  const small = el.dataset.small !== undefined ? el.dataset.small.split(",") : null;
+  const ink = el.dataset.ansink === "0" ? "" : " ink";
+  const op = el.dataset.op || "−";
+  el.style.setProperty("--cols", cols);
+  const digit = (ch, extra = "") => ch === "?" ? `<div class="c${extra}"><span class="mbox"></span></div>`
+                                   : `<div class="c${extra}">${ch === "_" ? "" : ch}</div>`;
+  let h = `<div class="c lbl">${el.dataset.n ? el.dataset.n + "." : ""}</div>`;
+  for (let i = 0; i < cols; i++) {
+    if (mode === "to") h += `<div class="c toh">${cols === 2 ? "TO"[i] : "HTO"[i]}</div>`;
+    else if (mode === "rg") h += `<div class="c rg"><span class="rgbox${i === cols - 1 ? " wide" : ""}"></span></div>`;
+    else if (small) h += `<div class="c small">${small[i] || ""}</div>`;
+    else h += `<div class="c"></div>`;
+  }
+  h += `<div class="c"></div>`;
+  for (let i = 0; i < cols; i++) h += digit(T[i], xs.includes(i) ? " x" : "");
+  h += `<div class="c b">${op}</div>`;
+  for (let i = 0; i < cols; i++) h += digit(B[i], " b");
+  if (mode === "to") {
+    h += `<div class="c"></div>`;
+    for (let i = 0; i < cols; i++) h += `<div class="c ans"><span class="dbox"></span></div>`;
+  } else if (ans) {
+    const A = ans.length > cols ? ans : ans.padStart(cols, "_");
+    const first = A.length > cols ? A[0] : "";
+    h += `<div class="c ans${ink}">${first}</div>`;
+    const rest = A.length > cols ? A.slice(1) : A;
+    for (let i = 0; i < cols; i++) h += rest[i] === "?" ? `<div class="c ans"><span class="mbox"></span></div>` : `<div class="c ans${ink}">${rest[i] === "_" ? "" : rest[i]}</div>`;
+  } else {
+    for (let i = 0; i <= cols; i++) h += `<div class="c"></div>`;
+  }
+  el.innerHTML = h;
+}
+
+function ynHTML(stack) {
+  return `<div class="yn${stack ? " stack" : ""}"><span class="q">Regroup?</span><span class="o">YES</span><span class="o">NO</span></div>`;
+}
+
+function renderProbList(el) {
+  const probs = el.dataset.probs.trim().split(/\s+/);
+  const cls = el.dataset.cls ? " " + el.dataset.cls : "";
+  const yn = el.dataset.yn;
+  el.innerHTML = probs.map((p, i) => {
+    const [a, b] = p.split("-");
+    const vp = `<div class="vp${cls}" data-n="${i + 1}" data-top="${a}" data-bot="${b}"></div>`;
+    if (yn === "side") return `<div class="p9cell">${vp}${ynHTML(true)}</div>`;
+    if (yn === "top") return `<div class="cell">${ynHTML(false).replace('class="yn"', 'class="yn" style="font-size:12.5pt;text-align:center;line-height:1.5"').replace('<span class="q">', `<b>${i + 1}.</b> <span class="q">`).replace('</span><span class="o">YES', '</span><br><span class="o">YES')}${vp.replace(` data-n="${i + 1}"`, "")}</div>`;
+    return `<div class="cell">${vp}</div>`;
+  }).join("");
+}
+
+function renderCheck(el) {
+  el.innerHTML = el.dataset.check.trim().split(/\s+/).map((p, i) => {
+    const [a, b] = p.split("-");
+    return `<div class="chk"><span class="tag l">Subtract</span><span class="tag r">Check</span>
+      <div class="vp" data-n="${i + 1}" data-top="${a}" data-bot="${b}"></div>
+      <div class="arrow">→</div>
+      <div class="vp" data-op="+" data-top="__" data-bot="${b}" data-blank="1"></div></div>`;
+  }).join("");
+  // dashed write-in box on the first line of each check problem
+  el.querySelectorAll('.vp[data-blank]').forEach(v => { v.dataset.done = 1; });
+}
+
+function renderWP(el) {
+  const items = JSON.parse(el.dataset.wp);
+  el.innerHTML = items.map(([n, txt, unit]) => {
+    const star = n.includes("★");
+    const num = n.replace("★", "");
+    return `<div class="wp">
+      <div class="txt"><b>${num}</b>${star ? `<svg class="star-sm"><use href="#lvl-4"/></svg> ` : ""}${txt}</div>
+      <div class="work"><span>Show your work</span></div>
+      <div>${ynHTML(false)}</div>
+      <div class="foot"><div>Equation: <span class="eqline" style="width:2.6in"></span></div><div>Answer: <span class="eqline" style="width:.9in"></span> ${unit}</div></div>
+    </div>`;
+  }).join("");
+}
+
+/* base-ten drawing: rods (vertical), optional traded rod + arrow to a new group of 10 units, crossed items */
+function renderBT(svg) {
+  const s = JSON.parse(svg.dataset.bt);
+  const R = 12, H = 120, gap = 6, U = 12, ug = 4;
+  let x = 4, out = "";
+  const rodXs = [];
+  for (let i = 0; i < (s.rods || 0); i++) { rodXs.push(x); out += `<use href="#rod" x="${x}" y="20" width="12" height="120"/>`; x += R + gap; }
+  // cross out the last xRods rods
+  rodXs.slice(rodXs.length - (s.xRods || 0)).forEach(rx => {
+    out += `<path d="M${rx - 4} 30 L${rx + 16} 130 M${rx + 16} 30 L${rx - 4} 130" stroke="#222" stroke-width="2.6" stroke-linecap="round"/>`;
+  });
+  let tradeX = null;
+  if (s.trade) {
+    if (s.trade === "circled") x += 8;
+    tradeX = x;
+    if (s.trade === "dashed") {
+      out += `<rect x="${x}" y="20" width="12" height="120" rx="1" fill="none" stroke="#1d2b53" stroke-width="1.8" stroke-dasharray="5 4"/>`;
+    } else {
+      out += `<use href="#rod" x="${x}" y="20" width="12" height="120"/>`;
+      out += `<ellipse cx="${x + 6}" cy="80" rx="13" ry="68" fill="none" stroke="#222" stroke-width="2"/>`;
+      out += `<path d="M${x - 4} 30 L${x + 16} 130" stroke="#222" stroke-width="2.6" stroke-linecap="round"/>`;
+    }
+    x += R + gap + 6;
+  }
+  x += 6;
+  const unitCols = (n, x0) => { const pos = []; for (let i = 0; i < n; i++) { const c = Math.floor(i / 5), r = i % 5; pos.push([x0 + c * (U + ug), 140 - U - r * (U + ug)]); } return pos; };
+  const orig = unitCols(s.units || 0, x);
+  if (orig.length) x += Math.ceil(orig.length / 5) * (U + ug) + 8;
+  const neu = s.newUnits ? unitCols(s.newUnits, x) : [];
+  let all = orig.concat(neu);
+  all.forEach(([ux, uy]) => out += `<use href="#unit" x="${ux}" y="${uy}" width="12" height="12"/>`);
+  if (neu.length) {
+    const gx = x - 4, gw = 2 * (U + ug) + 4;
+    out += `<rect x="${gx}" y="${140 - 5 * (U + ug) - 2}" width="${gw}" height="${5 * (U + ug) + 4}" rx="5" fill="none" stroke="#777" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+    if (tradeX !== null) {
+      const sx = tradeX + 6, ex = gx + gw / 2;
+      out += `<path d="M${sx} 14 C ${sx + 10} -6, ${ex - 4} -6, ${ex} ${140 - 5 * (U + ug) - 8}" fill="none" stroke="#222" stroke-width="2.2" marker-end="url(#ah-k)"/>`;
+    }
+    x += 2 * (U + ug) + 4;
+  }
+  // cross out the last xUnits units
+  all.slice(all.length - (s.xUnits || 0)).forEach(([ux, uy]) => {
+    out += `<path d="M${ux - 2} ${uy - 2} L${ux + 14} ${uy + 14} M${ux + 14} ${uy - 2} L${ux - 2} ${uy + 14}" stroke="#222" stroke-width="2" stroke-linecap="round"/>`;
+  });
+  const w = Math.max(x, 40);
+  svg.setAttribute("viewBox", `0 -4 ${w} 148`);
+  svg.setAttribute("width", "100%");
+  svg.style.width = "auto";
+  svg.style.aspectRatio = `${w} / 148`;
+  svg.innerHTML = out;
+}
+
+/* ================= Build ================= */
+// titles / flavor lines
+document.querySelectorAll("[data-title]").forEach(e => e.textContent = CONCEPT[e.dataset.title].title);
+document.querySelectorAll("[data-title-of]").forEach(e => e.textContent = CONCEPT[e.dataset.titleOf].title);
+document.querySelectorAll("[data-flavor]").forEach(e => { const f = CONCEPT[e.dataset.flavor].flavor; if (f) e.textContent = f; else e.remove(); });
+document.querySelectorAll("[data-keyhead]").forEach(e => {
+  const k = e.dataset.keyhead, pg = k.startsWith("p10") ? "Pages 10–11" : "Page " + k.slice(1);
+  e.innerHTML = `${pg} — ${CONCEPT[k].title}${e.dataset.lvl ? " " + LVL(e.dataset.lvl) : ""}`;
+});
+// Student Helper: second identical card
+(() => { const h = document.querySelector("[data-helper]"); h.after(h.cloneNode(true)); })();
+
+document.querySelectorAll("[data-probs]").forEach(renderProbList);
+document.querySelectorAll("[data-check]").forEach(renderCheck);
+document.querySelectorAll("[data-wp]").forEach(renderWP);
+document.querySelectorAll(".vp").forEach(renderVP);
+// check problems: replace the blank top row with a dashed write-in box
+document.querySelectorAll('.vp[data-blank]').forEach(v => {
+  const cells = v.querySelectorAll(".c");
+  const cols = +getComputedStyle(v).getPropertyValue("--cols");
+  // row 2 = cells[cols+1 .. 2cols+1]; keep op cell, replace digit cells by one spanning box
+  const rowStart = cols + 1;
+  for (let i = 1; i <= cols; i++) cells[rowStart + i].remove();
+  const box = document.createElement("div"); box.className = "blankline";
+  cells[rowStart].after(box);
+});
+document.querySelectorAll("svg.bt").forEach(renderBT);
+
+// 10 units for the p.11 "I need to regroup" header icon
+(() => { const g = document.getElementById("m10"); let s = ""; for (let i = 0; i < 10; i++) s += `<use href="#unit" x="${42 + (i % 2) * 16}" y="${40 + Math.floor(i / 2) * 16}" width="12" height="12"/>`; g.innerHTML = s; })();
+
+// p.13 shade grid + p.23 mini key
+(() => {
+  const t = document.getElementById("shade-grid"), m = document.getElementById("mini-grid");
+  t.innerHTML = SHADE_GRID.map(r => "<tr>" + r.map(v => `<td>${v}</td>`).join("") + "</tr>").join("");
+  m.innerHTML = SHADE_GRID.map((r, i) => "<tr>" + r.map((v, j) => `<td class="${SHADE_MAP[i][j] === "X" ? "on" : ""}">${v}</td>`).join("") + "</tr>").join("");
+})();
+
+// store name + footers + page numbers
+document.documentElement.style.setProperty("--store-name", JSON.stringify(STORE.name));
+document.querySelectorAll(".js-store").forEach(e => e.textContent = STORE.name);
+document.querySelectorAll(".js-store-url").forEach(e => e.textContent = STORE.url);
+document.querySelectorAll(".page").forEach((p, i) => {
+  const n = p.querySelector(".pnum"); if (n) n.textContent = "Page " + (i + 1);
+  const s = p.querySelector(".footer .std"); if (s) s.textContent = p.dataset.std || "";
+});
+</script>
+</body>
+</html>

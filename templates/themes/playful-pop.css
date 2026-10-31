@@ -13,9 +13,10 @@ h1.title::after {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5 T30 5 T40 5' fill='none' stroke='%23ffb703' stroke-width='3'/%3E%3C/svg%3E") repeat-x center;
 }
 .directions { border: 3px solid var(--brand-accent); border-radius: 18px; position: relative; padding-left: .5in; }
-.directions::before {
-  content: "★"; position: absolute; left: .12in; top: 50%; transform: translateY(-50%);
-  font-size: 20pt; color: var(--pop-pink);
+.directions::before { /* star drawn as SVG: text glyphs like ★ are missing from brand fonts and pull in system fonts */
+  content: ""; position: absolute; left: .12in; top: 50%; transform: translateY(-50%);
+  width: .26in; height: .26in;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z' fill='%23ef476f'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 .page::before { /* confetti dots in the top corners */
   content: ""; position: absolute; top: .12in; left: .15in; right: .15in; height: .3in;

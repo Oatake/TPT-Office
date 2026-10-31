@@ -22,9 +22,14 @@ tools: Read, Write, Edit, Glob, Grep, Bash
    ```
 4. สร้าง preview (ไฟล์ตัวอย่างไม่กี่หน้า มีลายน้ำ "PREVIEW") และ thumbnail สี่เหลี่ยมจัตุรัส:
    ```bash
-   node scripts/build-pdf.mjs products/<slug>/worksheet.html products/<slug>/output/<slug>-preview.pdf --preview
+   # preview: เลือกหน้าที่โชว์จุดเด่น (ปก + กิจกรรมว้าว + หน้าหลากหลาย) ไม่ใช่แค่หน้าแรก ๆ
+   node scripts/build-pdf.mjs products/<slug>/worksheet.html products/<slug>/output/<slug>-preview.pdf --preview --select 1,4,9,13,14
+   # thumbnails แบบออกแบบเอง (แนะนำ): thumbnails.html ที่แต่ละ .page มีขนาด 1400x1400px
+   node scripts/build-pdf.mjs products/<slug>/thumbnails.html products/<slug>/output/thumbnails --thumbnails --raw --pages 4
+   # หรือ thumbnails แบบเร็ว: ภาพหน้าใบงานวางบนพื้นสี
    node scripts/build-pdf.mjs products/<slug>/worksheet.html products/<slug>/output/thumbnails --thumbnails
    ```
+   - ห้ามใช้อักขระพิเศษ (★ ✓ ○ □ △ emoji) เป็นข้อความ — วาดเป็น SVG แทน แล้วตรวจด้วย `pdffonts` ว่ามีเฉพาะฟอนต์ใน `brand/assets/fonts/`
 5. ปก/thumbnail ต้องทำตาม "Cover & Thumbnail Direction" ใน brief และใช้ SVG ต้นฉบับที่วาดเอง
 6. เปิดดูภาพ thumbnail ที่ได้ (ใช้ Read กับไฟล์ PNG) เพื่อตรวจว่าไม่มีข้อความล้น/ตกขอบ แก้จนเรียบร้อย
 
