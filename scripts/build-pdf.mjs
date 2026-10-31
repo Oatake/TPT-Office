@@ -6,9 +6,9 @@
 //   node scripts/build-pdf.mjs <input.html> <output.pdf>
 //   node scripts/build-pdf.mjs <input.html> <output-preview.pdf> --preview [--pages 4]
 //   node scripts/build-pdf.mjs <input.html> <output-dir> --thumbnails [--pages 4]
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -26,11 +26,36 @@ if (!input || !output) {
   process.exit(1);
 }
 
+// Brand fonts: every brand/assets/fonts/<family>/<Family>-<Weight>.woff2 is
+// registered as @font-face so worksheets can use it by family name.
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+async function brandFontCss() {
+  const dir = path.join(repoRoot, 'brand', 'assets', 'fonts');
+  const weights = { regular: 400, bold: 700 };
+  let css = '';
+  for (const fam of await readdir(dir, { withFileTypes: true }).catch(() => [])) {
+    if (!fam.isDirectory()) continue;
+    for (const f of await readdir(path.join(dir, fam.name))) {
+      const m = f.match(/^(.+)-(Regular|Bold)\.(woff2|woff|ttf|otf)$/i);
+      if (!m) continue;
+      const url = pathToFileURL(path.join(dir, fam.name, f)).href;
+      css += `@font-face{font-family:"${m[1]}";font-weight:${weights[m[2].toLowerCase()]};src:url("${url}");}\n`;
+    }
+  }
+  return css;
+}
+
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage();
   await page.goto(pathToFileURL(path.resolve(input)).href, { waitUntil: 'networkidle' });
-  await page.evaluate(() => document.fonts && document.fonts.ready);
+  const fontCss = await brandFontCss();
+  if (fontCss) await page.addStyleTag({ content: fontCss });
+  await page.evaluate(async () => {
+    // Force-load every declared face, then wait until fonts are ready.
+    await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
+    await document.fonts.ready;
+  });
 
   if (flags.has('--thumbnails')) {
     await mkdir(output, { recursive: true });

@@ -13,8 +13,8 @@
 - **ขนาดกระดาษ:** US Letter (8.5 × 11 in)
 - **สีหลัก:** #2f6fdd
 - **สีรอง:** #f5a623
-- **ฟอนต์หัวข้อ:** (ใส่ฟอนต์ที่มีไลเซนส์เชิงพาณิชย์ เช่นฟอนต์จาก KG Fonts / Hello Fonts ที่ซื้อ commercial license แล้ว)
-- **ฟอนต์เนื้อหา:**
+- **ฟอนต์หัวข้อ:** Andika Bold (SIL OFL 1.1, อยู่ใน `brand/assets/fonts/andika/`)
+- **ฟอนต์เนื้อหา:** Andika Regular — `scripts/build-pdf.mjs` โหลดฟอนต์ใน `brand/assets/fonts/` ให้อัตโนมัติ
 - **Clip art ที่มีไลเซนส์:** เก็บไว้ใน `brand/assets/` พร้อมไฟล์ `brand/assets/LICENSES.md` ระบุศิลปินและเงื่อนไข
 
 ## ราคา (แนวทาง)
