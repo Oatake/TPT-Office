@@ -244,3 +244,45 @@ html:root {
 ## Owner Decisions (2026-10-31)
 - Concept "Join the Regroup Crew!" + theme `playful-pop` — **approved**.
 - Activity Mix Rule exception — **approved by owner**: Category A pages are 9/16 (56%), above the 50% cap. Keep content as approved (fluency-focused topic with ○ → □ → △ progression). QA should treat this as an accepted exception, not a blocker.
+
+---
+
+## Appeal Review
+
+> ผู้ตรวจ: Creative Director agent | วันที่: 2026-10-31 | จังหวะที่ 2 (Appeal Review)
+> สิ่งที่ตรวจ: `output/thumbnails/thumbnail-1..4.png` (1400 × 1400) ทั้งขนาดจริง และย่อเหลือ **250 px** (วาง 4 ภาพเรียงกันแบบผลค้นหา TPT) / **180 px** (ขนาดมือถือ) / thumbnail-1 แบบ grayscale; ปก p.1 จาก PDF เต็ม (27 หน้า); preview PDF (8 หน้า: p.1, 3, 4, 9, 11, 13, 14, 16) แบบ contact sheet; `design-notes.md`
+> ไม่มีสินค้าก่อนหน้าให้เทียบ (variety report: ร้านมี 1 ชิ้น ไม่มีข้อห้ามที่ละเมิด) จึงตรวจตาม Appeal Checklist, thumbnail direction ใน brief นี้ และความอ่านง่ายในกริดผลค้นหา
+
+### ผล: **PASS** (ไม่ต้อง REVISE ก่อนลงขาย; มีรายการขัดเกลาแบบไม่บังคับด้านล่าง)
+
+### Appeal Checklist (`docs/variety-policy.md` §5)
+| ข้อ | ผล | หลักฐาน |
+|---|---|---|
+| Thumbnail ภาพแรกบอก "อะไร + ชั้นไหน" ใน 2 วินาที | ✅ | ที่ 250 px และ 180 px ยังอ่าน "2nd Grade" (กล่องส้มบนแถบเตือน), "Regroup or Not?" และ "2-Digit Subtraction" ได้ทันที โจทย์ 52 − 27 พร้อมรอย regroup บอกทักษะได้แม้ไม่อ่านตัวหนังสือ แถบล่าง "No Prep • 3 Levels • Answer Keys" ยังอ่านออก มีข้อความ 4 กลุ่มตามกำหนด |
+| มีกิจกรรมที่เด็ก "อยากทำ" | ✅ | thumbnail-2 ทั้งภาพเป็น Mystery Build: ระบายไว้ ~68% (หลังคาและฐานบางส่วน ไม่เปิดเฉลยภาพ) มีดินสอชี้ช่องถัดไป ทำให้รู้สึกว่า "กำลังสร้าง" ป้าย "Wrong answers show up in the picture!" อ่านได้ที่ 250 px และสื่อจุดขาย self-check ให้ครูได้ชัด ตรวจแล้วว่าช่องที่ระบายทุกช่องเป็นคำตอบที่ถูก (ตรงกับ `SHADE_MAP`) ครูที่ดูละเอียดจะไม่เจอความผิดพลาด |
+| มีคอนเซปต์ร้อยทั้งชุด | ✅ | ปกมีริบบิ้น "Join the Regroup Crew!" + หมวก เครน กรวย ป้าย YES/NO และแถบเตือน หน้านักเรียนมีไอคอนหมวกเส้นและชื่อหน้าตามคอนเซปต์ (Crew Card, Check the Ones, Crew Sort, Mystery Build, Site Inspector, Work Orders) ส่วน thumbnail 2–4 ใช้หมวก ตรา INSPECTED และ "Every Learner Has a Job" ต่อเรื่องเดียวกัน ส่วนคำทักษะ (Regroup or Not?, Solve & Shade, Spot the Mistake, Word Problems) ยังอยู่ในชื่อทุกหน้า จึงไม่เสีย SEO |
+| ปก/thumbnail ไม่ซ้ำ 5 ชิ้นล่าสุด | ✅ (N/A) | สินค้าชิ้นแรก ชุดนี้จึงกลายเป็น baseline โทน "blueprint blue `#e8f0fd` + amber/navy hazard + safety orange" ตามที่บันทึกไว้ในหัวข้อ Differentiation |
+
+### เทียบกับ Thumbnail Direction ใน brief
+| # | ตรงกับ brief | หมายเหตุ |
+|---|---|---|
+| 1 | ✅ ครบ: hazard บน/ล่าง, badge ≥ 44 pt, ชื่อ ≥ 72 pt, เครนยก ten-rod + 52 − 27 (ไม่โชว์คำตอบ), พัดหน้า 10/13 ที่ขอบขวา | พัดหน้าเป็นแค่ texture ที่ 250 px ซึ่งตั้งใจไว้แบบนั้น และไม่แย่งความสนใจจากชื่อ |
+| 2 | ✅ (ภาพหน้า ~55% ไม่ถึง 70%) | ยอมรับเหตุผลของ designer ว่าหน้า Letter เป็นแนวตั้ง และการไม่ crop grid ทำให้เห็นทั้งโจทย์และกริด ซึ่งขายได้ดีกว่า ไม่ต้องแก้ |
+| 3 | ✅ ครบ: sort mat ที่แปะการ์ดถูกคอลัมน์ (ตรวจแล้ว: 63−27, 40−13, 56−38 = regroup; 47−12, 85−35 = no), การ์ดหลุด 2 ใบ, กรรไกร, p.14 + โล่ INSPECTED, ป้าย YES/NO | หน้า p.14 อ่านไม่ออกที่ 250 px แต่โล่และหัวข้อ "Spot the mistake" สื่อแทนได้ |
+| 4 | ✅ ครบ: บันได ○ □ △ ☆ พร้อมป้าย, คลิปบอร์ด 5 รายการ, หัวข้อ "Every Learner Has a Job" | ภาพหน้าย่อเล็กมาก (เห็นเป็น "มีโจทย์เยอะ") แต่ป้ายระดับอ่านออกและเรื่อง differentiation ก็ชัด |
+
+**ภาพรวมในกริดผลค้นหา:** ทั้ง 4 ภาพใช้พื้น blueprint และ navy/amber เดียวกัน จึงดูเป็นชุด thumbnail-1 ตัดกับผลค้นหาทั่วไป (ที่มักเป็นพื้นขาว/ธีมเทศกาล) ได้ดีเพราะมีแถบเตือนบน-ล่าง ปก p.1 ใน PDF สอดคล้องกับ thumbnail-1 และ preview 8 หน้าเลือกหน้าเด่นได้ดี (Crew Card, Check the Ones, Sort Mat, Mystery Build, Site Inspector, Work Orders)
+
+**การใช้งาน:** hazard stripe และ blueprint grid อยู่แค่บนปกกับ thumbnail ตามกติกา หน้านักเรียนใน preview พื้นขาว ใช้ไอคอนเส้น และไม่รก
+
+### สิ่งที่ worksheet-designer ควรทำ
+**บังคับ (ไม่กระทบภาพ):**
+1. **`design-notes.md` ข้อมูลไม่ตรงกับไฟล์จริง:** ตาราง Output files, ข้อ QA "The preview has 6 pages" และ Owner to-do #2 ยังเขียนว่า preview เป็น `--pages 6` (pp. 1–6) แต่ไฟล์ preview ตอนนี้มี **8 หน้า (p.1, 3, 4, 9, 11, 13, 14, 16)** ให้แก้ทั้ง 3 จุดให้ตรง และระบุคำสั่ง/วิธีที่ใช้สร้าง preview 8 หน้านี้ เพื่อให้ rebuild ซ้ำได้
+
+**ไม่บังคับ (ขัดเกลา ทำถ้ามีเวลา หรือทำตอน rebuild หลังเจ้าของร้านใส่ชื่อร้าน):**
+2. **thumbnail-4:** ให้ crop หน้าย่อแต่ละใบในบันไดให้เหลือ**ครึ่งบน** (ชื่อหน้า + โจทย์ 2 แถวแรก) แล้วขยายขึ้น ~1.5 เท่า เพื่อให้ตัวเลขโจทย์อ่านออกที่ 250 px ส่วนป้ายระดับคงเดิม
+3. **thumbnail-1:** ถ้ามีที่ ให้ใส่ป้ายเล็ก "Join the Regroup Crew!" (ริบบิ้นอำพันแบบปก) เหนือ/ใต้กรอบเครน เพื่อให้คอนเซปต์ปรากฏในภาพแรกด้วย **ห้ามเพิ่มกลุ่มข้อความจนเกิน 4 กลุ่ม** ถ้าจะใส่ให้รวมเข้ากับองค์ประกอบเดิม หรือข้ามข้อนี้ไปเลย
+4. **ทุก thumbnail:** หลังเจ้าของร้านแก้ `STORE` แล้ว ให้ rebuild `thumb-src` และ thumbnails ตามลำดับใน design-notes (footer "Your Store Name" อยู่ในหน้าย่อ แม้ตอนนี้จะเล็กจนอ่านไม่ออก)
+
+### Catalog
+ไม่มีการเปลี่ยนแปลง ค่า `theme` / `concept` / `hero_activity` / `activities` ใน `products/catalog.json` ตรงกับสิ่งที่ส่งมอบจริง

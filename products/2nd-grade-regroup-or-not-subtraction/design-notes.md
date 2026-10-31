@@ -8,7 +8,7 @@
 |---|---|
 | `worksheet.html` | 27 `<section class="page">`, `<meta name="tpt-theme" content="playful-pop">`, product overrides only in its own `<style>` (`html:root` beats the theme's `:root`) |
 | `output/2nd-grade-regroup-or-not-subtraction.pdf` | 27 pages, US Letter (612 × 792 pt) |
-| `output/2nd-grade-regroup-or-not-subtraction-preview.pdf` | `--preview --pages 6` → pp. 1–6 (cover, How to Use, What's Inside, Crew Card, p.5, p.6) with the PREVIEW watermark |
+| `output/2nd-grade-regroup-or-not-subtraction-preview.pdf` | `--preview --select 1,3,4,9,11,13,14,16` → 8 highlight pages (cover, What's Inside, Crew Card, Check the Ones, Crew Sort mat, Mystery Build, Site Inspector, word problems) with the PREVIEW watermark |
 | `thumbnails.html` + `output/thumbnails/thumbnail-1…4.png` | 4 designed 1400 × 1400 thumbnails (`--thumbnails --raw --pages 4`) |
 | `thumb-src/thumbnail-1…20.png` | Page snapshots used inside the thumbnails. Re-run when worksheet pages change: `node scripts/build-pdf.mjs products/2nd-grade-regroup-or-not-subtraction/worksheet.html products/2nd-grade-regroup-or-not-subtraction/thumb-src --thumbnails --pages 20` |
 
@@ -55,7 +55,7 @@ Page titles and flavor lines live in the `CONCEPT` object in `worksheet.html`. T
 | Footer | © store name · standard code(s) · page number. Teacher and answer pages leave the standard blank. | Plan requirement |
 
 ## QA checks performed
-- **Page count:** `pdfinfo` → 27 pages, letter. The preview has 6 pages.
+- **Page count:** `pdfinfo` → 27 pages, letter. The preview has 8 pages (pp. 1, 3, 4, 9, 11, 13, 14, 16).
 - **Overflow:** a layout script measured every page against the footer line. All 27 pages pass with no overflow and no title wider than its line. I opened page renders of every page, including the dense pages 4, 9, 10, 11, 13, 14, 15, 19, 20 and 23, and found no clipping.
 - **Black and white:** I rasterized the full PDF in grayscale and checked it with contact sheets. Titles, directions, red answer-key text (bold) and the shaded mini grid all stay readable. Student pages have no large color or gray fills.
 - **Writer check tables:** not printed anywhere. No C1/R1 labels on p.13. The word "house" does not appear on any student page. It appears only in the p.23 key, as the brief allows.
@@ -67,6 +67,8 @@ Page titles and flavor lines live in the `CONCEPT` object in `worksheet.html`. T
 
 ## Owner to-do
 1. **Store name and link:** edit the `STORE` object near the bottom of `worksheet.html`. It currently says "Your Store Name" and `https://www.teacherspayteachers.com/store/your-store`, taken from `brand/style-guide.md`. It fills all footers, the Credits page and the © line. Also update `brand/style-guide.md`. Then rebuild the PDFs (and `thumb-src` + thumbnails, since the page footers show the store name).
-2. **Preview:** the script takes the first 6 pages, so the hero (p.13), the sort and Spot the Mistake are not in the preview PDF. The 4 thumbnails show them, so upload all 4 thumbnails to TPT.
+2. **Preview:** rebuilt with `--select` so it shows the highlights (p.13 Mystery Build, sort, Spot the Mistake). Rebuild command:
+   `node scripts/build-pdf.mjs products/2nd-grade-regroup-or-not-subtraction/worksheet.html products/2nd-grade-regroup-or-not-subtraction/output/2nd-grade-regroup-or-not-subtraction-preview.pdf --preview --select 1,3,4,9,11,13,14,16`
+   Upload all 4 thumbnails to TPT as well.
 3. **Optional:** fix the "★" glyph in `templates/themes/playful-pop.css` (see Fonts).
 4. QA (`quality-reviewer`) should note the activity-mix exception the owner already approved (Category A = 9/16).
