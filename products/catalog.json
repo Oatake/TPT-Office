@@ -25,9 +25,9 @@
       "subject": "Math",
       "grades": ["2"],
       "topic": "2-digit subtraction with and without regrouping",
-      "theme": null,
-      "concept": null,
-      "hero_activity": null,
+      "theme": "playful-pop",
+      "concept": "Join the Regroup Crew! (construction site: check the ones, trade a ten, reveal the Mystery Build)",
+      "hero_activity": "solve-shade",
       "activities": ["fill-in", "vertical-practice", "draw-model", "sort", "cut-paste", "solve-shade", "spot-mistake", "word-problems", "missing-digits", "exit-ticket"],
       "standards": ["2.NBT.B.5", "2.NBT.B.9", "2.OA.A.1", "2.NBT.B.7"],
       "price": 5.0
