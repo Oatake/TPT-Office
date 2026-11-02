@@ -105,3 +105,9 @@
 - ✅ ภาพทั้งหมดเป็น SVG ต้นฉบับ และ Credits ระบุ "Original SVG by [store]"
 - ✅ มีหน้า Terms of Use (p.27)
 - ❌/⚠️ นโยบาย AI ของ TPT: มีรายงานว่า TPT จะแบน resource ที่สร้างด้วย generative AI (ประกาศ 8 ต.ค. 2026) แต่ยังยืนยันจากหน้านโยบายทางการไม่ได้ **เจ้าของร้านต้องตรวจก่อนเผยแพร่ (G1)**
+
+## Fix Log (2026-11-02)
+- **Blocker #1 fixed:** p.2 Differentiation tip now reads "Assign only problems 1–2 on pp. 14, 16, and 17, and only problem 1 on p. 15." (03-content.md + worksheet.html), PDF and preview rebuilt, page 2 checked for overflow.
+- **N1 fixed:** "ones is not enough" → "ones are not enough" (4 places).
+- **N9 fixed:** design-notes.md preview description now matches the 8-page highlight preview.
+- **G1 open:** TPT AI-generated content ban — owner decision pending; work split into two branches (see README / catalog).

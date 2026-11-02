@@ -72,7 +72,7 @@ Each student page has a small shape in the top corner. The shapes help you group
 Add a day of review if students need more time with regrouping (pp. 7–8).
 
 **Differentiation tips**
-- Level 1 students can join the mixed pages. Assign **only problems 1–2** on pp. 14, 15, 16, and 17. These problems do not need regrouping.
+- Level 1 students can join the mixed pages. Assign **only problems 1–2** on pp. 14, 16, and 17, and **only problem 1** on p. 15. These problems do not need regrouping.
 - Use the exit tickets (p. 20) to form small groups for the next day.
 - Problem 4 on p. 17 is a two-step challenge (☆). It is optional.
 
@@ -158,7 +158,7 @@ Vertical work beside the drawing:
 - Markup: the 5 is crossed out with a small 4 above it; the 2 is crossed out with a small 12 above it.
 
 Short captions under the example:
-- 2 ones is not enough to take away 7.
+- 2 ones are not enough to take away 7.
 - Trade 1 ten. Now there are 4 tens and 12 ones.
 - 12 − 7 = 5.  4 − 2 = 2.
 - **52 − 27 = 25**
@@ -285,7 +285,7 @@ Vertical work:
       3   6
 ```
 - Markup: 4 crossed out with small 3 above; 3 crossed out with small 13 above.
-- Caption: "3 ones is not enough. I trade a ten. 13 − 7 = 6. 43 − 7 = 36"
+- Caption: "3 ones are not enough. I trade a ten. 13 − 7 = 6. 43 − 7 = 36"
 
 **2.** 34 − 8 = ____
 
@@ -1162,7 +1162,7 @@ Cards may be in any order within each column.
 | 8 | 7 | 71 − 46 = 25 |
 
 *How do you know? (sample answers; answers will vary)*
-- **7:** 2 ones is not enough to take away 7 ones, so I traded a ten. 8 tens became 7 tens. 7 − 3 = 4.
+- **7:** 2 ones are not enough to take away 7 ones, so I traded a ten. 8 tens became 7 tens. 7 − 3 = 4.
 - **8:** I added to check: 25 + 46 = 71. So the missing digit is 7.
 
 **Page 20 — Exit Tickets**
