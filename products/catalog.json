@@ -17,6 +17,27 @@
   },
   "products": [
     {
+      "slug": "1st-grade-two-syllable-words",
+      "date": "2026-11-06",
+      "status": "planning",
+      "title": "Two-Syllable Words Worksheets: Compound Words & Closed Syllables (VC/CV) | 1st Grade Phonics",
+      "series": "big-words",
+      "subject": "ELA",
+      "grades": [
+        "1"
+      ],
+      "topic": "two-syllable words: compound words and closed syllables (VC/CV)",
+      "theme": null,
+      "concept": null,
+      "hero_activity": null,
+      "activities": [],
+      "standards": [
+        "RF.1.3.e",
+        "RF.1.3.d"
+      ],
+      "price": 4.0
+    },
+    {
       "slug": "2nd-grade-regroup-or-not-subtraction",
       "date": "2026-10-31",
       "status": "ready",
