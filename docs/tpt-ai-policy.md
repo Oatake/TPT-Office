@@ -160,3 +160,13 @@ Rule of thumb (recommendation): **every word and every image a buyer can see, in
 - Change.org petition (T4): https://www.change.org/p/reevaluate-tpt-s-ai-content-policies
 - Canva AI Product Terms archive: https://www.canva.com/policies/ai-product-terms-2025-11-28/
 - US Copyright Office, Copyright and AI Part 2 (Jan 2025): https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf
+
+---
+
+## Owner Decision (2026-11-06) — Approach A
+- **Decision:** keep the full AI-team pipeline and continue selling on TPT, because TPT has not published official written policy text (only press reports / town-hall recaps).
+- **Guardrails while the policy is unofficial:**
+  1. Listings, covers and marketing must **never claim** "handmade", "AI-free", "100% teacher-written" or similar.
+  2. Before every new upload, `quality-reviewer` re-checks for an official TPT policy page (Help Center / Seller Agreement). If an official ban is published, stop uploads and report to the owner.
+  3. `products/catalog.json` keeps every product's files so listings can be pulled or replaced quickly if the policy becomes official.
+- **Risk acknowledged by owner:** TPT's spokesperson told Chalkbeat the marketplace will be "AI-free" and that detection/removal tools are being built; listed products could be removed later.

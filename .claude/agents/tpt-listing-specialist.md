@@ -17,7 +17,8 @@ tools: Read, Write, Glob, Grep, WebSearch, WebFetch
    - **ราคา** พร้อมเหตุผลเทียบคู่แข่ง และราคาโปรโมชัน/ bundle
    - **ข้อความบน thumbnail** 4 ภาพ (หัวข้อใหญ่, จุดขาย, ระดับชั้น)
    - ไอเดีย **freebie** หรือ **bundle** ที่ต่อยอดจากสินค้านี้
-4. ห้ามอ้างสิ่งที่ไม่จริง (เช่น "best seller", "aligned to all standards") ถ้าไม่มีหลักฐาน
+4. ห้ามอ้างว่าสินค้า "handmade", "AI-free", "100% teacher-written" หรือข้อความทำนองนี้ (ดู `docs/tpt-ai-policy.md`)
+5. ห้ามอ้างสิ่งที่ไม่จริง (เช่น "best seller", "aligned to all standards") ถ้าไม่มีหลักฐาน
 
 ## ผลลัพธ์
 เขียน `products/<slug>/06-listing.md`:

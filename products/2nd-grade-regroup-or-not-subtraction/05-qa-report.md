@@ -110,4 +110,4 @@
 - **Blocker #1 fixed:** p.2 Differentiation tip now reads "Assign only problems 1–2 on pp. 14, 16, and 17, and only problem 1 on p. 15." (03-content.md + worksheet.html), PDF and preview rebuilt, page 2 checked for overflow.
 - **N1 fixed:** "ones is not enough" → "ones are not enough" (4 places).
 - **N9 fixed:** design-notes.md preview description now matches the 8-page highlight preview.
-- **G1 open:** TPT AI-generated content ban — owner decision pending; work split into two branches (see README / catalog).
+- **G1 resolved by owner (2026-11-06):** no official written TPT policy yet → continue full AI pipeline on TPT with guardrails in `docs/tpt-ai-policy.md` (Owner Decision). Approach B (other channels) continues on branch `claude/ai-native-other-channels`.

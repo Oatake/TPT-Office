@@ -32,7 +32,7 @@ tools: Read, Write, Glob, Grep, Bash, WebSearch, WebFetch
 - [ ] ไม่มีตัวละคร/แบรนด์/ภาพที่ติดลิขสิทธิ์
 - [ ] ฟอนต์และภาพทุกชิ้นมีไลเซนส์เชิงพาณิชย์ และมีหน้า Credits
 - [ ] มีหน้า Terms of Use
-- [ ] ตรวจนโยบายล่าสุดของ TPT (เช่น เรื่องเนื้อหาที่ใช้ AI ช่วยสร้าง) ด้วย WebSearch
+- [ ] ตรวจนโยบายล่าสุดของ TPT (เช่น เรื่องเนื้อหาที่ใช้ AI ช่วยสร้าง) ด้วย WebSearch — ดูการตัดสินใจและ guardrail ปัจจุบันใน `docs/tpt-ai-policy.md` (Owner Decision) ถ้าพบหน้านโยบายทางการที่แบน AI ให้ FAIL และแจ้งเจ้าของร้านทันที
 
 ## ผลลัพธ์
 เขียน `products/<slug>/05-qa-report.md`:
