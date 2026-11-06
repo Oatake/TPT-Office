@@ -71,6 +71,10 @@ try {
   await page.goto(pathToFileURL(path.resolve(input)).href, { waitUntil: 'networkidle' });
   const fontCss = await brandFontCss();
   if (fontCss) await page.addStyleTag({ content: fontCss });
+  // Children's materials: turn off ligatures so "fi", "ff", "ffi", "fl" print as
+  // separate letters (a fi ligature hides the dot on the i, which breaks
+  // phonics tasks like "dot the vowels").
+  await page.addStyleTag({ content: 'html, body, body * { font-variant-ligatures: none !important; font-feature-settings: "liga" 0, "clig" 0, "dlig" 0 !important; }' });
   const theme = await applyTheme(page);
   if (theme) console.log('theme:', theme);
   await page.evaluate(async () => {

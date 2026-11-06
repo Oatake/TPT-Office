@@ -21,6 +21,8 @@
 
   @page { size: Letter; margin: 0; }
   * { box-sizing: border-box; }
+  /* No ligatures: keeps the dot on i in fi/ffi (also enforced by build-pdf.mjs) */
+  html, body, body * { font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "dlig" 0; }
   html, body { margin: 0; padding: 0; }
   body { font-family: var(--font-body); color: var(--ink); background: #e9e9e9; }
 
