@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Designed TPT thumbnails (4 x 1400x1400). Build:
+     node scripts/build-pdf.mjs products/1st-grade-two-syllable-words/thumbnails.html products/1st-grade-two-syllable-words/output/thumbnails --thumbnails --raw --pages 4
+     Page snapshots in thumb-src/ come from (re-run whenever worksheet pages change):
+     node scripts/build-pdf.mjs products/1st-grade-two-syllable-words/worksheet.html products/1st-grade-two-syllable-words/thumb-src --thumbnails --pages 18 -->
+<meta name="tpt-theme" content="space-lab">
+<title>Thumbnails — Two-Syllable Words (Word Rockets)</title>
+<style>
+  html:root { --flame-coral:#ff6b7a; --night-sky:#21174d; --night-2:#2f2470; --ink:#1f1a3a; --thumb-bg:#21174d; --mint:#9ee9e4; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #777; font-family: "Andika", sans-serif; color: #fff; }
+  .page { width: 1400px; height: 1400px; padding: 0; margin: 0 auto 20px; position: relative; overflow: hidden; background: #21174d; }
+  html .page::before { display: none; }
+  .hidden-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .H { font-family: "Baloo2", sans-serif; font-weight: 800; }
+  .abs { position: absolute; }
+  .shot { position: relative; overflow: hidden; background: #fff; }
+  .shot > img { position: absolute; max-width: none; }
+  .card-shadow { box-shadow: 0 18px 40px rgba(0,0,0,.45); border-radius: 6px; }
+  .ov { position: absolute; }
+  .dotsep { width: 22px; height: 22px; display: inline-block; vertical-align: middle; margin: 0 22px; }
+
+  /* T1 */
+  .badge1 { left: 50%; top: 46px; transform: translateX(-50%); background: #12b5b0; color: #fff; font-size: 70px; line-height: 1; padding: 18px 64px 12px; border-radius: 999px; white-space: nowrap; }
+  .t1title { left: 0; right: 0; top: 150px; text-align: center; font-size: 136px; line-height: 1.05; color: #fff; white-space: nowrap; }
+  .t1sub { left: 0; right: 0; top: 312px; text-align: center; font-size: 56px; line-height: 1.1; color: #9ee9e4; font-family: "Baloo2"; font-weight: 600; white-space: nowrap; }
+  .bar1 { left: 90px; right: 90px; bottom: 56px; height: 132px; background: #fff; border-radius: 66px; display: flex; align-items: center; justify-content: center; color: #1f1a3a; font-size: 62px; white-space: nowrap; padding-top: 8px; }
+
+  /* T2 */
+  .t2title { left: 0; right: 0; top: 22px; text-align: center; font-size: 124px; line-height: 1.05; color: #fff; white-space: nowrap; }
+  .t2sub { left: 0; right: 0; top: 160px; text-align: center; font-size: 56px; color: #9ee9e4; font-family: "Baloo2"; font-weight: 600; white-space: nowrap; }
+  .bubble2 { left: 40px; top: 300px; width: 330px; background: #ff6b7a; color: #fff; font-size: 64px; line-height: 1.05; padding: 34px 26px 30px; border-radius: 46px; text-align: center; border: 6px solid #fff; }
+  .bubble2::after { content: ""; position: absolute; right: 60px; bottom: -58px; border: 30px solid transparent; border-top: 36px solid #fff; border-left-width: 6px; transform: skewX(-25deg); }
+  .mini13 { left: 34px; top: 885px; transform: rotate(5deg); }
+  .mini13 .lab, .tag4 { position: absolute; left: 50%; transform: translateX(-50%); background: #12b5b0; color: #fff; font-size: 40px; line-height: 1; padding: 12px 24px 8px; border-radius: 999px; white-space: nowrap; }
+  .mini13 .lab { bottom: -30px; }
+
+  /* T3 */
+  .t3title { left: 0; right: 0; top: 30px; text-align: center; font-size: 104px; line-height: 1.05; color: #fff; white-space: nowrap; }
+  .t3title span { color: #ff6b7a; }
+  .step { position: absolute; width: 300px; background: #fff; border-radius: 30px; color: #1f1a3a; text-align: center; padding: 18px 14px 20px; box-shadow: 0 10px 26px rgba(0,0,0,.35); }
+  .step .num { position: absolute; left: -16px; top: -22px; width: 70px; height: 70px; border-radius: 50%; background: #ff6b7a; color: #fff; font-size: 46px; line-height: 76px; border: 5px solid #fff; }
+  .step svg { width: 190px; height: 96px; display: block; margin: 0 auto 4px; color: #1f1a3a; }
+  .step b { font-family: "Baloo2"; font-weight: 800; font-size: 52px; line-height: 1.02; display: block; }
+
+  /* T4 */
+  .t4title { left: 0; right: 0; top: 76px; text-align: center; font-size: 120px; line-height: 1.0; color: #fff; }
+  .wordmark { right: 30px; top: 14px; display: inline-flex; align-items: center; gap: 12px; background: #5b3cc4; color: #fff; font-size: 28px; line-height: 1; padding: 10px 22px 6px; border-radius: 999px; letter-spacing: 2px; border: 3px solid #9ee9e4; }
+  .wordmark i { width: 0; height: 30px; border-left: 4px dashed #12b5b0; }
+  .grid4 { left: 690px; top: 336px; display: grid; grid-template-columns: 1fr 1fr; gap: 26px 28px; }
+  .grid4 .cell { position: relative; }
+  .tag4 { bottom: -22px; font-size: 32px; padding: 10px 18px 6px; }
+  .panel4 { left: 70px; right: 70px; bottom: 40px; height: 200px; border: 6px solid #12b5b0; border-radius: 40px; background: #2f2470; }
+  .panel4 .tab { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #12b5b0; color: #fff; font-size: 34px; letter-spacing: 4px; line-height: 1; padding: 14px 30px 8px; border-radius: 14px; }
+  .panel4 ul { list-style: none; margin: 0; padding: 40px 50px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 30px; }
+  .panel4 li { display: flex; align-items: center; gap: 18px; font-size: 54px; line-height: 1; color: #fff; white-space: nowrap; font-family: "Baloo2"; font-weight: 700; }
+  .panel4 li svg { width: 54px; height: 54px; flex: none; }
+  .book { left: 40px; top: 366px; width: 640px; height: 640px; perspective: 1600px; }
+</style>
+</head>
+<body>
+<svg class="hidden-defs" aria-hidden="true">
+<defs>
+  <!-- #7 Level marks: Moon / Planet / Comet (line only) -->
+  <symbol id="lvl-moon" viewBox="0 0 40 40"><path d="M18.02 6.03 A15 15 0 1 0 33.64 24.25 A12 12 0 0 1 18.02 6.03 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></symbol>
+  <symbol id="lvl-planet" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><g transform="rotate(-20 20 20)"><ellipse cx="20" cy="20" rx="18" ry="5.5"/></g><circle cx="20" cy="20" r="9.5" fill="#fff"/><g transform="rotate(-20 20 20)"><path d="M2 20 A18 5.5 0 0 0 38 20"/></g></g></symbol>
+  <symbol id="lvl-comet" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="28" cy="12" r="7"/><path d="M22.5 16.5 Q13 24 4.5 35.5"/><path d="M21.5 11 Q12 13 4 20"/><path d="M27.5 19 Q25 28 17 36.5"/></g></symbol>
+
+  <!-- #11 Star (outline) -->
+  <symbol id="star" viewBox="0 0 40 40"><path d="M20 3.5 L24.9 14.2 L36.6 15.5 L27.9 23.4 L30.3 35 L20 29.1 L9.7 35 L12.1 23.4 L3.4 15.5 L15.1 14.2 Z" fill="var(--star-fill,none)" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <symbol id="sparkle" viewBox="-10 -10 20 20"><path d="M0 -10 Q1.6 -1.6 10 0 Q1.6 1.6 0 10 Q-1.6 1.6 -10 0 Q-1.6 -1.6 0 -10Z" fill="currentColor"/></symbol>
+
+  <!-- #12 Control-panel button (cover / thumbnails only) -->
+  <symbol id="btn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#12b5b0"/><circle cx="12" cy="12" r="4.2" fill="#fff"/></symbol>
+  <symbol id="dot" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="currentColor"/></symbol>
+
+  <!-- #2 Rocket stage box parts: tail fins (left) and nose cone (right) -->
+  <symbol id="rk-tail" viewBox="0 0 30 90"><g fill="#fff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M31 13 L12 3 Q5 0.5 5.5 7.5 L9 29 H31"/><path d="M31 77 L12 87 Q5 89.5 5.5 82.5 L9 61 H31"/><path d="M31 36 L17 31 V59 L31 54"/></g></symbol>
+  <symbol id="rk-nose" viewBox="0 0 46 66"><g fill="#fff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M0 1.25 H8 C28 1.25 42 20 44.5 33 C42 46 28 64.75 8 64.75 H0"/><circle cx="17" cy="33" r="7.5"/></g></symbol>
+
+  <!-- #1 Two-stage rocket (cover / thumbnails). Text is added separately so the words can change. -->
+  <symbol id="rk2-back" viewBox="0 0 200 140" overflow="visible"><g stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M100 32 L58 3 Q46 -3 38 6 L46 32 Z" fill="var(--rk-fin,#fff)"/>
+    <path d="M100 108 L58 137 Q46 143 38 134 L46 108 Z" fill="var(--rk-fin,#fff)"/>
+    <path d="M42 50 L22 42 V98 L42 90 Z" fill="var(--rk-nozzle,#fff)"/>
+    <rect x="40" y="28" width="158" height="84" rx="16" fill="var(--rk-body,#fff)"/></g></symbol>
+  <symbol id="rk2-front" viewBox="0 0 240 140" overflow="visible"><g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+    <path d="M118 28 H140 C190 28 222 52 236 70 C222 88 190 112 140 112 H118 Z" fill="var(--rk-nose,#fff)"/>
+    <rect x="2" y="28" width="150" height="84" rx="16" fill="var(--rk-body,#fff)"/>
+    <path d="M136 30 V110" fill="none" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/></g></symbol>
+  <symbol id="rk2-flame" viewBox="0 0 120 80"><path d="M118 40 C92 8 52 6 2 40 C52 74 92 72 118 40 Z" fill="var(--flame-coral,#ff6b7a)" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M116 40 C98 26 74 24 44 40 C74 56 98 54 116 40 Z" fill="#fff"/></symbol>
+
+  <!-- small two-stage rocket icons for the routine cards -->
+  <symbol id="mini-rk" viewBox="0 0 110 50"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M22 13 L10 4 Q5 2 5 7 L8 16"/><path d="M22 37 L10 46 Q5 48 5 43 L8 34"/>
+    <rect x="12" y="11" width="78" height="28" rx="6"/><path d="M84 11 C98 11 106 20 108 25 C106 30 98 39 84 39 Z"/></g></symbol>
+  <symbol id="mini-rk-split" viewBox="0 0 110 50"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M20 13 L9 4 Q4 2 4 7 L7 16"/><path d="M20 37 L9 46 Q4 48 4 43 L7 34"/>
+    <rect x="10" y="11" width="37" height="28" rx="6"/><rect x="58" y="11" width="30" height="28" rx="6"/><path d="M84 11 C98 11 106 20 108 25 C106 30 98 39 84 39 Z"/>
+    <path d="M52.5 3 V47" stroke-dasharray="4 3.5" fill="none"/></g></symbol>
+
+  <!-- #3 Docking ship (capsule + docking port), cover / thumbnails -->
+  <symbol id="ship" viewBox="0 0 150 64" overflow="visible"><g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+    <rect x="132" y="20" width="15" height="24" rx="3" fill="var(--ship-port,#fff)"/><rect x="4" y="4" width="130" height="56" rx="28" fill="var(--ship-body,#fff)"/></g></symbol>
+
+  <!-- #4 Tinbot (original geometric robot): wave / point / peek / back / sit -->
+  <symbol id="tb-wave" viewBox="0 0 100 140"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/><path d="M58 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/>
+    <rect x="30" y="128" width="19" height="8" rx="4"/><rect x="51" y="128" width="19" height="8" rx="4"/>
+    <path d="M33 71 L21 88" fill="none"/><circle cx="19" cy="91" r="5"/>
+    <path d="M67 71 L80 54" fill="none"/><circle cx="82" cy="50" r="5"/>
+    <path d="M89 37 q6 5 3 12 M95 31 q9 8 5 19" fill="none" stroke-width="2.5"/>
+    <rect x="44" y="57" width="12" height="9" rx="2"/>
+    <path d="M30 64 H70 L65 106 H35 Z"/>
+    <rect x="40" y="73" width="20" height="22" rx="3" fill="var(--tb-panel,#fff)"/><path d="M50 73 V95" fill="none"/>
+    <line x1="50" y1="25" x2="50" y2="12"/><circle cx="50" cy="9" r="4.5" fill="var(--tb-accent,#fff)"/>
+    <circle cx="24" cy="41" r="3.2"/><circle cx="76" cy="41" r="3.2"/>
+    <rect x="26" y="24" width="48" height="35" rx="11"/>
+    <circle cx="40" cy="39" r="3.6" fill="currentColor" stroke="none"/><circle cx="60" cy="39" r="3.6" fill="currentColor" stroke="none"/>
+    <path d="M42 48 Q50 54 58 48" fill="none"/></g></symbol>
+  <symbol id="tb-point" viewBox="0 0 100 140"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/><path d="M58 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/>
+    <rect x="30" y="128" width="19" height="8" rx="4"/><rect x="51" y="128" width="19" height="8" rx="4"/>
+    <path d="M67 71 L79 88" fill="none"/><circle cx="81" cy="91" r="5"/>
+    <path d="M33 72 L12 66" fill="none"/><circle cx="8.5" cy="65" r="5"/><path d="M4 64 H-1" fill="none" stroke-width="3"/>
+    <rect x="44" y="57" width="12" height="9" rx="2"/>
+    <path d="M30 64 H70 L65 106 H35 Z"/>
+    <rect x="40" y="73" width="20" height="22" rx="3" fill="var(--tb-panel,#fff)"/><path d="M50 73 V95" fill="none"/>
+    <line x1="50" y1="25" x2="50" y2="12"/><circle cx="50" cy="9" r="4.5" fill="var(--tb-accent,#fff)"/>
+    <circle cx="24" cy="41" r="3.2"/><circle cx="76" cy="41" r="3.2"/>
+    <rect x="26" y="24" width="48" height="35" rx="11"/>
+    <circle cx="38" cy="39" r="3.6" fill="currentColor" stroke="none"/><circle cx="58" cy="39" r="3.6" fill="currentColor" stroke="none"/>
+    <path d="M40 48 Q48 54 56 48" fill="none"/></g></symbol>
+  <symbol id="tb-peek" viewBox="0 0 70 62"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="35" y1="16" x2="35" y2="5"/><circle cx="35" cy="4" r="3.8" fill="var(--tb-accent,#fff)"/>
+    <circle cx="9.5" cy="32" r="3"/><circle cx="60.5" cy="32" r="3"/>
+    <rect x="12" y="15" width="46" height="34" rx="11"/>
+    <circle cx="26" cy="30" r="3.5" fill="currentColor" stroke="none"/><circle cx="44" cy="30" r="3.5" fill="currentColor" stroke="none"/>
+    <path d="M27 39 Q35 45 43 39" fill="none"/></g></symbol>
+  <symbol id="tb-back" viewBox="0 0 100 112"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 70 L16 86" fill="none"/><circle cx="14" cy="89" r="5"/>
+    <path d="M70 70 L86 84" fill="none"/><circle cx="88" cy="87" r="5"/>
+    <rect x="44" y="55" width="12" height="9" rx="2"/>
+    <path d="M30 62 H70 L66 104 H34 Z"/><rect x="42" y="72" width="16" height="16" rx="3"/><circle cx="50" cy="80" r="2.5" fill="currentColor" stroke="none"/>
+    <line x1="50" y1="22" x2="50" y2="10"/><circle cx="50" cy="7" r="4.5" fill="var(--tb-accent,#fff)"/>
+    <circle cx="24" cy="39" r="3.2"/><circle cx="76" cy="39" r="3.2"/>
+    <rect x="26" y="21" width="48" height="35" rx="11"/></g></symbol>
+
+  <!-- Zigzag the robot cat (mini-book) -->
+  <symbol id="zz-cat" viewBox="0 0 122 100"><g fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 52 L17 45 L28 37 L15 29 L26 21" fill="none"/>
+    <path d="M40 70 l-4 4 l8 4 l-8 4 l4 4 M54 70 l-4 4 l8 4 l-8 4 l4 4 M70 70 l-4 4 l8 4 l-8 4 l4 4 M82 70 l-4 4 l8 4 l-8 4 l4 4" fill="none"/>
+    <rect x="28" y="40" width="58" height="31" rx="11"/>
+    <path d="M77 19 L80 4 L91 16 Z"/><path d="M95 16 L106 4 L108 19 Z"/>
+    <rect x="74" y="15" width="36" height="30" rx="7"/>
+    <circle cx="86" cy="29" r="2.6" fill="currentColor" stroke="none"/><circle cx="99" cy="29" r="2.6" fill="currentColor" stroke="none"/>
+    <path d="M90.5 35 h5 l-2.5 3 z" fill="currentColor"/>
+    <path d="M81 37 L70 35 M81 41 L70 43 M105 37 L117 35 M105 41 L117 43" fill="none" stroke-width="2.2"/></g></symbol>
+  <symbol id="zz-sleep" viewBox="0 0 130 78"><g fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="56" cy="52" rx="42" ry="20"/>
+    <path d="M84 34 L88 21 L97 32 Z"/><path d="M100 32 L110 21 L112 35 Z"/>
+    <rect x="80" y="31" width="34" height="27" rx="7"/>
+    <path d="M86 44 q4 3 8 0 M100 44 q4 3 8 0" fill="none"/>
+    <path d="M18 62 L30 70 L42 62 L54 70 L66 62 L78 70" fill="none"/>
+    <path d="M100 18 h7 l-7 7 h7 M112 6 h9 l-9 9 h9" fill="none" stroke-width="2.6"/></g></symbol>
+
+  <!-- picnic props -->
+  <symbol id="basket" viewBox="0 0 100 82"><g fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 40 C22 6 78 6 78 40" fill="none"/>
+    <path d="M30 40 L40 27 L60 31 L66 40" /><path d="M36 34 L58 35 M44 28 L42 40 M53 30 L53 40" fill="none" stroke-width="2"/>
+    <path d="M8 40 H92 L82 78 H18 Z"/><path d="M11 52 H89 M14 65 H86" fill="none" stroke-width="2.2"/>
+    <path d="M32 40 L34 78 M50 40 V78 M68 40 L66 78" fill="none" stroke-width="2.2"/></g></symbol>
+  <symbol id="muffin" viewBox="0 0 50 48"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 24 H39 L35 44 H15 Z"/><path d="M19 25 L20 43 M25 25 V43 M31 25 L30 43" fill="none" stroke-width="2"/>
+    <path d="M7 25 C4 12 16 4 25 7 C34 3 47 12 43 25 Z"/><circle cx="19" cy="15" r="1.6" fill="currentColor" stroke="none"/><circle cx="30" cy="13" r="1.6" fill="currentColor" stroke="none"/><circle cx="34" cy="20" r="1.6" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="napkin" viewBox="0 0 50 40"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M4 34 H46 L36 6 H14 Z"/><path d="M14 6 L25 34 L36 6" fill="none" stroke-width="2"/></g></symbol>
+  <symbol id="sun" viewBox="0 0 50 50"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="25" cy="25" r="10"/><path d="M25 3 V9 M25 41 V47 M3 25 H9 M41 25 H47 M9.4 9.4 L13.6 13.6 M36.4 36.4 L40.6 40.6 M9.4 40.6 L13.6 36.4 M36.4 13.6 L40.6 9.4" fill="none"/></g></symbol>
+  <symbol id="crescent" viewBox="0 0 40 40"><path d="M18.02 6.03 A15 15 0 1 0 33.64 24.25 A12 12 0 0 1 18.02 6.03 Z" fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <!-- upright rocket: parked rocket in scenes + cut-out game piece -->
+  <symbol id="rk-up" viewBox="0 0 60 100"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M17 62 L5 78 V88 L17 82 Z"/><path d="M43 62 L55 78 V88 L43 82 Z"/>
+    <path d="M22 84 L19 94 H41 L38 84"/>
+    <path d="M30 3 C44 14 46 30 46 46 V84 H14 V46 C14 30 16 14 30 3 Z"/>
+    <path d="M14 56 H46" fill="none" stroke-dasharray="3 3"/>
+    <circle cx="30" cy="35" r="8"/></g></symbol>
+
+  <!-- p.7 engine icons: 1 vowel sound = 1 engine, 2 vowel sounds = 2 engines -->
+  <symbol id="engine1" viewBox="0 0 42 62"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M9 34 L2 46 V50 L9 46 Z"/><path d="M33 34 L40 46 V50 L33 46 Z"/>
+    <path d="M21 2 C31 10 33 22 33 34 V44 H9 V34 C9 22 11 10 21 2 Z"/><circle cx="21" cy="21" r="5"/>
+    <path d="M15 44 L13 52 H29 L27 44"/><path d="M21 54 Q16 58 21 61 Q26 58 21 54 Z"/></g></symbol>
+  <symbol id="engine2" viewBox="0 0 42 62"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M9 34 L2 46 V50 L9 46 Z"/><path d="M33 34 L40 46 V50 L33 46 Z"/>
+    <path d="M21 2 C31 10 33 22 33 34 V44 H9 V34 C9 22 11 10 21 2 Z"/><circle cx="21" cy="21" r="5"/>
+    <path d="M10.5 44 L9 52 H19 L18.5 44"/><path d="M23.5 44 L23 52 H33 L31.5 44"/>
+    <path d="M14 54 Q10 58 14 61 Q18 58 14 54 Z"/><path d="M28 54 Q24 58 28 61 Q32 58 28 54 Z"/></g></symbol>
+
+  <!-- #8 board pieces: Earth, Moon, Boost, Meteor -->
+  <symbol id="earth" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="20" cy="20" r="16" fill="#fff"/>
+    <path d="M9 13 Q14 8 20 12 Q22 17 16 19 Q12 21 9 18"/><path d="M22 24 Q29 20 33 25 Q30 32 24 31 Q21 28 22 24"/><path d="M27 9 Q30 11 31 14"/></g></symbol>
+  <symbol id="moon" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="20" cy="20" r="16" fill="#fff"/><circle cx="14" cy="15" r="4"/><circle cx="25" cy="25" r="5"/><circle cx="27" cy="12" r="2.4"/><circle cx="12" cy="27" r="2"/></g></symbol>
+  <symbol id="boost" viewBox="0 0 40 40"><g fill="#fff" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <g transform="rotate(45 22 18)"><path d="M17 26 L11 33 V36 L17 33 Z"/><path d="M27 26 L33 33 V36 L27 33 Z"/><path d="M22 3 C29 9 30 17 30 24 V32 H14 V24 C14 17 15 9 22 3 Z"/><circle cx="22" cy="16" r="3.5"/></g>
+    <path d="M4 29 L10 23 M6 36 L14 28 M13 37 L17 33" fill="none"/></g></symbol>
+  <symbol id="meteor" viewBox="0 0 40 40"><g fill="#fff" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M3 6 L15 16 M2 15 L13 22 M10 3 L19 13" fill="none"/>
+    <path d="M18 16 Q24 11 31 14 Q38 17 37 25 Q37 34 28 36 Q19 37 16 30 Q13 22 18 16 Z"/><circle cx="25" cy="22" r="3"/><circle cx="31" cy="29" r="1.8"/></g></symbol>
+
+  <!-- #9 Asteroid tiles (4 shapes) + Home Base dock -->
+  <symbol id="ast1" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M10 38 Q12 16 34 12 L62 6 Q80 3 98 8 L124 12 Q143 18 144 42 L145 84 Q145 106 124 115 L94 124 Q70 128 46 122 L22 114 Q4 104 4 80 Z"/><circle cx="25" cy="30" r="5"/><circle cx="127" cy="106" r="5.5"/><circle cx="131" cy="29" r="3"/></g></symbol>
+  <symbol id="ast2" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M4 60 Q4 28 26 16 Q44 6 70 8 L104 5 Q134 6 142 28 Q146 50 145 76 Q144 106 118 118 Q90 128 62 124 Q30 125 14 108 Q3 90 4 60 Z"/><circle cx="21" cy="101" r="4.5"/><circle cx="128" cy="24" r="5"/><circle cx="135" cy="98" r="3"/></g></symbol>
+  <symbol id="ast3" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M12 30 Q20 9 46 9 L78 11 Q96 4 118 10 Q143 20 144 48 L145 86 Q142 113 114 121 L80 122 Q58 128 36 121 Q8 113 5 88 L4 56 Q5 40 12 30 Z"/><circle cx="26" cy="24" r="4"/><circle cx="119" cy="111" r="4.5"/><circle cx="18" cy="105" r="2.6"/></g></symbol>
+  <symbol id="ast4" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M5 50 Q10 20 36 14 Q50 5 74 8 Q100 3 122 12 Q145 26 144 56 Q146 84 134 104 Q118 124 86 122 Q62 128 40 121 Q12 115 5 92 Q2 70 5 50 Z"/><circle cx="125" cy="28" r="4"/><circle cx="23" cy="107" r="5"/><circle cx="34" cy="22" r="2.6"/></g></symbol>
+  <symbol id="ship-tb" viewBox="0 0 60 36"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M8 10 L2 4 M8 26 L2 32" fill="none"/><path d="M14 6 H40 C50 6 57 13 58 18 C57 23 50 30 40 30 H14 Q8 30 8 24 V12 Q8 6 14 6 Z"/><circle cx="40" cy="18" r="7"/>
+    <circle cx="38" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="43" cy="16" r="1.3" fill="currentColor" stroke="none"/><path d="M38 20.5 Q40.5 22.5 43 20.5" fill="none" stroke-width="1.6"/></g></symbol>
+  <symbol id="homebase" viewBox="0 0 60 36"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M6 30 H54"/><path d="M12 30 V18 Q12 8 30 8 Q48 8 48 18 V30"/><path d="M24 30 V21 H36 V30"/><path d="M30 8 V2"/><path d="M30 2 H38 L35 5 L38 8 H30" /></g></symbol>
+
+  <!-- #10 Cargo crate with a drawn "?" (path, not a glyph) -->
+  <symbol id="crate" viewBox="0 0 50 50"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="4" y="5" width="42" height="40" rx="3"/><path d="M4 13 H46 M4 37 H46" fill="none"/><path d="M8 13 L42 37 M42 13 L8 37" fill="none" stroke-width="2"/>
+    <rect x="15" y="16" width="20" height="18" rx="2.5"/>
+    <path d="M21.2 22 Q21.2 19 25 19 Q28.8 19 28.8 22.2 Q28.8 24.4 25 25.4 V27.6" fill="none" stroke-width="2.2"/><circle cx="25" cy="31" r="1.3" fill="currentColor" stroke="none"/></g></symbol>
+
+  <!-- #15 scissors -->
+  <symbol id="scissors" viewBox="0 0 64 40"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="30" r="7"/><path d="M16 13 L62 27 M16 27 L62 13" fill="none"/><circle cx="37" cy="20" r="1.6" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="arrow" viewBox="0 0 45 30"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15 H39"/><path d="M28 6 L40 15 L28 24"/></g></symbol>
+  <symbol id="flask" viewBox="0 0 30 40"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M11 3 H19 M12 3 V15 L4 33 Q3 37 7 37 H23 Q27 37 26 33 L18 15 V3"/><path d="M8 26 H22" fill="none"/></g></symbol>
+  <symbol id="magnifier" viewBox="0 0 110 55"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="50" cy="24" r="19" fill="#fff"/><path d="M64 38 L80 52" stroke-width="6"/></g>
+    <text x="50" y="31" text-anchor="middle" font-family="Andika" font-weight="700" font-size="26" fill="currentColor">a</text><circle cx="50" cy="38" r="2.6" fill="currentColor"/></symbol>
+  <symbol id="soundmark" viewBox="0 0 14 20"><path d="M3 3 Q11 10 3 17 M8 1 Q16 10 8 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <!-- BIG WORDS series wordmark is HTML (.wordmark); fold line pattern for lines -->
+</defs>
+</svg>
+
+<!-- ===== T1: what + grade, in 2 seconds ===== -->
+<section class="page" id="t1">
+  <svg class="bg" viewBox="0 0 1400 1400" id="sky1"></svg>
+  <div class="abs badge1 H">1st Grade</div>
+  <div class="abs t1title H">Two-Syllable Words</div>
+  <div class="abs t1sub">Compound Words &amp; Closed Syllables (VC/CV)</div>
+  <svg class="abs" style="left:20px; top:410px; width:1360px; height:571px" viewBox="-130 -60 620 260" id="rk1"></svg>
+  <svg class="abs" style="left:900px; top:968px; width:440px; height:150px" viewBox="-20 -40 210 72" id="ships1"></svg>
+  <div class="abs bar1 H">No Prep<svg class="dotsep" style="color:#12b5b0"><use href="#dot"/></svg>2 Board Games<svg class="dotsep" style="color:#12b5b0"><use href="#dot"/></svg>Answer Keys</div>
+</section>
+
+<!-- ===== T2: hero game ===== -->
+<section class="page" id="t2">
+  <svg class="bg" viewBox="0 0 1400 1400" id="sky2"></svg>
+  <div class="abs t2title H">Race to the Moon!</div>
+  <div class="abs t2sub">2 Board Games for Two-Syllable Words</div>
+  <div class="abs mini13"><div class="shot card-shadow" data-src="thumb-src/thumbnail-13.png" data-region="0,0,816,1056" data-w="330"></div><div class="lab H">Board B</div></div>
+  <div class="abs" style="left:420px; top:250px; transform: rotate(-3deg)"><div class="shot card-shadow" id="hero" data-src="thumb-src/thumbnail-12.png" data-region="26,20,764,1010" data-w="900"></div></div>
+  <div class="abs bubble2 H">Just add a paper clip!</div>
+</section>
+
+<!-- ===== T3: routine + variety ===== -->
+<section class="page" id="t3">
+  <svg class="bg" viewBox="0 0 1400 1400" id="sky3"></svg>
+  <div class="abs t3title H">Split It! Read It! <span>Blast Off!</span></div>
+  <svg class="abs" style="left:0; top:180px; width:1400px; height:420px" viewBox="0 0 1400 420"><path d="M60 400 C400 380 900 300 1360 70" fill="none" stroke="#9ee9e4" stroke-width="6" stroke-dasharray="18 16" stroke-linecap="round"/></svg>
+  <div class="step" style="left:40px; top:370px"><span class="num H">1</span><svg viewBox="0 0 110 55"><use href="#magnifier"/></svg><b>Find the vowels</b></div>
+  <div class="step" style="left:380px; top:316px"><span class="num H">2</span><svg viewBox="0 0 110 55"><use href="#mini-rk-split"/></svg><b>Split</b></div>
+  <div class="step" style="left:720px; top:262px"><span class="num H">3</span><svg viewBox="0 0 110 55"><use href="#mini-rk-split" y="5" width="110" height="50"/><use href="#soundmark" x="24" y="0" width="10" height="14" transform="rotate(-90 29 7)"/><use href="#soundmark" x="69" y="0" width="10" height="14" transform="rotate(-90 74 7)"/></svg><b>Read each part</b></div>
+  <div class="step" style="left:1060px; top:208px"><span class="num H">4</span><svg viewBox="0 0 110 55"><use href="#rk2-flame" x="0" y="20" width="26" height="18"/><use href="#mini-rk" x="16" y="4" width="94" height="44"/></svg><b>Blast off!</b></div>
+  <div class="abs" style="left:60px; top:660px; transform: rotate(-4deg)"><div class="shot card-shadow" data-src="thumb-src/thumbnail-9.png" data-region="0,0,816,800" data-w="600"></div></div>
+  <div class="abs" style="left:700px; top:640px; transform: rotate(3.5deg)"><div class="shot card-shadow" id="maze3" data-src="thumb-src/thumbnail-10.png" data-region="0,0,816,940" data-w="650"></div></div>
+</section>
+
+<!-- ===== T4: everything inside ===== -->
+<section class="page" id="t4">
+  <svg class="bg" viewBox="0 0 1400 1400" id="sky4"></svg>
+  <div class="abs t4title H">Everything for<br>Two-Syllable Words</div>
+  <div class="abs wordmark H">BIG<i></i>WORDS</div>
+  <div class="abs book" id="book"></div>
+  <div class="abs grid4">
+    <div class="cell"><div class="shot card-shadow" data-src="thumb-src/thumbnail-6.png" data-region="0,0,816,1000" data-w="300"></div></div>
+    <div class="cell"><div class="shot card-shadow" data-src="thumb-src/thumbnail-7.png" data-region="0,0,816,1000" data-w="300"></div></div>
+    <div class="cell"><div class="shot card-shadow" data-src="thumb-src/thumbnail-11.png" data-region="0,0,816,1000" data-w="300"></div></div>
+    <div class="cell"><div class="shot card-shadow" data-src="thumb-src/thumbnail-17.png" data-region="0,0,816,1000" data-w="300"></div></div>
+  </div>
+  <div class="abs panel4"><div class="tab H">CONTROL PANEL</div>
+    <ul><li><svg><use href="#btn"/></svg>15 student pages</li><li><svg><use href="#btn"/></svg>3 levels</li><li><svg><use href="#btn"/></svg>Prints in B&amp;W</li><li><svg><use href="#btn"/></svg>Answer keys</li></ul></div>
+</section>
+
+<script>
+/* Page snapshots are square build-pdf thumbnails: the Letter page sits at height 1300px, centered. */
+const F = 1300 / 1056, PX0 = (1400 - 816 * F) / 2, PY0 = 50;
+function setupShot(el) {
+  const [x, y, w, h] = el.dataset.region.split(",").map(Number);
+  const k = +el.dataset.w / w;
+  el.style.width = w * k + "px"; el.style.height = h * k + "px";
+  el._k = k; el._x = x; el._y = y;
+  const img = document.createElement("img");
+  img.src = el.dataset.src;
+  img.style.width = 1400 * k / F + "px";
+  img.style.left = -(PX0 + x * F) * k / F + "px";
+  img.style.top = -(PY0 + y * F) * k / F + "px";
+  el.prepend(img);
+  return el;
+}
+function ov(shot, x, y, w, h, html) {   // overlay positioned in worksheet page px (816 x 1056)
+  const d = document.createElement("div"); d.className = "ov";
+  Object.assign(d.style, { left: (x - shot._x) * shot._k + "px", top: (y - shot._y) * shot._k + "px", width: w * shot._k + "px", height: h * shot._k + "px" });
+  d.innerHTML = html; shot.appendChild(d); return d;
+}
+document.querySelectorAll(".shot[data-src]").forEach(setupShot);
+
+/* night sky: orbits + mint sparkles (same recipe on all 4 images) */
+function sky(id, seed) {
+  let r = seed, rnd = () => (r = (r * 9301 + 49297) % 233280) / 233280, s = "";
+  s += `<ellipse cx="700" cy="1150" rx="980" ry="300" fill="none" stroke="#2f2470" stroke-width="5"/><ellipse cx="700" cy="420" rx="900" ry="210" fill="none" stroke="#2f2470" stroke-width="5"/>`;
+  s += `<g transform="translate(${seed % 2 ? 1230 : 170} ${seed % 2 ? 1190 : 1210})"><g transform="rotate(-18)"><ellipse rx="150" ry="36" fill="none" stroke="#3d318f" stroke-width="10"/></g><circle r="84" fill="#2f2470"/><g transform="rotate(-18)"><path d="M-150 0 A150 36 0 0 0 150 0" fill="none" stroke="#3d318f" stroke-width="10"/></g></g>`;
+  for (let i = 0; i < 40; i++) { const x = rnd() * 1400, y = rnd() * 1400, z = 10 + rnd() * 24; if (y < 400 && x > 60 && x < 1340) continue; s += i % 3 ? `<circle cx="${x}" cy="${y}" r="${2 + rnd() * 3}" fill="${i % 2 ? "#fff" : "#9ee9e4"}" opacity=".9"/>` : `<use href="#sparkle" x="${x}" y="${y}" width="${z}" height="${z}" style="color:#9ee9e4"/>`; }
+  document.getElementById(id).innerHTML = s;
+}
+sky("sky1", 7); sky("sky2", 12); sky("sky3", 21); sky("sky4", 30);
+
+/* T1 hero rocket (same parts as the cover porthole) */
+document.getElementById("rk1").innerHTML = `<g transform="rotate(-6 178 70)" style="color:#1f1a3a">
+  <use href="#rk2-flame" x="-110" y="28" width="134" height="84"/>
+  <use href="#rk2-back" x="0" y="0" width="200" height="140" style="--rk-fin:#5b3cc4;--rk-nozzle:#9ee9e4"/>
+  <use href="#rk2-front" x="218" y="0" width="240" height="140" style="--rk-nose:#5b3cc4"/>
+  <path d="M209 12 V128" stroke="#12b5b0" stroke-width="5" stroke-dasharray="11 8" stroke-linecap="round"/>
+  <path d="M198 2 L190 -10 M209 -2 V-17 M220 2 L228 -10 M198 138 L190 150 M209 142 V157 M220 138 L228 150" stroke="#9ee9e4" stroke-width="4.5" stroke-linecap="round"/>
+  <text x="120" y="96" text-anchor="middle" font-family="Andika" font-weight="700" font-size="72" fill="#1f1a3a">n<tspan fill="#ff6b7a">a</tspan>p</text>
+  <text x="294" y="96" text-anchor="middle" font-family="Andika" font-weight="700" font-size="72" fill="#1f1a3a">k<tspan fill="#ff6b7a">i</tspan>n</text>
+  <defs><clipPath id="wc1"><circle r="23"/></clipPath></defs>
+  <g transform="translate(400 70)">
+    <path d="M14 -18 L27 -40" stroke="#1f1a3a" stroke-width="11" stroke-linecap="round"/><path d="M14 -18 L27 -40" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="29" cy="-44" r="8" fill="#fff" stroke="#1f1a3a" stroke-width="4"/>
+    <path d="M40 -56 q7 5 4 13 M47 -64 q11 9 6 22" fill="none" stroke="#9ee9e4" stroke-width="4" stroke-linecap="round"/>
+    <circle r="27" fill="#21174d" stroke="#1f1a3a" stroke-width="5"/>
+    <g clip-path="url(#wc1)"><use href="#tb-peek" x="-25" y="-21" width="50" height="44"/></g>
+    <circle r="27" fill="none" stroke="#1f1a3a" stroke-width="5"/>
+  </g></g>`;
+document.getElementById("ships1").innerHTML = `<g style="color:#1f1a3a">
+  <use href="#ship" width="80" height="34" style="--ship-port:#12b5b0"/>
+  <g transform="translate(176 0) scale(-1 1)"><use href="#ship" width="80" height="34" style="--ship-port:#12b5b0"/></g>
+  <text x="37" y="24.5" text-anchor="middle" font-family="Andika" font-weight="700" font-size="21" fill="#1f1a3a">sun</text>
+  <text x="139" y="24.5" text-anchor="middle" font-family="Andika" font-weight="700" font-size="21" fill="#1f1a3a">set</text>
+  <path d="M44 -6 Q64 -24 82 -6 M132 -6 Q112 -24 94 -6" fill="none" stroke="#9ee9e4" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M74 -6 L82 -6 L81 -14 M102 -6 L94 -6 L95 -14" fill="none" stroke="#9ee9e4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+
+/* T2: paper clip on the spinner + pencil + two cut-out rocket pieces on the path (geometry measured from worksheet.html p.12) */
+(() => {
+  const h = document.getElementById("hero"), S = [38.4, 723.2, 134.4];   // spinner x, y, size in page px
+  const cx = S[0] + S[2] / 2, cy = S[1] + S[2] / 2;
+  ov(h, cx - 10, cy - 70, 120, 90, `<svg viewBox="0 0 120 90" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))"><g transform="rotate(-38 10 70)"><rect x="4" y="58" width="104" height="26" rx="13" fill="none" stroke="#8d93a3" stroke-width="5"/><rect x="14" y="64" width="80" height="14" rx="7" fill="none" stroke="#8d93a3" stroke-width="5"/></g></svg>`);
+  ov(h, cx - 200, cy, 200, 200, `<svg viewBox="0 0 200 200" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(4px 4px 4px rgba(0,0,0,.35))"><g transform="translate(200 0) rotate(40)"><rect x="-8" y="36" width="16" height="190" rx="2" fill="#ff6b7a" stroke="#1f1a3a" stroke-width="2"/><rect x="-8" y="204" width="16" height="22" fill="#9ee9e4" stroke="#1f1a3a" stroke-width="2"/><path d="M-8 36 L0 0 L8 36 Z" fill="#f3e3c9" stroke="#1f1a3a" stroke-width="2"/><path d="M-3 14 L0 0 L3 14 Z" fill="#1f1a3a"/></g></svg>`);
+  // both pieces waiting on the START space, beside the Earth icon (no board word is covered)
+  const piece = (x, y, fill) => ov(h, x, y, 36, 58, `<svg viewBox="0 0 60 100" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 4px rgba(0,0,0,.4))"><g style="color:#1f1a3a"><path d="M17 62 L5 78 V88 L17 82 Z M43 62 L55 78 V88 L43 82 Z" fill="${fill}" stroke="#1f1a3a" stroke-width="3"/><path d="M30 3 C44 14 46 30 46 46 V84 H14 V46 C14 30 16 14 30 3 Z" fill="#fff" stroke="#1f1a3a" stroke-width="3"/><circle cx="30" cy="35" r="8" fill="${fill}" stroke="#1f1a3a" stroke-width="3"/></g></svg>`);
+  piece(74, 640, "#12b5b0");
+  piece(165, 640, "#ff6b7a");
+})();
+
+/* T3: coral path drawn half-way along the correct maze route (A1 A2 A3 A4 B4 C4 C3) */
+(() => {
+  const m = document.getElementById("maze3"), X0 = 33.6, Y0 = 273.4, W = 149.8, H = 124.8;
+  const cx = c => X0 + W * c + W / 2, low = r => Y0 + H * r + H * 0.78;   // run just under the words, never through them
+  const P = [[cx(0) - 30, low(0)], [cx(3) + W * 0.42, low(0)], [cx(3) + W * 0.42, low(2)], [cx(2), low(2)]];
+  const pts = P.map(p => p.join(",")).join(" ");
+  const end = P[P.length - 1];
+  ov(m, 0, 0, 816, 1056, `<svg viewBox="0 0 816 1056" style="width:100%;height:100%"><polyline points="${pts}" fill="none" stroke="#ff6b7a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><circle cx="${end[0]}" cy="${end[1]}" r="9" fill="#ff6b7a"/></svg>`);
+})();
+
+/* T4: folded mini-book mockup — real panels 6 and 7 cropped from p.15 and turned upright */
+(() => {
+  // p.15 bottom-row panels sit at x 0..408 (4.25 in), panel c at y = 264*c .. 264*(c+1) (2.75 in), rotated +90deg
+  const page = (c, side) => {
+    const wrap = document.createElement("div");
+    const k = 1.3, w = 264 * k, hgt = 408 * k;
+    Object.assign(wrap.style, { position: "absolute", top: "40px", width: w + "px", height: hgt + "px", background: "#fff", overflow: "hidden",
+      left: side === "L" ? (320 - w) + "px" : "320px", transformOrigin: side === "L" ? "right center" : "left center",
+      transform: side === "L" ? "rotateY(14deg)" : "rotateY(-14deg)", boxShadow: "0 18px 40px rgba(0,0,0,.45)", borderRadius: side === "L" ? "10px 0 0 10px" : "0 10px 10px 0" });
+    const s = document.createElement("div"); s.className = "shot"; s.dataset.src = "thumb-src/thumbnail-15.png"; s.dataset.region = `0,${264 * c},408,264`; s.dataset.w = 408 * k;
+    setupShot(s);
+    Object.assign(s.style, { position: "absolute", left: (w - 408 * k) / 2 + "px", top: (hgt - 264 * k) / 2 + "px", transform: "rotate(-90deg)" });
+    wrap.appendChild(s);
+    const shade = document.createElement("div");
+    Object.assign(shade.style, { position: "absolute", inset: 0, background: side === "L" ? "linear-gradient(90deg, rgba(0,0,0,0) 80%, rgba(0,0,0,.18))" : "linear-gradient(90deg, rgba(0,0,0,.18), rgba(0,0,0,0) 20%)" });
+    wrap.appendChild(shade);
+    return wrap;
+  };
+  const b = document.getElementById("book");
+  b.appendChild(page(0, "L")); b.appendChild(page(1, "R"));
+  b.insertAdjacentHTML("beforeend", `<div class="tag4 H" style="bottom:-6px; font-size:40px">Fold-and-read mini-book</div>`);
+})();
+</script>
+</body>
+</html>
