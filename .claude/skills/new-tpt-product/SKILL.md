@@ -39,7 +39,7 @@ description: สั่งทีม AI agent ทำใบงานขายบน
 - วนซ้ำได้ไม่เกิน 3 รอบ ถ้ายังไม่ผ่านให้หยุดและรายงานผู้ใช้
 
 ### 7. Listing → `tpt-listing-specialist`
-- ได้ `06-listing.md` — อัปเดต `title` และ `price` สุดท้ายใน catalog
+- ได้ `06-listing.md` + `listing-preview/` (หน้าจำลอง listing และผลตรวจ) — อัปเดต `title` และ `price` สุดท้ายใน catalog
 
 ### 8. Marketing → `marketing-specialist`
 - ได้ `07-marketing.md`
