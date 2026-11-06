@@ -27,6 +27,7 @@ Environment note: `npm install` pulled playwright 1.65, which wants a Chromium b
 | Andika Regular / Bold (SIL International) | Every word a child reads: board spaces, cards, rocket labels, mini-book, clues. Single-story a/g. | SIL OFL 1.1 | Yes |
 | Baloo 2 (variable; The Baloo 2 Project Authors / Ek Type) | Page titles, cover, banners, "MISSION CONTROL" tab, thumbnails | SIL OFL 1.1 | Yes |
 
+- Rebuilt after revision 2: 24 pages, Letter; preview 8 pages (same `--select`). The overflow script finds no page past its footer (tightest: p.12/13 at 0.01 in, p.9 at 0.03 in, p.18/19 at 0.05 in).
 - `pdffonts` (full PDF and preview): only **Andika, Andika-Bold, Baloo2** are present, all embedded and subset. Chrome embeds variable Baloo 2 as Type 3 fonts named "Baloo2-Regular" (the default instance name). This is normal, and the weights render correctly.
 - No italic is used anywhere (Andika has no italic file). `em/i` are forced to `font-style: normal`.
 - No ★ ✓ • ○ □ △ ☆ → glyphs are used (checked with `pdftotext`). Bullets, buttons, stars, level icons, the "?" on the crates, the scissors and the vowel dots are all SVG or CSS shapes.
@@ -71,6 +72,19 @@ Titles and flavor lines live in the `CONCEPT` object near the bottom of `workshe
 | p.11 | Cargo List is 2 rows × 4 at 20 pt. | 8 words in one row would need words under 20 pt. |
 | Footer | © store name · standard code(s) · page number. Teacher pages and keys leave the standard blank. | Plan |
 
+## Revision 2 (after QA "PASS WITH FIXES" + appeal review "REVISE")
+| Item | Change |
+|---|---|
+| Prep claim | Cover strip "No Prep" → **"Low Prep"**. Thumbnail 1 bar → **"Low Prep • 2 Board Games • Answer Keys"**. Separators are SVG dots. `03-content.md` updated. |
+| Thumbnail 3 | The coral pencil line now shows only **A1 → A2 → A3** (hill\|top → nug\|get → hec\|tic): one straight segment inside row A at y = 0.71·H (under the words, not in the gutter), with no turn. The rest of the solution is not shown. |
+| Ligatures | Rebuilt after the `scripts/build-pdf.mjs` fix (`font-variant-ligatures: none`). At 400 dpi, p.18 "tra \| ffic" / "traf \| fic", "muffin", "sunfish" (p.11) and "puf\|fin" (p.10, thumb-src) show separate f's and a dotted i. Andika's f hook sits very close to the i dot, but they do not join. |
+| p.19 mini-book folding | Steps 1 and 5 now state the direction: "with the printing on the outside (fold the top half back, behind the bottom half)" and "…so the cut is along the top fold". The Step 1 diagram has a curved "back" arrow; Step 5 is labeled "cut on top fold". "No-fold option" sits beside the diagrams. Fold re-checked: folding the top row back puts T1–T4 on the back face, upright, reading T4 T3 T2 T1. The order is still 1 (B4) / 2 (T4) / 3 (T3) / 4 (T2) / 5 (T1) / 6 (B1) / 7 (B2) / 8 (B3), all upright. |
+| p.19 Board B wording | "…Comet (spaces 14–27 have blends, or consonant pairs that look like blends: bas \| ket, dis \| cus)". The old "and digraphs" was wrong. `03-content.md` updated. |
+| Boards | Small **"Board A" / "Board B"** pill at the right end of each board's directions box. No overflow. |
+| QA N8 | p.3 "Page" column widened. p.19 step labels have more space below them. |
+| Thumbnail 1 (O1) | "1st Grade" pill enlarged (82 px). Title and subtitle moved down 18 px. |
+| Thumbnail 2 (O2) | Spinner, paper clip and pencil redrawn at about 1.4× on top of the page, spilling onto the night sky. Rocket pieces at 1.3× standing on START. No board word is covered. The Board B mini page moved up. |
+
 ## QA checks performed
 - `pdfinfo`: **24 pages, Letter 612 × 792 pt.** Preview: 8 pages.
 - **No shrink-to-fit:** on p.5, content reaches 10.69 in (the footer line) on an 11 in render. Earlier builds were shrunk to 92% by the mini-book; that is fixed.
@@ -78,15 +92,15 @@ Titles and flavor lines live in the `CONCEPT` object near the bottom of `workshe
 - **Grayscale:** I rendered pp. 4–19 with `pdftoppm -gray` and checked contact sheets. All text, lines and icons stay readable. Gray areas are small (Split Check header, table headers).
 - **Not printed anywhere:** writer-check tables, the master word list, Flags for QA, Deviations, and notes marked "not printed".
 - **Thumbnails:** I checked each at 1400 px and at 250 px. No text is clipped. Main titles are 120–136 px and secondary text is 52 px or more.
-  1. Night sky, "1st Grade" pill, "Two-Syllable Words" (136 px white), mint subtitle, a big nap | kin rocket splitting (coral vowels, Tinbot peeking from the nose window), sun + set ships, and the bar "No Prep • 2 Board Games • Answer Keys".
+  1. Night sky, "1st Grade" pill (82 px), "Two-Syllable Words" (136 px white), mint subtitle, a big nap | kin rocket splitting (coral vowels, Tinbot peeking from the nose window), sun + set ships, and the bar "Low Prep • 2 Board Games • Answer Keys".
   2. "Race to the Moon!" + "2 Board Games…", p.12 tilted −3° with a paper clip on the spinner, a pencil, and two rocket pieces on START (no board words covered), the coral bubble "Just add a paper clip!", and a small p.13 labeled "Board B".
-  3. "Split It! Read It! Blast Off!", 4 routine cards rising along a dashed path, p.9 and p.10, with a coral path drawn halfway along the correct maze route, under the words.
+  3. "Split It! Read It! Blast Off!", 4 routine cards rising along a dashed path, p.9 and p.10, with a short coral line on the first 3 maze cells only (A1→A3), under the words.
   4. "Everything for Two-Syllable Words", a BIG WORDS wordmark, an open mini-book mockup showing the real pages 6 | 7, pp. 6/7/11/17, and the Control Panel ("15 student pages", "3 levels", "Prints in B&W", "Answer keys"). RF.1.3.e is not used because QA has not confirmed the standards yet.
   - The page images in the thumbnails come from 1× snapshots (`--thumbnails`), so the mini-book crop is slightly soft.
 
 ## Owner to-do
 1. **Store name and link:** edit the `STORE` object in `worksheet.html` (now "Your Store Name"). Then rebuild everything in the order above, because the footers appear inside the thumbnails.
-2. **"No Prep" claim** on the cover and thumbnail 1 is kept as written in the content. The games need a paper clip, and pp. 6, 7 and 15 need scissors or folding. The plan suggests "Print & Go", or "No prep printables + low-prep games" in the listing. This is the creative director's or owner's call. To change it, edit the cover strip in `worksheet.html` and `.bar1` in `thumbnails.html`.
+2. ~~"No Prep" claim~~ **Decided (QA + appeal review):** the cover reads "15 Student Pages • Low Prep • Answer Keys" and thumbnail 1 reads "Low Prep • 2 Board Games • Answer Keys". No "No Prep" claim appears in any printed page or thumbnail. Listing copy should follow the plan: "No-prep printables + low-prep games (just add a paper clip)", never "No Prep" for the whole set.
 3. **Test-print and fold p.15** once at 100% and confirm the page order.
 4. QA items carried over from the content: RF.1.4.b wording, the Tinbot name check (backup name: Zipbot), and the Merriam-Webster spot checks.
 5. Optional: if the owner prefers the plan's original placement, "Level icons" and "Paths by group" can return to p.2, but p.2 would then need a smaller font (below the plan's 11 pt) or less text.

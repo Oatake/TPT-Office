@@ -26,9 +26,9 @@
   .dotsep { width: 22px; height: 22px; display: inline-block; vertical-align: middle; margin: 0 22px; }
 
   /* T1 */
-  .badge1 { left: 50%; top: 46px; transform: translateX(-50%); background: #12b5b0; color: #fff; font-size: 70px; line-height: 1; padding: 18px 64px 12px; border-radius: 999px; white-space: nowrap; }
-  .t1title { left: 0; right: 0; top: 150px; text-align: center; font-size: 136px; line-height: 1.05; color: #fff; white-space: nowrap; }
-  .t1sub { left: 0; right: 0; top: 312px; text-align: center; font-size: 56px; line-height: 1.1; color: #9ee9e4; font-family: "Baloo2"; font-weight: 600; white-space: nowrap; }
+  .badge1 { left: 50%; top: 34px; transform: translateX(-50%); background: #12b5b0; color: #fff; font-size: 82px; line-height: 1; padding: 20px 72px 12px; border-radius: 999px; white-space: nowrap; }
+  .t1title { left: 0; right: 0; top: 168px; text-align: center; font-size: 136px; line-height: 1.05; color: #fff; white-space: nowrap; }
+  .t1sub { left: 0; right: 0; top: 330px; text-align: center; font-size: 56px; line-height: 1.1; color: #9ee9e4; font-family: "Baloo2"; font-weight: 600; white-space: nowrap; }
   .bar1 { left: 90px; right: 90px; bottom: 56px; height: 132px; background: #fff; border-radius: 66px; display: flex; align-items: center; justify-content: center; color: #1f1a3a; font-size: 62px; white-space: nowrap; padding-top: 8px; }
 
   /* T2 */
@@ -36,7 +36,7 @@
   .t2sub { left: 0; right: 0; top: 160px; text-align: center; font-size: 56px; color: #9ee9e4; font-family: "Baloo2"; font-weight: 600; white-space: nowrap; }
   .bubble2 { left: 40px; top: 300px; width: 330px; background: #ff6b7a; color: #fff; font-size: 64px; line-height: 1.05; padding: 34px 26px 30px; border-radius: 46px; text-align: center; border: 6px solid #fff; }
   .bubble2::after { content: ""; position: absolute; right: 60px; bottom: -58px; border: 30px solid transparent; border-top: 36px solid #fff; border-left-width: 6px; transform: skewX(-25deg); }
-  .mini13 { left: 34px; top: 885px; transform: rotate(5deg); }
+  .mini13 { left: 34px; top: 650px; transform: rotate(5deg); }
   .mini13 .lab, .tag4 { position: absolute; left: 50%; transform: translateX(-50%); background: #12b5b0; color: #fff; font-size: 40px; line-height: 1; padding: 12px 24px 8px; border-radius: 999px; white-space: nowrap; }
   .mini13 .lab { bottom: -30px; }
 
@@ -253,7 +253,7 @@
   <div class="abs t1sub">Compound Words &amp; Closed Syllables (VC/CV)</div>
   <svg class="abs" style="left:20px; top:410px; width:1360px; height:571px" viewBox="-130 -60 620 260" id="rk1"></svg>
   <svg class="abs" style="left:900px; top:968px; width:440px; height:150px" viewBox="-20 -40 210 72" id="ships1"></svg>
-  <div class="abs bar1 H">No Prep<svg class="dotsep" style="color:#12b5b0"><use href="#dot"/></svg>2 Board Games<svg class="dotsep" style="color:#12b5b0"><use href="#dot"/></svg>Answer Keys</div>
+  <div class="abs bar1 H">Low Prep<svg class="dotsep" style="color:#12b5b0"><use href="#dot"/></svg>2 Board Games<svg class="dotsep" style="color:#12b5b0"><use href="#dot"/></svg>Answer Keys</div>
 </section>
 
 <!-- ===== T2: hero game ===== -->
@@ -356,24 +356,33 @@ document.getElementById("ships1").innerHTML = `<g style="color:#1f1a3a">
 
 /* T2: paper clip on the spinner + pencil + two cut-out rocket pieces on the path (geometry measured from worksheet.html p.12) */
 (() => {
-  const h = document.getElementById("hero"), S = [38.4, 723.2, 134.4];   // spinner x, y, size in page px
-  const cx = S[0] + S[2] / 2, cy = S[1] + S[2] / 2;
-  ov(h, cx - 10, cy - 70, 120, 90, `<svg viewBox="0 0 120 90" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))"><g transform="rotate(-38 10 70)"><rect x="4" y="58" width="104" height="26" rx="13" fill="none" stroke="#8d93a3" stroke-width="5"/><rect x="14" y="64" width="80" height="14" rx="7" fill="none" stroke="#8d93a3" stroke-width="5"/></g></svg>`);
-  ov(h, cx - 200, cy, 200, 200, `<svg viewBox="0 0 200 200" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(4px 4px 4px rgba(0,0,0,.35))"><g transform="translate(200 0) rotate(40)"><rect x="-8" y="36" width="16" height="190" rx="2" fill="#ff6b7a" stroke="#1f1a3a" stroke-width="2"/><rect x="-8" y="204" width="16" height="22" fill="#9ee9e4" stroke="#1f1a3a" stroke-width="2"/><path d="M-8 36 L0 0 L8 36 Z" fill="#f3e3c9" stroke="#1f1a3a" stroke-width="2"/><path d="M-3 14 L0 0 L3 14 Z" fill="#1f1a3a"/></g></svg>`);
-  // both pieces waiting on the START space, beside the Earth icon (no board word is covered)
-  const piece = (x, y, fill) => ov(h, x, y, 36, 58, `<svg viewBox="0 0 60 100" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 4px rgba(0,0,0,.4))"><g style="color:#1f1a3a"><path d="M17 62 L5 78 V88 L17 82 Z M43 62 L55 78 V88 L43 82 Z" fill="${fill}" stroke="#1f1a3a" stroke-width="3"/><path d="M30 3 C44 14 46 30 46 46 V84 H14 V46 C14 30 16 14 30 3 Z" fill="#fff" stroke="#1f1a3a" stroke-width="3"/><circle cx="30" cy="35" r="8" fill="${fill}" stroke="#1f1a3a" stroke-width="3"/></g></svg>`);
-  piece(74, 640, "#12b5b0");
-  piece(165, 640, "#ff6b7a");
+  const h = document.getElementById("hero"), S = [38.4, 723.2, 134.4];   // spinner x, y, size in page px (measured)
+  const cx = S[0] + S[2] / 2 - 22, cy = S[1] + S[2] / 2 + 28;   // nudged down-left so the bigger spinner clears the START space
+  // drawn on the rotated holder (not inside the clipped page) so the bigger props can spill onto the night sky
+  const out = (x, y, w, hh, html) => { const d = document.createElement("div"); d.className = "ov";
+    Object.assign(d.style, { left: (x - h._x) * h._k + "px", top: (y - h._y) * h._k + "px", width: w * h._k + "px", height: hh * h._k + "px", zIndex: 2 });
+    d.innerHTML = html; h.parentElement.appendChild(d); return d; };
+  // spinner redrawn 1.4x over the printed one (same artwork as p.12: 6 parts 1-2-3-1-2-3)
+  const R = S[2] * 1.4;
+  let sp = `<svg viewBox="0 0 140 140" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))"><circle cx="70" cy="70" r="66" fill="#fff" stroke="#1f1a3a" stroke-width="3"/>`;
+  for (let k = 0; k < 6; k++) { const an = (-90 + 60 * k) * Math.PI / 180; sp += `<path d="M70 70 L${70 + 66 * Math.cos(an)} ${70 + 66 * Math.sin(an)}" stroke="#1f1a3a" stroke-width="2.5"/>`; }
+  [1, 2, 3, 1, 2, 3].forEach((n, k) => { const an = (-60 + 60 * k) * Math.PI / 180; sp += `<text x="${70 + 44 * Math.cos(an)}" y="${70 + 44 * Math.sin(an) + 9}" text-anchor="middle" font-family="Andika" font-weight="700" font-size="25" fill="#1f1a3a">${n}</text>`; });
+  sp += `<circle cx="70" cy="70" r="9" fill="#fff" stroke="#1f1a3a" stroke-width="2.5"/><circle cx="70" cy="70" r="3.5" fill="#1f1a3a"/></svg>`;
+  out(cx - R / 2, cy - R / 2, R, R, sp);
+  out(cx - 14, cy - 98, 168, 126, `<svg viewBox="0 0 120 90" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))"><g transform="rotate(-38 10 70)"><rect x="4" y="58" width="104" height="26" rx="13" fill="none" stroke="#8d93a3" stroke-width="5"/><rect x="14" y="64" width="80" height="14" rx="7" fill="none" stroke="#8d93a3" stroke-width="5"/></g></svg>`);
+  out(cx - 280, cy, 280, 280, `<svg viewBox="0 0 200 200" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(4px 4px 4px rgba(0,0,0,.35))"><g transform="translate(200 0) rotate(40)"><rect x="-8" y="36" width="16" height="190" rx="2" fill="#ff6b7a" stroke="#1f1a3a" stroke-width="2"/><rect x="-8" y="204" width="16" height="22" fill="#9ee9e4" stroke="#1f1a3a" stroke-width="2"/><path d="M-8 36 L0 0 L8 36 Z" fill="#f3e3c9" stroke="#1f1a3a" stroke-width="2"/><path d="M-3 14 L0 0 L3 14 Z" fill="#1f1a3a"/></g></svg>`);
+  // both rocket pieces (1.3x) waiting on the START space, beside the Earth icon (no board word is covered)
+  const piece = (x, y, fill) => out(x, y, 47, 75, `<svg viewBox="0 0 60 100" style="width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 4px rgba(0,0,0,.4))"><path d="M17 62 L5 78 V88 L17 82 Z M43 62 L55 78 V88 L43 82 Z" fill="${fill}" stroke="#1f1a3a" stroke-width="3"/><path d="M30 3 C44 14 46 30 46 46 V84 H14 V46 C14 30 16 14 30 3 Z" fill="#fff" stroke="#1f1a3a" stroke-width="3"/><circle cx="30" cy="35" r="8" fill="${fill}" stroke="#1f1a3a" stroke-width="3"/></svg>`);
+  piece(62, 628, "#12b5b0");
+  piece(165, 628, "#ff6b7a");
 })();
 
-/* T3: coral path drawn half-way along the correct maze route (A1 A2 A3 A4 B4 C4 C3) */
+/* T3: coral pencil line on the FIRST 3 cells only (A1 -> A2 -> A3), straight, inside row A just under the words */
 (() => {
   const m = document.getElementById("maze3"), X0 = 33.6, Y0 = 273.4, W = 149.8, H = 124.8;
-  const cx = c => X0 + W * c + W / 2, low = r => Y0 + H * r + H * 0.78;   // run just under the words, never through them
-  const P = [[cx(0) - 30, low(0)], [cx(3) + W * 0.42, low(0)], [cx(3) + W * 0.42, low(2)], [cx(2), low(2)]];
-  const pts = P.map(p => p.join(",")).join(" ");
-  const end = P[P.length - 1];
-  ov(m, 0, 0, 816, 1056, `<svg viewBox="0 0 816 1056" style="width:100%;height:100%"><polyline points="${pts}" fill="none" stroke="#ff6b7a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><circle cx="${end[0]}" cy="${end[1]}" r="9" fill="#ff6b7a"/></svg>`);
+  const cx = c => X0 + W * c + W / 2, y = Y0 + H * 0.71;
+  const x1 = cx(0) - 30, x2 = cx(2);
+  ov(m, 0, 0, 816, 1056, `<svg viewBox="0 0 816 1056" style="width:100%;height:100%"><path d="M${x1} ${y} H${x2}" stroke="#ff6b7a" stroke-width="9" stroke-linecap="round" opacity=".9"/><circle cx="${x2}" cy="${y}" r="9" fill="#ff6b7a"/></svg>`);
 })();
 
 /* T4: folded mini-book mockup — real panels 6 and 7 cropped from p.15 and turned upright */

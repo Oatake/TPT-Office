@@ -410,6 +410,8 @@
 
   /* ---- p.19 Prep Guide diagrams ---- */
   .folds { display: grid; grid-template-columns: repeat(6, 1fr); gap: .08in; margin: .04in 0 .04in; }
+  .p19 .folds { margin-bottom: .07in !important; }
+  .bdlabel { float: right; background: var(--brand-primary); color: #fff; font: 800 11pt/1 var(--font-heading); letter-spacing: 1px; padding: .04in .14in .02in; border-radius: 999px; margin: -.02in -.04in 0 .1in; }
   .folds figure { margin: 0; text-align: center; font: 700 10pt/1 var(--font-body); }
   .cols-list { columns: 2; column-gap: .3in; }
   .cols-list li { break-inside: avoid; }
@@ -420,11 +422,11 @@
   .std-t th { background: #efeafc; }
   .teacher .t { line-height: 1.16; }
   .page.teacher { padding-top: .48in; }
-  .p19 { line-height: 1.2; }
+  .p19 { line-height: 1.18; }
   .p19 h3 { margin-top: .04in; }
   .p19 ul.dots > li { margin-bottom: 0; }
-  .p19 .folds { margin: 0; }
-  .folds svg { width: 100%; height: .32in; color: var(--ink); display: block; }
+  
+  .folds svg { width: 100%; height: .36in; color: var(--ink); display: block; }
 
   /* ---- Answer-key maze mini ---- */
   .mz-mini { position: relative; width: 4.5in; --ast-fill: none; }
@@ -643,7 +645,7 @@
   </div>
   <div class="cv-strip">
     <svg viewBox="0 0 816 100" preserveAspectRatio="none"><path d="M-10 110 V52 Q408 -18 826 52 V110 Z" fill="#d6f3f1" stroke="#12b5b0" stroke-width="4"/></svg>
-    <div class="txt"><span><span class="js-npages">15</span> Student Pages</span><svg><use href="#dot"/></svg>No Prep<svg><use href="#dot"/></svg>Answer Keys</div>
+    <div class="txt"><span><span class="js-npages">15</span> Student Pages</span><svg><use href="#dot"/></svg>Low Prep<svg><use href="#dot"/></svg>Answer Keys</div>
   </div>
 </section>
 
@@ -962,7 +964,7 @@
     <li><b>Boost and Meteor:</b> Boost = go ahead 2 spaces. Meteor = go back 1 space. After a Boost or Meteor move, read the word on your new space.</li>
     <li><b>Winning:</b> The first player to reach the Moon wins. An exact spin is not needed.</li>
     <li><b>Flight Log:</b> Each player records the words they land on (up to 6), then circles the hardest word. Collect the logs as evidence of learning.</li>
-    <li><b>Board A or B?</b> Board A (compound words) for the Moon group. Board B for Planet (spaces 1&ndash;13 are VC/CV words with no blends) and Comet (spaces 14&ndash;27 have blends and digraphs).</li>
+    <li><b>Board A or B?</b> Board A (compound words) for the Moon group. Board B for Planet (spaces 1&ndash;13 are VC/CV words with no blends) and Comet (spaces 14&ndash;27 have blends, or consonant pairs that look like blends: bas | ket, dis | cus).</li>
     <li><b>Variations:</b> Partner reading (one partner reads, the other checks with the strip, then switch). Whole-class play: project the board with a document camera and play in two teams.</li>
   </ul>
   <div class="cols2" style="grid-template-columns: 1fr 1.25in; column-gap: .2in; align-items: center">
@@ -977,15 +979,17 @@
   <h3>4. Folding the mini-book (p. 15)</h3>
   <p>Before you start, turn the page sideways so that page 1 (the cover) is right side up in the bottom-right box.</p>
   <ol class="cols-list">
-    <li>Fold the page in half the long way (top edge to bottom edge). Crease and unfold.</li>
+    <li>Fold the page in half the long way with the printing on the outside (fold the top half back, behind the bottom half). Crease and unfold.</li>
     <li>Fold it in half the short way. Crease and unfold.</li>
     <li>Fold both short ends in to meet the middle crease. Crease and unfold. You now see 8 boxes.</li>
     <li>Fold the page in half the short way again. Cut along the cut line from the folded edge to the next crease (the cut goes only across the two middle boxes).</li>
-    <li>Open the page and fold it the long way again. Hold the two ends and push them toward the middle so the cut opens up.</li>
+    <li>Open the page. Fold it the long way again with the printing on the outside, so the cut is along the top fold. Hold the two ends and push them toward the middle so the cut opens up.</li>
     <li>Keep pushing until the pages fold flat into a little book. Turn it so the cover (page 1) is on the front. Crease well.</li>
   </ol>
-  <div class="folds" id="folds"></div>
-  <p><b>No-fold option:</b> Cut the 8 boxes apart, stack the pages in order 1&ndash;8 (page numbers are in the corners), and staple on the left.</p>
+  <div style="display:flex; gap:.2in; align-items:flex-start">
+    <div class="folds" id="folds" style="flex:0 0 4.5in"></div>
+    <p style="margin:.04in 0 0"><b>No-fold option:</b> Cut the 8 boxes apart, stack the pages in order 1&ndash;8 (page numbers are in the corners), and staple on the left.</p>
+  </div>
   <div class="cols2">
     <div>
       <h3>5. Printing tips</h3>
@@ -1177,7 +1181,7 @@ $("#seq").style.tableLayout = "fixed"; $("#seq").innerHTML = `<tr><th style="wid
     [17, "p17", "", "All", "Open-ended", "RF.1.3.e, RF.1.3.b", "none", "p. 23"],
     [18, "p18", "MPC", "Moon, Planet, Comet (by section)", "Quick check + self-assessment", "RF.1.3.d, RF.1.3.e", "none", "p. 23"],
   ];
-  $("#inside").innerHTML = `<tr><th style="width:.36in">Page</th><th>Title</th><th style="width:.62in">Level</th><th style="width:1.12in">Activity</th><th style="width:1.22in">Standards</th><th style="width:1.08in">Prep</th><th style="width:.44in">Key</th></tr>` +
+  $("#inside").innerHTML = `<tr><th style="width:.42in">Page</th><th>Title</th><th style="width:.62in">Level</th><th style="width:1.12in">Activity</th><th style="width:1.22in">Standards</th><th style="width:1.08in">Prep</th><th style="width:.44in">Key</th></tr>` +
     rows.map(([pg, k, ic, lv, act, std, prep, key]) => {
       const t = CONCEPT[k].title + (k === "p18" ? " + My Star Chart" : "");
       const icons = [...ic].map(c => LVs(L[c])).join("");
@@ -1271,7 +1275,7 @@ $$("[data-board]").forEach(sec => {
   const sc = W.map((s, i) => [i + 1, s]).filter(([, s]) => s.includes("|"));
   sec.innerHTML = `
     <div class="title-row"><h1 class="title">${CONCEPT[key].title}</h1>${A ? `<span class="lvls left">${LV("moon")}</span>` : ""}</div>
-    <div class="directions"><b>Directions:</b> Play with 2 to 4 players. Spin with a paper clip and a pencil.</div>
+    <div class="directions"><span class="bdlabel">Board ${sec.dataset.board}</span><b>Directions:</b> Play with 2 to 4 players. Spin with a paper clip and a pencil.</div>
     <div class="board"><svg class="trail" viewBox="0 0 700 600"><polyline points="${pts.join(" ")}" fill="none" stroke="#e6e0fa" stroke-width="22" stroke-linejoin="round"/><polyline points="${pts.join(" ")}" fill="none" stroke="#5b3cc4" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" stroke-linejoin="round"/></svg>${deco}${cells}</div>
     <div class="band">${spinnerSVG()}
       <div class="rules"><ol><li>Spin. Move.</li><li>Split it. Read it. Blast off!</li><li>Does your team agree? Stay.</li><li>Not sure? Check the strip. Wrong? Go back 1.</li><li>Get to the Moon first to win!</li></ol></div>
@@ -1375,11 +1379,11 @@ $("#spin-howto").innerHTML = `<g fill="none" stroke="#1f1a3a" stroke-width="2.2"
   <path d="M60 66 L57 54 H63 Z" fill="#1f1a3a"/><rect x="55" y="4" width="10" height="50" rx="1.5" fill="#fff"/><path d="M55 14 H65"/>
   <path d="M104 40 Q116 66 100 92" stroke-width="2.4"/><path d="M98 84 L100 93 L109 90"/></g>`;
 $("#folds").innerHTML = [
-  `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M10 37 H110" class="f"/><path d="M96 4 Q114 18 100 32"/><path d="M95 26 L100 33 L106 27"/>`,
+  `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M10 37 H110" class="f"/><path d="M60 12 C60 0 92 -2 104 14 C110 24 106 32 100 36" stroke-width="2.4"/><path d="M100 36 L98 27 M100 36 L107 31" stroke-width="2.4"/><path d="M100 36 Q96 40 92 42" stroke-dasharray="2 2"/><text x="20" y="27" font-family="Andika" font-weight="700" font-size="11" fill="#1f1a3a" stroke="none">back</text>`,
   `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M60 10 V64" class="f"/><path d="M104 8 Q90 -2 72 8"/><path d="M78 2 L71 8 L78 13"/>`,
   `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M35 10 V64 M60 10 V64 M85 10 V64 M10 37 H110" class="f"/><path d="M4 70 H28 M116 70 H92 M22 66 L28 70 L22 74 M98 66 L92 70 L98 74"/>`,
   `<rect x="35" y="10" width="50" height="54" rx="2"/><path d="M60 10 V64 M35 37 H85" class="f"/><path d="M35 37 H60" stroke-width="3" stroke-dasharray="5 3"/><use href="#scissors" x="58" y="26" width="22" height="14"/><text x="35" y="74" font-family="Andika" font-size="9" fill="#1f1a3a" stroke="none">folded edge</text>`,
-  `<rect x="10" y="26" width="100" height="26" rx="2"/><path d="M35 26 V52 M85 26 V52" class="f"/><path d="M45 26 L60 10 L75 26 M45 52 L60 68 L75 52"/><path d="M0 39 H8 M120 39 H112 M3 35 L8 39 L3 43 M117 35 L112 39 L117 43"/>`,
+  `<rect x="10" y="30" width="100" height="26" rx="2"/><path d="M35 30 V56 M85 30 V56" class="f"/><path d="M45 30 L60 18 L75 30"/><path d="M0 43 H8 M120 43 H112 M3 39 L8 43 L3 47 M117 39 L112 43 L117 47"/><text x="60" y="12" text-anchor="middle" font-family="Andika" font-weight="700" font-size="10" fill="#1f1a3a" stroke="none">cut on top fold</text>`,
   `<rect x="42" y="8" width="38" height="56" rx="2"/><path d="M42 8 V64" stroke-width="4"/><text x="61" y="44" text-anchor="middle" font-family="Andika" font-weight="700" font-size="20" fill="#1f1a3a" stroke="none">1</text>`,
 ].map((s, i) => `<figure><svg viewBox="0 0 120 76"><g fill="#fff" stroke="#1f1a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${s.replace(/class="f"/g, 'stroke-dasharray="7 3 1.5 3" stroke-width="1.5" fill="none"')}</g></svg>Step ${i + 1}</figure>`).join("");
 

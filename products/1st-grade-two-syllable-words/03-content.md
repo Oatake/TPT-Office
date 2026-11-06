@@ -187,7 +187,7 @@
 - Cut & paste compound words
 - Answer keys included
 
-**Bottom strip (on a turquoise planet arc):** 15 Student Pages [dot] No Prep [dot] Answer Keys
+**Bottom strip (on a turquoise planet arc):** 15 Student Pages [dot] Low Prep [dot] Answer Keys
 > Note (not printed): `[dot]` = SVG dot. Plan suggests the creative director may swap "No Prep" for "Print & Go" because games need a paper clip and pp. 6, 7, 15 need cutting/folding.
 
 ---
@@ -674,6 +674,7 @@ Every clue removes at least 1 word; exactly one word is left after clue 3 in eve
 *(No name line.)*
 
 **Header directions (1 line):** Play with 2 to 4 players. Spin with a paper clip and a pencil.
+**Board label (small pill in the directions box):** Board A
 
 **Board path (27 spaces, serpentine from Earth START at the bottom to Moon FINISH at the top):**
 | Space | Content |
@@ -779,6 +780,7 @@ Every clue removes at least 1 word; exactly one word is left after clue 3 in eve
 *(No name line.)*
 
 **Header directions (1 line):** Play with 2 to 4 players. Spin with a paper clip and a pencil.
+**Board label (small pill in the directions box):** Board B
 
 **Board path (same geometry as p. 12):**
 | Space | Content |
@@ -1141,7 +1143,7 @@ A ________________ is a ________________ that ________________.
 - **Boost and Meteor:** Boost = go ahead 2 spaces. Meteor = go back 1 space. After a Boost or Meteor move, read the word on your new space.
 - **Winning:** The first player to reach the Moon wins. An exact spin is not needed.
 - **Flight Log:** Each player records the words they land on (up to 6), then circles the hardest word. Collect the logs as evidence of learning.
-- **Board A or B?** Board A (compound words) for the Moon group. Board B for Planet (spaces 1–13 are VC/CV words with no blends) and Comet (spaces 14–27 have blends and digraphs).
+- **Board A or B?** Board A (compound words) for the Moon group. Board B for Planet (spaces 1–13 are VC/CV words with no blends) and Comet (spaces 14–27 have blends, or consonant pairs that look like blends: bas | ket, dis | cus).
 - **Variations:** Partner reading (one partner reads, the other checks with the strip, then switch). Whole-class play: project the board with a document camera and play in two teams.
 
 **2. Making the spinner**
@@ -1153,11 +1155,11 @@ Fold the strip under the board along the fold line before play. Players open it 
 
 **4. Folding the mini-book (p. 15)**
 Before you start, turn the page sideways so that page 1 (the cover) is right side up in the bottom-right box.
-1. Fold the page in half the long way (top edge to bottom edge). Crease and unfold.
+1. Fold the page in half the long way with the printing on the outside (fold the top half back, behind the bottom half). Crease and unfold.
 2. Fold it in half the short way. Crease and unfold.
 3. Fold both short ends in to meet the middle crease. Crease and unfold. You now see 8 boxes.
 4. Fold the page in half the short way again. Cut along the cut line from the folded edge to the next crease (the cut goes only across the two middle boxes).
-5. Open the page and fold it the long way again. Hold the two ends and push them toward the middle so the cut opens up.
+5. Open the page. Fold it the long way again with the printing on the outside, so the cut is along the top fold. Hold the two ends and push them toward the middle so the cut opens up.
 6. Keep pushing until the pages fold flat into a little book. Turn it so the cover (page 1) is on the front. Crease well.
 [IMAGE: 6 small line diagrams, one per step]
 **No-fold option:** Cut the 8 boxes apart, stack the pages in order 1–8 (page numbers are in the corners), and staple on the left.

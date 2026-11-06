@@ -183,3 +183,21 @@ WebSearch: **ไม่พบเครื่องหมายการค้า�
 - [MW sundress](https://www.merriam-webster.com/dictionary/sundress) · [MW lapdog](https://merriam-webster.com/dictionary/lapdog) · [MW flatbed](https://www.merriam-webster.com/dictionary/flatbed) · [MW dishrag](https://www.merriam-webster.com/dictionary/dishrag) · [MW dishpan](https://www.merriam-webster.com/dictionary/dishpan) · [OneLook hatbox](https://www.onelook.com/?w=hatbox) (snippet)
 - Tinbot: [markinton TINYBOT](https://markinton.com/trademark/tinybot-88232509) · [Convergência Digital (Tinbot, DB1)](https://convergenciadigital.com.br/?p=9014) · [Rainbow Resource "Tin Bot"](https://www.rainbowresource.com/product/sku/011486)
 - นโยบาย AI ของ TPT: [Chalkbeat 2026-10-15](https://www.chalkbeat.org/2026/10/15/teachers-pay-teachers-to-ban-ai-generated-teaching-resources/) · [EFI](https://www.efinstitute.org/2026/10/teachers-pay-teachers-bans-ai-generated-resources-amid-backlash/) · [Mike Lane](https://mikellane.com/tpt-ai-policy/) · [Spylore](https://www.spylore.com/blog/teachers-pay-teachers-ai-ban-2026) · [Bright Learning](https://brightlearning.ai/articles/teachers-pay-teachers-bans-ai-generated-classroom-resources/)
+
+## Fix Log
+
+> Worksheet Designer agent · 2026-11-06 · Revision 2. Built in this order: full PDF → preview (`--select 1,4,8,10,12,13,15,18`) → thumb-src → thumbnails `--raw`.
+
+| # | Source | Fix | Files |
+|---|---|---|---|
+| 1 | Blocker 1 + appeal R1 | "No Prep" removed everywhere. Cover strip: **15 Student Pages • Low Prep • Answer Keys**. Thumbnail 1 bar: **Low Prep • 2 Board Games • Answer Keys**. Separators are SVG dots. "Just add a paper clip!" on thumbnail 2 is unchanged. `pdftotext` and the HTML sources contain no "No Prep" or "no-prep". | `worksheet.html`, `thumbnails.html`, `03-content.md` |
+| 2 | N7 + appeal R2 | Thumbnail 3 maze line shows only A1 → A2 → A3 as one straight segment inside row A (y = 0.71·H), with no turn, through the cells and not along the gutters. | `thumbnails.html` |
+| 3 | Ligatures | Rebuilt with the global `font-variant-ligatures: none`. Checked at 400 dpi: "tra \| ffic", "traf \| fic", "muffin", "sunfish", "puf\|fin" show separate f's and a dotted i in the PDF and in thumb-src/thumbnails. | outputs |
+| 4 | Blocker 3 | p.19 step 1: "Fold the page in half the long way with the printing on the outside (fold the top half back, behind the bottom half). Crease and unfold." Step 5: "Open the page. Fold it the long way again with the printing on the outside, so the cut is along the top fold. Hold the two ends and push them toward the middle so the cut opens up." The Step 1 diagram has a curved "back" arrow and Step 5 says "cut on top fold". Fold re-checked: the printing stays outside, the top row turns upright on the back face, and the pages read 1–8 in order. | `worksheet.html`, `03-content.md` |
+| 5 | N2, N1 | p.19 Board B: "Comet (spaces 14–27 have blends, or consonant pairs that look like blends: bas \| ket, dis \| cus)". Added "Board A" / "Board B" pills in the board directions boxes (p.12/13); no overflow. | `worksheet.html`, `03-content.md` |
+| 6 | Appeal O1, O2 | Thumbnail 1: "1st Grade" pill enlarged. Thumbnail 2: spinner, clip and pencil about 1.4×, rocket pieces 1.3× on START; no board words covered. | `thumbnails.html` |
+| 7 | N8 | p.3 "Page" column widened. p.19 step labels have more space below them. | `worksheet.html` |
+
+Checks after the fixes: `pdfinfo` 24 pages, Letter 612×792 (preview 8 pages). `pdffonts`: only Andika, Andika-Bold and Baloo2. Overflow script: no page past its footer. I viewed renders of pp. 1, 12, 13, 18, 19 and thumbnails 1–4.
+Not changed in this round (items for the content writer that this request did not cover): N3, N4, N5, N6, N9.
+
