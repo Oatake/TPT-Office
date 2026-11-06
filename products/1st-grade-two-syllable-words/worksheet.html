@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Visual theme: space-lab (approved in 02b-creative-brief.md). Product-only overrides live in the <style> below
+     (html:root beats the theme's :root because the theme CSS is appended last by scripts/build-pdf.mjs).
+     Build:  node scripts/build-pdf.mjs products/1st-grade-two-syllable-words/worksheet.html products/1st-grade-two-syllable-words/output/1st-grade-two-syllable-words.pdf -->
+<meta name="tpt-theme" content="space-lab">
+<title>Two-Syllable Words: Compound Words &amp; Closed Syllables (VC/CV) | Word Rockets</title>
+<style>
+  /* ===== Base template styles (from templates/worksheet-template.html) ===== */
+  :root {
+    --brand-primary: #2f6fdd;
+    --brand-accent: #f5a623;
+    --ink: #222;
+    --muted: #777;
+    --line: #bbb;
+    --font-heading: "Andika", sans-serif;
+    --font-body: "Andika", sans-serif;
+    --store-name: "Your Store Name";
+  }
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-body); color: var(--ink); background: #e9e9e9; }
+  .page {
+    width: 8.5in; height: 11in;
+    padding: 0.55in 0.55in 0.62in;
+    margin: 0 auto 0.25in;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+  }
+  @media print { body { background: #fff; } .page { margin: 0; } }
+  .name-line { display: flex; gap: 0.3in; font-size: 13pt; margin-bottom: 0.08in; }
+  .name-line span { flex: 1; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+  .name-line span.short { flex: 0 0 1.8in; }
+  h1.title { font-family: var(--font-heading); font-size: 25pt; text-align: center; margin: 0; color: var(--brand-primary); }
+  .directions { font-size: 13pt; border-radius: 10px; padding: 0.1in 0.15in; margin-bottom: 0.2in; }
+  .answer-key { color: #c0392b; font-weight: bold; }
+  .footer {
+    position: absolute; left: 0.55in; right: 0.55in; bottom: 0.26in;
+    display: flex; justify-content: space-between; font-size: 9pt; color: var(--muted);
+  }
+  .footer > span { flex: 1; }
+  .footer .std { text-align: center; }
+  .footer .pnum { text-align: right; }
+  .footer .store::before { content: "\00A9  " var(--store-name); }
+  body.preview .page::after {
+    content: "PREVIEW"; position: absolute; top: 45%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 110pt; font-weight: bold; color: rgba(0,0,0,0.08); pointer-events: none; z-index: 50;
+  }
+
+  /* ===== PRODUCT OVERRIDES (Word Rockets) — values from 02b-creative-brief.md ===== */
+  html:root {
+    /* --brand-primary #5b3cc4 (rocket purple) and --brand-accent #12b5b0 (turquoise) come from the theme */
+    --flame-coral: #ff6b7a;   /* the one warm accent: flames, cover badge — decoration only on student pages */
+    --night-sky:   #21174d;   /* thumbnail / cover porthole only */
+    --night-2:     #2f2470;
+    --ink:         #1f1a3a;
+    --thumb-bg:    #21174d;
+    --muted:       #5f5a78;
+    --mid:         #888;      /* primary-line dashed midline (plan: at least #888) */
+    --mint:        #9ee9e4;
+  }
+  /* Andika has no italic file: never synthesize one */
+  em, i, cite { font-style: normal; }
+  /* plan: "Directions:" in purple, not turquoise (turquoise fades in B&W) */
+  html .directions b { color: var(--brand-primary); }
+  html .directions { margin-top: .14in; padding: .17in .16in .08in; line-height: 1.3; margin-bottom: .16in; }
+  h1.title { white-space: nowrap; line-height: 1.12; font-weight: 800; }
+  .title-row { position: relative; }
+  .title-row .lvls { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; gap: .06in; }
+  .title-row .lvls.left { right: auto; left: 0; }
+  svg.lvl { width: .3in; height: .3in; color: var(--ink); display: block; }
+  svg.lvl-sm { width: .22in; height: .22in; color: var(--ink); vertical-align: -.05in; }
+  .flavor { text-align: center; font-size: 12pt; line-height: 1.2; color: var(--brand-primary); margin: .01in 0 0; }
+  .hidden-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .sub-dir { font-size: 13pt; margin: .1in 0 .06in; }
+  .sub-dir b { color: var(--brand-primary); }
+  .hw { color: #55506e; font-weight: 400; }   /* modelled "handwriting" in examples */
+
+  /* ---- Primary handwriting line (grade 1): solid top, dashed middle, solid baseline ---- */
+  .pl { position: relative; height: .6in; border-top: 1.3px solid var(--ink); border-bottom: 2px solid var(--ink); flex: none; }
+  .pl::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.4px dashed var(--mid); }
+  .pl.s55 { height: .55in; }
+  .pl > .hw { position: absolute; left: .1in; bottom: -.02in; font-size: 24pt; line-height: 1; z-index: 1; }
+  .blast { display: flex; align-items: flex-end; gap: .07in; font-size: 12pt; font-weight: 700; }
+  .blast > span { padding-bottom: .02in; white-space: nowrap; }
+
+  /* ---- Pre-dotted vowels: one dot under each vowel (CSS dot, no glyph) ---- */
+  .v { position: relative; }
+  .v::after { content: ""; position: absolute; left: 50%; bottom: .02em; width: .17em; height: .17em; margin-left: -.085em; border-radius: 50%; background: currentColor; }
+  .word { font-weight: 700; font-size: 22pt; line-height: 1.25; white-space: nowrap; }
+
+  /* ---- Docking ships (SVG #3 as a CSS capsule so the text always fits) ---- */
+  .ship { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.4in; height: .6in; border: 2.5px solid var(--ink); border-radius: .3in; font: 700 22pt/1 var(--font-body); background: #fff; flex: none; }
+  .ship.port-r::after, .ship.port-l::before { content: ""; position: absolute; top: 50%; width: .1in; height: .24in; margin-top: -.12in; border: 2.5px solid var(--ink); background: #fff; }
+  .ship.port-r::after { right: -.12in; border-left: none; border-radius: 0 4px 4px 0; }
+  .ship.port-l::before { left: -.12in; border-right: none; border-radius: 4px 0 0 4px; }
+  .ship.long { width: 2.4in; }
+  .ship.write { width: 1.55in; height: .74in; border-radius: .37in; padding: 0 .2in; }
+  .ship.write .pl { width: 100%; height: .5in; }
+  .ship .win { position: absolute; top: .09in; width: .1in; height: .1in; border: 2px solid var(--ink); border-radius: 50%; }
+  .plus { font: 700 20pt/1 var(--font-body); flex: none; }
+
+  /* ---- Rocket stage box (SVG #2): fins + 2 writing stages + nose ---- */
+  .rk { display: flex; align-items: center; }
+  .rk .tail { width: .26in; height: .86in; flex: none; margin: -.1in -2.5px -.1in 0; color: var(--ink); }
+  .rk .nose { width: .4in; height: .66in; flex: none; margin-left: -2.5px; color: var(--ink); }
+  .rk .body { display: grid; grid-template-columns: 1fr 1fr; border: 2.5px solid var(--ink); border-radius: .1in; height: .66in; background: #fff; position: relative; z-index: 1; }
+  .rk .stg { padding: .03in .09in 0; width: 1.45in; }
+  .rk .stg + .stg { border-left: 2.5px dashed var(--ink); }
+  .rk .stg .pl { height: .55in; border-top-width: 1.2px; }
+
+  /* ---- Cut / fold lines (SVG #15): cut = 2px dashed + scissors, fold = 1.5px dot-dash + "fold" ---- */
+  .cutbox { border: 2px dashed var(--ink); }
+  svg.scissors { width: .36in; height: .22in; color: var(--ink); }
+  .foldline { position: relative; height: .2in; margin: .04in 0; }
+  .foldline svg.fl { position: absolute; left: 0; right: 0; top: 50%; width: 100%; height: 4px; margin-top: -2px; }
+  .foldline span { position: relative; z-index: 1; display: block; width: max-content; margin: 0 auto; background: #fff; padding: 0 .12in; font-size: 10pt; font-weight: 700; color: var(--ink); line-height: .2in; }
+
+  /* ---- Teacher pages ---- */
+  .teacher { font-size: 11pt; line-height: 1.24; }
+  .teacher h1.title { margin-bottom: .08in; }
+  .teacher h3 { font-family: var(--font-heading); font-weight: 700; color: var(--brand-primary); font-size: 13pt; margin: .07in 0 .02in; line-height: 1.12; }
+  .teacher p { margin: 0 0 .05in; }
+  .teacher ol { margin: 0 0 .05in; padding-left: .24in; }
+  .teacher ol li { margin-bottom: .02in; }
+  ul.dots { list-style: none; margin: 0 0 .05in; padding: 0; }
+  ul.dots > li { position: relative; padding-left: .2in; margin-bottom: .025in; }
+  ul.dots > li::before { content: ""; position: absolute; left: .05in; top: .55em; width: .07in; height: .07in; margin-top: -.035in; border-radius: 50%; background: var(--brand-primary); }
+  table.t { border-collapse: collapse; width: 100%; font-size: 10.5pt; line-height: 1.22; margin: .03in 0 .06in; }
+  table.t th { background: #efeafc; color: var(--ink); text-align: left; font-weight: 700; padding: .03in .06in; border: 1px solid #b9b2d6; }
+  table.t td { padding: .02in .06in; border: 1px solid #c9c4de; vertical-align: top; }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; column-gap: .3in; }
+  .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: .22in; }
+
+  #inside td:nth-child(5), #inside td:nth-child(7) { white-space: nowrap; }
+  .nowrap td { white-space: nowrap; }
+  /* ---- Answer keys ---- */
+  .key { font-size: 12pt; line-height: 1.3; }
+  .key h1.title { margin-bottom: .1in; }
+  .key h3 { font-family: var(--font-heading); font-weight: 700; color: var(--brand-primary); font-size: 14pt; margin: .1in 0 .04in; line-height: 1.15; border-bottom: 1.5px solid #d6d0ee; padding-bottom: .02in; }
+  .key h3 .lvl-sm { margin-left: .06in; }
+  .kl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: .25in; }
+  .kl li { display: flex; gap: .1in; padding: .02in 0; white-space: nowrap; }
+  .kl li > b:first-child { width: .25in; flex: none; text-align: right; font-weight: 700; }
+  .kl.one { grid-template-columns: 1fr; }
+  .kl.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* =========================== PAGE-SPECIFIC =========================== */
+  /* ---- p.1 Cover ---- */
+  .cover { padding: .55in .6in .5in; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .cv-top { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: .08in; padding-right: .9in; }
+  .wordmark { display: inline-flex; align-items: center; gap: .1in; background: var(--brand-primary); color: #fff; font: 800 16pt/1 var(--font-heading); padding: .07in .22in .05in; border-radius: 999px; letter-spacing: 1px; }
+  .wordmark i { width: 0; height: .26in; border-left: 2.5px dashed var(--brand-accent); }
+  html .cover .badge { font: 800 16pt/1 var(--font-heading); padding: .09in .3in .07in; color: #fff; border-radius: 999px; }
+  html .cover h1 { color: var(--brand-primary); font-family: var(--font-heading); font-size: 53pt; line-height: 1; margin: .2in 0 .04in; white-space: nowrap; }
+  .cv-sub { font: 600 21pt/1.1 var(--font-heading); color: var(--ink); }
+  .porthole { width: 4.75in; height: 4.75in; margin: .14in 0 0; }
+  .tagline { font: 800 27pt/1 var(--font-heading); color: var(--brand-primary); margin-top: .12in; }
+  .tagline span { color: var(--flame-coral); }
+  .cpanel { position: relative; border: 3px solid var(--brand-primary); border-radius: 18px; padding: .22in .3in .1in; margin-top: .26in; width: 6.1in; }
+  .cpanel .tab { position: absolute; top: -.15in; left: 50%; transform: translateX(-50%); background: var(--brand-primary); color: #fff; font: 800 11pt/1 var(--font-heading); letter-spacing: 2px; padding: .06in .22in .04in; border-radius: 6px; }
+  .cpanel ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: .2in; }
+  .cpanel li { display: flex; align-items: center; gap: .1in; font: 700 13pt/1.2 var(--font-body); color: var(--ink); margin-bottom: .07in; text-align: left; }
+  .cpanel li svg { width: .22in; height: .22in; flex: none; }
+  .cpanel li.wide { grid-column: 1 / -1; justify-content: center; }
+  .cv-strip { position: absolute; left: 0; right: 0; bottom: 0; height: 1.05in; }
+  .cv-strip svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cv-strip .txt { position: absolute; left: 0; right: 0; bottom: .33in; display: flex; justify-content: center; align-items: center; gap: .14in; font: 800 16pt/1 var(--font-heading); color: var(--ink); }
+  .cv-strip .txt svg { position: static; width: .12in; height: .12in; }
+
+  /* ---- p.4 Mission Briefing ---- */
+  .banner { margin: .06in auto .1in; text-align: center; font: 800 27pt/1 var(--font-heading); color: var(--brand-primary); }
+  .banner .ul { display: block; width: 3.4in; height: .14in; margin: .02in auto 0; }
+  .route { position: relative; height: 2.05in; margin: .1in 0 .2in; }
+  .route > svg.path { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .rcard { position: absolute; width: 1.68in; border: 2.5px solid var(--brand-primary); border-radius: 14px; background: #fff; padding: .07in .09in .08in; font-size: 12.5pt; line-height: 1.22; text-align: center; }
+  .rcard .num { position: absolute; top: -.15in; left: -.1in; width: .32in; height: .32in; border-radius: 50%; background: var(--brand-primary); color: #fff; font: 800 14pt/.32in var(--font-heading); text-align: center; }
+  .rcard svg.ic { width: 1.1in; height: .55in; display: block; margin: 0 auto .03in; color: var(--ink); }
+  .rcard b { display: block; font-size: 13.5pt; }
+  .wtk { border: 2px solid #cfc7ef; border-radius: 12px; padding: .06in .16in .04in; font-size: 14pt; line-height: 1.35; }
+  .wtk h3, .rockets3 h3 { font: 800 15pt/1.1 var(--font-heading); color: var(--brand-primary); margin: 0 0 .03in; }
+  .wtk p { margin: 0 0 .03in; }
+  .rockets3 { position: relative; margin-top: .2in; }
+  .rockets3 .rrow { margin-bottom: .2in; }
+  .rrow { display: flex; align-items: center; gap: .18in; margin-bottom: .1in; }
+  .rrow .cap { font-size: 14pt; line-height: 1.25; width: 2.1in; }
+  .mrk { display: flex; align-items: center; }
+  .mrk .tail { width: .3in; height: .86in; margin-right: -2.5px; color: var(--ink); }
+  .mrk .nose { width: .42in; height: .62in; margin-left: -2.5px; color: var(--ink); }
+  .mrk .st { height: .62in; border: 2.5px solid var(--ink); border-radius: .1in; display: flex; align-items: center; justify-content: center; font: 700 26pt/1 var(--font-body); padding: 0 .12in .04in; min-width: .95in; background: #fff; }
+  .mrk .gap { width: .26in; height: .9in; position: relative; flex: none; }
+  .mrk .gap::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; border-left: 3px dashed var(--brand-primary); margin-left: -1.5px; }
+  .mrk .gap svg { position: absolute; left: -.06in; top: -.04in; width: .38in; height: .2in; color: var(--brand-primary); }
+  .tinbot-pt { position: absolute; right: -.05in; top: .75in; width: 1.55in; height: 2.1in; color: var(--ink); }
+  .bubble { position: absolute; right: .55in; top: .1in; border: 2.5px solid var(--ink); border-radius: 16px; padding: .05in .14in .06in; background: #fff; font-size: 15pt; line-height: 1.2; text-align: center; }
+  .bubble b { font-size: 20pt; }
+  .bubble::after { content: ""; position: absolute; right: .45in; bottom: -.15in; width: .2in; height: .2in; background: #fff; border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); transform: skewY(-35deg) rotate(30deg); }
+  .vstrip { display: flex; align-items: center; justify-content: center; gap: .16in; margin-top: .08in; font: 800 17pt/1 var(--font-heading); color: var(--brand-primary); }
+  .vstrip .vc { width: .6in; height: .6in; border: 2.5px solid var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 700 26pt/1 var(--font-body); color: var(--ink); padding-bottom: .05in; }
+
+  /* ---- p.5 Docking Words ---- */
+  .exstrip { display: flex; align-items: center; gap: .12in; border: 2px dashed #b8afe0; border-radius: 12px; padding: .08in .14in; margin-bottom: .14in; }
+  .exstrip .lab { font: 800 12pt/1 var(--font-heading); color: var(--brand-primary); letter-spacing: 1px; writing-mode: vertical-rl; transform: rotate(180deg); }
+  .exstrip .ship { width: 1.15in; height: .52in; font-size: 18pt; }
+  .exstrip .blast .pl { width: 1.65in; height: .52in; }
+  .exstrip .blast .pl .hw { font-size: 20pt; }
+  svg.arrow { width: .45in; height: .3in; color: var(--brand-primary); flex: none; }
+  .dock6 { display: grid; grid-template-columns: 1fr 1fr; column-gap: .16in; row-gap: .22in; }
+  .ditem .r1 { display: flex; align-items: center; gap: .12in; }
+  .dock6 .ship { width: 1.27in; }
+  .ditem .r1 .n, .n { font: 700 14pt/1 var(--font-body); width: .3in; flex: none; }
+  .ditem .blast { margin: .08in 0 0 .1in; }
+  .ditem .blast .pl { width: 2.72in; }
+  .dock2 { display: grid; grid-template-columns: 1fr 1fr; column-gap: .3in; }
+  .ditem .r2 { display: flex; align-items: center; gap: .1in; margin: .1in 0 0 .1in; }
+  .ditem .ship.write { width: 1.45in; }
+
+  /* ---- p.6 Docking Station ---- */
+  .dsgrid { display: grid; grid-template-columns: 1fr 1fr; column-gap: .25in; row-gap: .1in; }
+  .dsitem .r1 { display: flex; align-items: center; gap: 0; }
+  .dsitem .r1 .ship { margin-right: .02in; }
+  .dport { width: 1.6in; height: .8in; border: 2px dashed #777; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #8a86a0; font-size: 10pt; flex: none; margin-left: .1in; }
+  .dsitem .pl { width: 3.0in; margin: .05in 0 0 .3in; }
+  .cutstrip { margin-top: .12in; }
+  .cuthead { display: flex; align-items: center; gap: .08in; margin-bottom: -.11in; position: relative; z-index: 1; padding-left: .1in; }
+  .cuthead svg.scissors { background: #fff; }
+  .pieces { display: grid; margin: 0 auto; border: 2px dashed var(--ink); }
+  .pieces > div { border-right: 2px dashed var(--ink); border-bottom: 2px dashed var(--ink); display: flex; align-items: center; justify-content: center; font: 700 22pt/1 var(--font-body); }
+  .pieces.p6 { grid-template-columns: repeat(4, 1.4in); grid-auto-rows: .6in; width: max-content; }
+  .pieces.p6 > div:nth-child(4n), .pieces.p7 > div:nth-child(4n) { border-right: none; }
+  .pieces.p6 > div:nth-child(n+5) { border-bottom: none; }
+  .pieces.p7 { grid-template-columns: repeat(4, 1.6in); grid-auto-rows: .55in; width: max-content; }
+  .pieces.p7 > div:nth-child(n+9) { border-bottom: none; }
+
+  /* ---- p.7 Engine Count ---- */
+  .mat { display: grid; grid-template-columns: 1fr 1fr; column-gap: .3in; }
+  .mat-h { border: 2.5px solid var(--brand-primary); border-radius: 12px; display: flex; align-items: center; gap: .1in; padding: .04in .12in; height: .72in; font: 700 14pt/1.15 var(--font-body); color: var(--ink); margin-bottom: .08in; }
+  .mat-h svg { width: .42in; height: .62in; flex: none; color: var(--ink); }
+  .glue { width: 1.85in; height: .72in; border: 2px dashed #777; border-radius: 8px; margin: 0 auto .07in; display: flex; align-items: center; justify-content: center; color: #8a86a0; font-size: 10pt; }
+
+  /* ---- p.8 / p.9 / p.18 Split the Stages ---- */
+  .sgrid { display: grid; grid-template-columns: 1fr 1fr; column-gap: .2in; row-gap: .08in; }
+  .sitem { display: flex; flex-direction: column; }
+  .sitem .wr { display: flex; align-items: baseline; gap: .06in; height: .43in; padding-left: .02in; }
+  .sitem .wr .word { line-height: 1; }
+  .sitem .rk { margin: .02in 0 0 0; }
+  .sitem .blast { margin: .05in 0 0 .12in; }
+  .sitem .blast .pl { width: 2.7in; }
+  .tip { display: flex; align-items: center; gap: .12in; border: 2px solid #cfc7ef; border-radius: 12px; padding: .03in .16in; margin: -.04in 0 .1in; font-size: 14pt; }
+  .tip svg { width: .32in; height: .42in; color: var(--ink); flex: none; }
+  .tip b { font-size: 16pt; }
+
+  /* ---- p.10 Asteroid maze ---- */
+  .rule-line { text-align: center; font-size: 12pt; margin: -.08in 0 .06in; }
+  .maze-wrap { position: relative; width: 7.8in; margin: .28in -.2in 0; }
+  .maze { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 1.3in; }
+  .mc { position: relative; display: flex; align-items: center; justify-content: center; }
+  .mc > svg { position: absolute; inset: .02in; width: calc(100% - .04in); height: calc(100% - .04in); color: var(--ink); }
+  .mc .sw { position: relative; font: 700 20pt/1 var(--font-body); display: flex; align-items: center; white-space: nowrap; }
+  .sw i { display: inline-block; width: 0; height: .34in; border-left: 2.5px solid var(--ink); margin: 0 .035in; }
+  .maze-tag { position: absolute; display: flex; align-items: center; gap: .06in; font: 800 13pt/1 var(--font-heading); color: var(--brand-primary); background: #fff; border: 2.5px solid var(--brand-primary); border-radius: 999px; padding: .03in .14in .02in .06in; z-index: 2; }
+  .maze-tag svg { width: .5in; height: .3in; color: var(--ink); }
+  .maze-tag.start { left: .05in; top: -.24in; }
+  .maze-tag.home { right: .05in; bottom: -.27in; padding: .03in .06in .02in .14in; }
+
+  /* ---- p.11 Mystery Cargo ---- */
+  .cargo { border: 2.5px solid var(--brand-primary); border-radius: 12px; padding: .06in .12in .08in; margin-bottom: .14in; }
+  .cargo .h { font: 800 14pt/1 var(--font-heading); color: var(--brand-primary); margin-bottom: .05in; display: flex; align-items: center; gap: .08in; }
+  .cargo .h svg { width: .3in; height: .3in; color: var(--brand-primary); }
+  .cargo .ws { display: grid; grid-template-columns: repeat(4, 1fr); gap: .06in .1in; }
+  .cargo .ws div { border: 1.5px solid #9d97b8; border-radius: 8px; text-align: center; font: 700 20pt/1 var(--font-body); padding: .07in 0 .1in; }
+  .crates { display: grid; grid-template-columns: 1fr 1fr; gap: .16in .2in; }
+  .crate { border: 2.5px solid var(--ink); border-radius: 12px; padding: .08in .14in .1in; display: flex; flex-direction: column; }
+  .crate .h { display: flex; align-items: center; gap: .1in; font: 800 16pt/1 var(--font-heading); color: var(--brand-primary); margin-bottom: .04in; }
+  .crate .h svg { width: .5in; height: .5in; color: var(--ink); }
+  .crate ol { margin: 0; padding-left: .3in; font-size: 16pt; line-height: 1.38; flex: 1; }
+  .crate ol li { margin-bottom: .02in; }
+  .crate .ans { display: flex; align-items: flex-end; gap: .1in; font: 700 15pt/1 var(--font-body); margin-top: .06in; }
+  .crate .ans .pl { flex: 1; }
+
+  /* ---- p.12 / p.13 Race to the Moon ---- */
+  .board-page { padding: .4in .4in .5in; }
+  .board-page .footer { left: .4in; right: .4in; bottom: .2in; }
+  .board-page h1.title { font-size: 23pt; }
+  .board-page .directions { margin: .13in 0 .08in; padding: .14in .14in .05in; font-size: 13pt; }
+  .board { position: relative; width: 7.0in; height: 6.0in; margin: 0 auto; }
+  .board > svg.trail { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bc { position: absolute; width: 1.36in; height: .62in; border: 2.5px solid var(--brand-primary); border-radius: 12px; background: #fff; display: flex; align-items: center; justify-content: center; font: 700 20pt/1 var(--font-body); color: var(--ink); }
+  .bc .no { position: absolute; top: .03in; left: .06in; font: 700 8pt/1 var(--font-body); color: var(--muted); }
+  .bc.sp { gap: .05in; justify-content: flex-start; padding-left: .08in; }
+  .bc.sp svg { width: .42in; height: .42in; flex: none; color: var(--ink); }
+  .bc.sp .t { font: 800 12pt/1 var(--font-heading); color: var(--ink); letter-spacing: .5px; }
+  .bc.sp .t small { display: block; font: 700 10pt/1.1 var(--font-body); letter-spacing: 0; margin-top: .02in; }
+  .bc.end { border-width: 3px; border-radius: 30px; flex-direction: column; justify-content: center; gap: 0; }
+  .bc.end svg { width: .4in; height: .4in; color: var(--ink); }
+  .bc.end .t { font: 800 11pt/1 var(--font-heading); color: var(--brand-primary); letter-spacing: 1px; }
+  .bc .tag { position: absolute; top: -.13in; right: -.07in; background: #fff; border-radius: 50%; padding: .015in; }
+  .bc .tag svg { width: .24in; height: .24in; display: block; }
+  .bdeco { position: absolute; color: var(--brand-primary); }
+  .band { display: flex; align-items: stretch; gap: .14in; margin-top: .1in; }
+  .band .spin { width: 1.4in; height: 1.4in; flex: none; }
+  .rules { flex: 1; border: 2px solid var(--ink); border-radius: 12px; padding: .05in .14in; font-size: 12pt; line-height: 1.32; }
+  .rules h4, .bkey h4 { margin: 0 0 .02in; font: 800 12pt/1.1 var(--font-heading); color: var(--brand-primary); letter-spacing: .5px; }
+  .rules ol { margin: 0; padding-left: .22in; }
+  .bkey { width: 2.2in; flex: none; border: 2px solid var(--ink); border-radius: 12px; padding: .05in .1in; font-size: 11.5pt; }
+  .bkey div { display: flex; align-items: center; gap: .06in; margin: .04in 0; line-height: 1.15; }
+  .bkey svg { width: .4in; height: .4in; flex: none; color: var(--ink); }
+  .splitcheck { margin-top: .02in; }
+  .splitcheck .h { font: 800 11pt/1 var(--font-heading); color: var(--brand-primary); letter-spacing: .5px; margin-bottom: .03in; }
+  .splitcheck .g { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1px solid #aaa; border-left: 1px solid #aaa; }
+  .splitcheck .g div { font-size: 12pt; line-height: 1; padding: .045in .06in; border-right: 1px solid #aaa; border-bottom: 1px solid #aaa; white-space: nowrap; }
+  .splitcheck .g div b { display: inline-block; width: .25in; color: var(--muted); font-size: 10pt; }
+
+  /* ---- p.14 Flight Log ---- */
+  .boardpick { display: flex; justify-content: flex-end; align-items: center; gap: .16in; font-size: 13pt; margin: -.02in 0 .02in; }
+  .boardpick b { font-size: 16pt; padding: 0 .06in; }
+  .boardpick small { font-size: 11pt; color: var(--muted); }
+  table.flog { width: 100%; border-collapse: collapse; }
+  table.flog th { font: 700 13pt/1.1 var(--font-body); color: var(--ink); background: #efeafc; border: 1.5px solid var(--ink); padding: .04in; }
+  table.flog td { border: 1.5px solid var(--ink); height: .72in; padding: .06in .1in .04in; vertical-align: bottom; }
+  table.flog td.n { width: .4in; text-align: center; vertical-align: middle; font: 700 14pt/1 var(--font-body); padding: 0; }
+  table.flog td .pl { height: .55in; }
+  table.flog tr.ex td { height: .5in; color: #55506e; font-size: 16pt; vertical-align: middle; padding: .02in .1in; }
+  table.flog tr.ex td.n { font-size: 10pt; color: var(--muted); }
+  .after { display: flex; flex-direction: column; gap: .02in; margin-top: .1in; font-size: 15pt; }
+  .after .best { display: flex; align-items: flex-end; gap: .1in; }
+  .after .best .pl { width: 3.6in; }
+  .pieces-row { display: flex; justify-content: center; gap: .5in; margin-top: .06in; align-items: center; }
+  .gp { width: 1.0in; height: 1.3in; border: 2px dashed var(--ink); position: relative; }
+  .gp svg { position: absolute; inset: .06in; width: calc(100% - .12in); height: calc(100% - .12in); color: var(--ink); }
+
+  /* ---- p.15 Mini-book ---- */
+  .mb-page { padding: 0; }
+  html .mb-page::before { display: none; }
+  .mb-sheet { position: absolute; inset: 0; }
+  .mb-sheet > svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+  .mbp { position: absolute; width: 2.75in; height: 4.25in; display: flex; flex-direction: column; align-items: center; text-align: center; font-size: 17pt; line-height: 1.4; }
+  
+  .mbp .art { width: 2.2in; height: 2.15in; color: var(--ink); flex: none; }
+  .mbp .txt { margin-top: .08in; padding: 0 .02in; }
+  .mbp .pg { position: absolute; bottom: .06in; font: 700 10pt/1 var(--font-body); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 50%; width: .26in; height: .26in; display: flex; align-items: center; justify-content: center; }
+  .mbp .say { display: inline-block; border: 2px solid var(--ink); border-radius: 14px; padding: .02in .12in .04in; font-size: 16pt; line-height: 1.25; margin-top: .04in; }
+  .mbp.cover1 .bt { font: 700 23pt/1.05 var(--font-body); margin-top: .04in; }
+  .mbp.cover1 .kind { font: 800 10pt/1 var(--font-heading); color: var(--brand-primary); letter-spacing: 1.5px; text-transform: uppercase; }
+  .mbp.cover1 .subt { font-size: 10.5pt; line-height: 1.1; color: var(--brand-primary); margin-top: .03in; }
+  .mbp.cover1 .by { display: flex; align-items: flex-end; gap: .06in; font-size: 14pt; width: 2.1in; margin-top: .02in; }
+  .mbp.cover1 .by .pl { flex: 1; height: .45in; }
+  .mbp.cover1 .dir { font-size: 11pt; line-height: 1.2; margin-top: .05in; border: 1.5px solid var(--brand-primary); border-radius: 8px; padding: .03in .08in; }
+  .mbp.back h4 { margin: .04in 0 .06in; font: 800 16pt/1 var(--font-heading); color: var(--brand-primary); }
+  .mbp.back ul { list-style: none; margin: 0; padding: 0; text-align: left; }
+  .mbp.back li { display: flex; align-items: center; gap: .1in; font: 700 17pt/1 var(--font-body); height: .36in; }
+  .mbp.back li svg { width: .3in; height: .3in; color: var(--ink); }
+  .mbp.back .mbfoot { position: absolute; bottom: .62in; left: 0; right: 0; font-size: 7.5pt; line-height: 1.2; color: var(--muted); }
+
+  /* ---- p.16 Countdown ---- */
+  .launch { border: 2px solid #cfc7ef; border-radius: 14px; padding: .07in .16in .1in; margin-bottom: .13in; }
+  .launch .lh { display: flex; align-items: center; justify-content: space-between; margin-bottom: .05in; }
+  .launch .lh h3 { margin: 0; font: 800 16pt/1 var(--font-heading); color: var(--brand-primary); }
+  .launch .lh .sd { font-size: 12.5pt; color: var(--ink); margin-left: .15in; flex: 1; }
+  .cd { display: flex; gap: .08in; }
+  .cd span { width: .36in; height: .36in; border: 2px solid var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 700 13pt/1 var(--font-body); }
+  .wl { display: grid; grid-template-columns: repeat(4, 1fr); row-gap: .1in; }
+  .wl div { font: 700 22pt/1.2 var(--font-body); white-space: nowrap; }
+  .wl div small { font: 700 12pt/1 var(--font-body); margin-right: .05in; vertical-align: .04in; }
+  .rl { margin: 0; padding-left: .32in; font-size: 18pt; line-height: 1.55; }
+  .readto { display: flex; align-items: flex-end; gap: .1in; font: 700 16pt/1 var(--font-body); margin-top: .1in; }
+  .readto .pl { width: 3.4in; }
+
+  /* ---- p.17 Invent-a-Word Lab ---- */
+  .tray { border: 2.5px solid var(--brand-primary); border-radius: 14px; padding: .06in .14in .1in; margin-bottom: .1in; }
+  .tray .h { font: 800 14pt/1 var(--font-heading); color: var(--brand-primary); margin-bottom: .06in; display: flex; align-items: center; gap: .08in; }
+  .tray .h svg { width: .3in; height: .36in; color: var(--brand-primary); }
+  .tray .g { display: grid; grid-template-columns: repeat(6, 1fr); gap: .07in .1in; }
+  .tray .g div { border: 1.5px solid #9d97b8; border-radius: 8px; text-align: center; font: 700 22pt/1 var(--font-body); padding: .06in 0 .09in; }
+  .part h3 { margin: .06in 0 0; font: 800 16pt/1 var(--font-heading); color: var(--brand-primary); }
+  .part .sub-dir { margin: .03in 0 .04in; }
+  .eqrow { display: flex; align-items: flex-end; gap: .1in; font: 700 20pt/1 var(--font-body); margin-bottom: .1in; }
+  .eqrow .n { padding-bottom: .06in; }
+  .eqrow > span { padding-bottom: .04in; }
+  .silly { display: grid; grid-template-columns: 3.5in 1fr; column-gap: .25in; align-items: start; }
+  .drawbox { width: 3.5in; height: 2.3in; border: 2.5px solid var(--ink); border-radius: 12px; position: relative; }
+  .drawbox svg { position: absolute; right: .06in; bottom: .06in; width: .75in; height: 1in; color: var(--ink); }
+  .sentence { display: flex; align-items: flex-end; gap: .08in; font: 400 16pt/1 var(--font-body); margin-top: .08in; }
+  .sentence > span { padding-bottom: .06in; white-space: nowrap; }
+
+  /* ---- p.18 Mission Check ---- */
+  .sec { border: 2px solid #cfc7ef; border-radius: 14px; padding: .03in .06in .04in .1in; margin-bottom: .06in; }
+  .sec .cols2 { column-gap: .1in !important; }
+  .sec .sitem .blast { margin-left: 0; }
+  .sec .sh { display: flex; align-items: center; gap: .08in; font-size: 12.5pt; line-height: 1.2; margin-bottom: .03in; }
+  .sec .sh svg.lvl { width: .3in; height: .3in; flex: none; }
+  .sec .sh b { color: var(--brand-primary); }
+  .choice { display: flex; align-items: center; gap: .14in; font: 700 22pt/1 var(--font-body); }
+  .choice .opt { font-size: 20pt; padding: .04in .1in; white-space: nowrap; }
+  .choice .sh { white-space: nowrap; }
+  .choice .opt.num { font-size: 22pt; padding: .04in .14in; }
+  .stars { display: flex; gap: .1in; }
+  .stars svg { width: .4in; height: .4in; color: var(--ink); }
+  .starchart { border: 2.5px solid var(--brand-primary); border-radius: 14px; padding: .05in .16in .06in; }
+  .starchart h3 { margin: 0 0 .02in; font: 800 15pt/1 var(--font-heading); color: var(--brand-primary); display: flex; justify-content: space-between; align-items: baseline; }
+  .starchart h3 small { font: 400 12pt/1 var(--font-body); color: var(--ink); }
+  .starchart .row { display: flex; align-items: center; justify-content: space-between; font-size: 14pt; height: .4in; border-top: 1px solid #e2def2; }
+
+  /* ---- p.19 Prep Guide diagrams ---- */
+  .folds { display: grid; grid-template-columns: repeat(6, 1fr); gap: .08in; margin: .04in 0 .04in; }
+  .folds figure { margin: 0; text-align: center; font: 700 10pt/1 var(--font-body); }
+  .cols-list { columns: 2; column-gap: .3in; }
+  .cols-list li { break-inside: avoid; }
+  #inside { table-layout: fixed; }
+  .std-t td:first-child { width: 2.62in; }
+  #inside svg.lvl-sm { width: .18in; height: .18in; }
+  .std-t { font-size: 10pt; }
+  .std-t th { background: #efeafc; }
+  .teacher .t { line-height: 1.16; }
+  .page.teacher { padding-top: .48in; }
+  .p19 { line-height: 1.2; }
+  .p19 h3 { margin-top: .04in; }
+  .p19 ul.dots > li { margin-bottom: 0; }
+  .p19 .folds { margin: 0; }
+  .folds svg { width: 100%; height: .32in; color: var(--ink); display: block; }
+
+  /* ---- Answer-key maze mini ---- */
+  .mz-mini { position: relative; width: 4.5in; --ast-fill: none; }
+  .mz-mini .maze { grid-auto-rows: .72in; position: relative; z-index: 1; }
+  .mz-mini .mc .sw { font-size: 9.5pt; }
+  .mz-mini .sw i { height: .16in; border-left-width: 1.5px; margin: 0 .03in; }
+  .mz-mini .mc.ok .sw { color: #c0392b; }
+  .mz-mini > svg.route { position: absolute; left: 0; top: 0; width: 4.5in; height: 3.6in; z-index: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- =====================================================================================
+     CONCEPT ART — every concept SVG lives in this ONE hidden defs block (original artwork drawn
+     for this product; reused with <use href="#id">). thumbnails.html carries a verbatim copy.
+     Line art: stroke = currentColor (ink on student pages), fills default to white.
+     Colors on the cover/thumbnails come in through CSS variables (--rk-fin, --tb-fill, ...).
+     ===================================================================================== -->
+<svg class="hidden-defs" aria-hidden="true">
+<defs>
+  <!-- #7 Level marks: Moon / Planet / Comet (line only) -->
+  <symbol id="lvl-moon" viewBox="0 0 40 40"><path d="M18.02 6.03 A15 15 0 1 0 33.64 24.25 A12 12 0 0 1 18.02 6.03 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></symbol>
+  <symbol id="lvl-planet" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><g transform="rotate(-20 20 20)"><ellipse cx="20" cy="20" rx="18" ry="5.5"/></g><circle cx="20" cy="20" r="9.5" fill="#fff"/><g transform="rotate(-20 20 20)"><path d="M2 20 A18 5.5 0 0 0 38 20"/></g></g></symbol>
+  <symbol id="lvl-comet" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="28" cy="12" r="7"/><path d="M22.5 16.5 Q13 24 4.5 35.5"/><path d="M21.5 11 Q12 13 4 20"/><path d="M27.5 19 Q25 28 17 36.5"/></g></symbol>
+
+  <!-- #11 Star (outline) -->
+  <symbol id="star" viewBox="0 0 40 40"><path d="M20 3.5 L24.9 14.2 L36.6 15.5 L27.9 23.4 L30.3 35 L20 29.1 L9.7 35 L12.1 23.4 L3.4 15.5 L15.1 14.2 Z" fill="var(--star-fill,none)" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <symbol id="sparkle" viewBox="-10 -10 20 20"><path d="M0 -10 Q1.6 -1.6 10 0 Q1.6 1.6 0 10 Q-1.6 1.6 -10 0 Q-1.6 -1.6 0 -10Z" fill="currentColor"/></symbol>
+
+  <!-- #12 Control-panel button (cover / thumbnails only) -->
+  <symbol id="btn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#12b5b0"/><circle cx="12" cy="12" r="4.2" fill="#fff"/></symbol>
+  <symbol id="dot" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="currentColor"/></symbol>
+
+  <!-- #2 Rocket stage box parts: tail fins (left) and nose cone (right) -->
+  <symbol id="rk-tail" viewBox="0 0 30 90"><g fill="#fff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M31 13 L12 3 Q5 0.5 5.5 7.5 L9 29 H31"/><path d="M31 77 L12 87 Q5 89.5 5.5 82.5 L9 61 H31"/><path d="M31 36 L17 31 V59 L31 54"/></g></symbol>
+  <symbol id="rk-nose" viewBox="0 0 46 66"><g fill="#fff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M0 1.25 H8 C28 1.25 42 20 44.5 33 C42 46 28 64.75 8 64.75 H0"/><circle cx="17" cy="33" r="7.5"/></g></symbol>
+
+  <!-- #1 Two-stage rocket (cover / thumbnails). Text is added separately so the words can change. -->
+  <symbol id="rk2-back" viewBox="0 0 200 140" overflow="visible"><g stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M100 32 L58 3 Q46 -3 38 6 L46 32 Z" fill="var(--rk-fin,#fff)"/>
+    <path d="M100 108 L58 137 Q46 143 38 134 L46 108 Z" fill="var(--rk-fin,#fff)"/>
+    <path d="M42 50 L22 42 V98 L42 90 Z" fill="var(--rk-nozzle,#fff)"/>
+    <rect x="40" y="28" width="158" height="84" rx="16" fill="var(--rk-body,#fff)"/></g></symbol>
+  <symbol id="rk2-front" viewBox="0 0 240 140" overflow="visible"><g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+    <path d="M118 28 H140 C190 28 222 52 236 70 C222 88 190 112 140 112 H118 Z" fill="var(--rk-nose,#fff)"/>
+    <rect x="2" y="28" width="150" height="84" rx="16" fill="var(--rk-body,#fff)"/>
+    <path d="M136 30 V110" fill="none" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/></g></symbol>
+  <symbol id="rk2-flame" viewBox="0 0 120 80"><path d="M118 40 C92 8 52 6 2 40 C52 74 92 72 118 40 Z" fill="var(--flame-coral,#ff6b7a)" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M116 40 C98 26 74 24 44 40 C74 56 98 54 116 40 Z" fill="#fff"/></symbol>
+
+  <!-- small two-stage rocket icons for the routine cards -->
+  <symbol id="mini-rk" viewBox="0 0 110 50"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M22 13 L10 4 Q5 2 5 7 L8 16"/><path d="M22 37 L10 46 Q5 48 5 43 L8 34"/>
+    <rect x="12" y="11" width="78" height="28" rx="6"/><path d="M84 11 C98 11 106 20 108 25 C106 30 98 39 84 39 Z"/></g></symbol>
+  <symbol id="mini-rk-split" viewBox="0 0 110 50"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M20 13 L9 4 Q4 2 4 7 L7 16"/><path d="M20 37 L9 46 Q4 48 4 43 L7 34"/>
+    <rect x="10" y="11" width="37" height="28" rx="6"/><rect x="58" y="11" width="30" height="28" rx="6"/><path d="M84 11 C98 11 106 20 108 25 C106 30 98 39 84 39 Z"/>
+    <path d="M52.5 3 V47" stroke-dasharray="4 3.5" fill="none"/></g></symbol>
+
+  <!-- #3 Docking ship (capsule + docking port), cover / thumbnails -->
+  <symbol id="ship" viewBox="0 0 150 64" overflow="visible"><g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+    <rect x="132" y="20" width="15" height="24" rx="3" fill="var(--ship-port,#fff)"/><rect x="4" y="4" width="130" height="56" rx="28" fill="var(--ship-body,#fff)"/></g></symbol>
+
+  <!-- #4 Tinbot (original geometric robot): wave / point / peek / back / sit -->
+  <symbol id="tb-wave" viewBox="0 0 100 140"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/><path d="M58 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/>
+    <rect x="30" y="128" width="19" height="8" rx="4"/><rect x="51" y="128" width="19" height="8" rx="4"/>
+    <path d="M33 71 L21 88" fill="none"/><circle cx="19" cy="91" r="5"/>
+    <path d="M67 71 L80 54" fill="none"/><circle cx="82" cy="50" r="5"/>
+    <path d="M89 37 q6 5 3 12 M95 31 q9 8 5 19" fill="none" stroke-width="2.5"/>
+    <rect x="44" y="57" width="12" height="9" rx="2"/>
+    <path d="M30 64 H70 L65 106 H35 Z"/>
+    <rect x="40" y="73" width="20" height="22" rx="3" fill="var(--tb-panel,#fff)"/><path d="M50 73 V95" fill="none"/>
+    <line x1="50" y1="25" x2="50" y2="12"/><circle cx="50" cy="9" r="4.5" fill="var(--tb-accent,#fff)"/>
+    <circle cx="24" cy="41" r="3.2"/><circle cx="76" cy="41" r="3.2"/>
+    <rect x="26" y="24" width="48" height="35" rx="11"/>
+    <circle cx="40" cy="39" r="3.6" fill="currentColor" stroke="none"/><circle cx="60" cy="39" r="3.6" fill="currentColor" stroke="none"/>
+    <path d="M42 48 Q50 54 58 48" fill="none"/></g></symbol>
+  <symbol id="tb-point" viewBox="0 0 100 140"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/><path d="M58 106 l-6 4 l12 4 l-12 4 l12 4 l-6 4" fill="none"/>
+    <rect x="30" y="128" width="19" height="8" rx="4"/><rect x="51" y="128" width="19" height="8" rx="4"/>
+    <path d="M67 71 L79 88" fill="none"/><circle cx="81" cy="91" r="5"/>
+    <path d="M33 72 L12 66" fill="none"/><circle cx="8.5" cy="65" r="5"/><path d="M4 64 H-1" fill="none" stroke-width="3"/>
+    <rect x="44" y="57" width="12" height="9" rx="2"/>
+    <path d="M30 64 H70 L65 106 H35 Z"/>
+    <rect x="40" y="73" width="20" height="22" rx="3" fill="var(--tb-panel,#fff)"/><path d="M50 73 V95" fill="none"/>
+    <line x1="50" y1="25" x2="50" y2="12"/><circle cx="50" cy="9" r="4.5" fill="var(--tb-accent,#fff)"/>
+    <circle cx="24" cy="41" r="3.2"/><circle cx="76" cy="41" r="3.2"/>
+    <rect x="26" y="24" width="48" height="35" rx="11"/>
+    <circle cx="38" cy="39" r="3.6" fill="currentColor" stroke="none"/><circle cx="58" cy="39" r="3.6" fill="currentColor" stroke="none"/>
+    <path d="M40 48 Q48 54 56 48" fill="none"/></g></symbol>
+  <symbol id="tb-peek" viewBox="0 0 70 62"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="35" y1="16" x2="35" y2="5"/><circle cx="35" cy="4" r="3.8" fill="var(--tb-accent,#fff)"/>
+    <circle cx="9.5" cy="32" r="3"/><circle cx="60.5" cy="32" r="3"/>
+    <rect x="12" y="15" width="46" height="34" rx="11"/>
+    <circle cx="26" cy="30" r="3.5" fill="currentColor" stroke="none"/><circle cx="44" cy="30" r="3.5" fill="currentColor" stroke="none"/>
+    <path d="M27 39 Q35 45 43 39" fill="none"/></g></symbol>
+  <symbol id="tb-back" viewBox="0 0 100 112"><g fill="var(--tb-fill,#fff)" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 70 L16 86" fill="none"/><circle cx="14" cy="89" r="5"/>
+    <path d="M70 70 L86 84" fill="none"/><circle cx="88" cy="87" r="5"/>
+    <rect x="44" y="55" width="12" height="9" rx="2"/>
+    <path d="M30 62 H70 L66 104 H34 Z"/><rect x="42" y="72" width="16" height="16" rx="3"/><circle cx="50" cy="80" r="2.5" fill="currentColor" stroke="none"/>
+    <line x1="50" y1="22" x2="50" y2="10"/><circle cx="50" cy="7" r="4.5" fill="var(--tb-accent,#fff)"/>
+    <circle cx="24" cy="39" r="3.2"/><circle cx="76" cy="39" r="3.2"/>
+    <rect x="26" y="21" width="48" height="35" rx="11"/></g></symbol>
+
+  <!-- Zigzag the robot cat (mini-book) -->
+  <symbol id="zz-cat" viewBox="0 0 122 100"><g fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 52 L17 45 L28 37 L15 29 L26 21" fill="none"/>
+    <path d="M40 70 l-4 4 l8 4 l-8 4 l4 4 M54 70 l-4 4 l8 4 l-8 4 l4 4 M70 70 l-4 4 l8 4 l-8 4 l4 4 M82 70 l-4 4 l8 4 l-8 4 l4 4" fill="none"/>
+    <rect x="28" y="40" width="58" height="31" rx="11"/>
+    <path d="M77 19 L80 4 L91 16 Z"/><path d="M95 16 L106 4 L108 19 Z"/>
+    <rect x="74" y="15" width="36" height="30" rx="7"/>
+    <circle cx="86" cy="29" r="2.6" fill="currentColor" stroke="none"/><circle cx="99" cy="29" r="2.6" fill="currentColor" stroke="none"/>
+    <path d="M90.5 35 h5 l-2.5 3 z" fill="currentColor"/>
+    <path d="M81 37 L70 35 M81 41 L70 43 M105 37 L117 35 M105 41 L117 43" fill="none" stroke-width="2.2"/></g></symbol>
+  <symbol id="zz-sleep" viewBox="0 0 130 78"><g fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="56" cy="52" rx="42" ry="20"/>
+    <path d="M84 34 L88 21 L97 32 Z"/><path d="M100 32 L110 21 L112 35 Z"/>
+    <rect x="80" y="31" width="34" height="27" rx="7"/>
+    <path d="M86 44 q4 3 8 0 M100 44 q4 3 8 0" fill="none"/>
+    <path d="M18 62 L30 70 L42 62 L54 70 L66 62 L78 70" fill="none"/>
+    <path d="M100 18 h7 l-7 7 h7 M112 6 h9 l-9 9 h9" fill="none" stroke-width="2.6"/></g></symbol>
+
+  <!-- picnic props -->
+  <symbol id="basket" viewBox="0 0 100 82"><g fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 40 C22 6 78 6 78 40" fill="none"/>
+    <path d="M30 40 L40 27 L60 31 L66 40" /><path d="M36 34 L58 35 M44 28 L42 40 M53 30 L53 40" fill="none" stroke-width="2"/>
+    <path d="M8 40 H92 L82 78 H18 Z"/><path d="M11 52 H89 M14 65 H86" fill="none" stroke-width="2.2"/>
+    <path d="M32 40 L34 78 M50 40 V78 M68 40 L66 78" fill="none" stroke-width="2.2"/></g></symbol>
+  <symbol id="muffin" viewBox="0 0 50 48"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 24 H39 L35 44 H15 Z"/><path d="M19 25 L20 43 M25 25 V43 M31 25 L30 43" fill="none" stroke-width="2"/>
+    <path d="M7 25 C4 12 16 4 25 7 C34 3 47 12 43 25 Z"/><circle cx="19" cy="15" r="1.6" fill="currentColor" stroke="none"/><circle cx="30" cy="13" r="1.6" fill="currentColor" stroke="none"/><circle cx="34" cy="20" r="1.6" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="napkin" viewBox="0 0 50 40"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M4 34 H46 L36 6 H14 Z"/><path d="M14 6 L25 34 L36 6" fill="none" stroke-width="2"/></g></symbol>
+  <symbol id="sun" viewBox="0 0 50 50"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="25" cy="25" r="10"/><path d="M25 3 V9 M25 41 V47 M3 25 H9 M41 25 H47 M9.4 9.4 L13.6 13.6 M36.4 36.4 L40.6 40.6 M9.4 40.6 L13.6 36.4 M36.4 13.6 L40.6 9.4" fill="none"/></g></symbol>
+  <symbol id="crescent" viewBox="0 0 40 40"><path d="M18.02 6.03 A15 15 0 1 0 33.64 24.25 A12 12 0 0 1 18.02 6.03 Z" fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <!-- upright rocket: parked rocket in scenes + cut-out game piece -->
+  <symbol id="rk-up" viewBox="0 0 60 100"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M17 62 L5 78 V88 L17 82 Z"/><path d="M43 62 L55 78 V88 L43 82 Z"/>
+    <path d="M22 84 L19 94 H41 L38 84"/>
+    <path d="M30 3 C44 14 46 30 46 46 V84 H14 V46 C14 30 16 14 30 3 Z"/>
+    <path d="M14 56 H46" fill="none" stroke-dasharray="3 3"/>
+    <circle cx="30" cy="35" r="8"/></g></symbol>
+
+  <!-- p.7 engine icons: 1 vowel sound = 1 engine, 2 vowel sounds = 2 engines -->
+  <symbol id="engine1" viewBox="0 0 42 62"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M9 34 L2 46 V50 L9 46 Z"/><path d="M33 34 L40 46 V50 L33 46 Z"/>
+    <path d="M21 2 C31 10 33 22 33 34 V44 H9 V34 C9 22 11 10 21 2 Z"/><circle cx="21" cy="21" r="5"/>
+    <path d="M15 44 L13 52 H29 L27 44"/><path d="M21 54 Q16 58 21 61 Q26 58 21 54 Z"/></g></symbol>
+  <symbol id="engine2" viewBox="0 0 42 62"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M9 34 L2 46 V50 L9 46 Z"/><path d="M33 34 L40 46 V50 L33 46 Z"/>
+    <path d="M21 2 C31 10 33 22 33 34 V44 H9 V34 C9 22 11 10 21 2 Z"/><circle cx="21" cy="21" r="5"/>
+    <path d="M10.5 44 L9 52 H19 L18.5 44"/><path d="M23.5 44 L23 52 H33 L31.5 44"/>
+    <path d="M14 54 Q10 58 14 61 Q18 58 14 54 Z"/><path d="M28 54 Q24 58 28 61 Q32 58 28 54 Z"/></g></symbol>
+
+  <!-- #8 board pieces: Earth, Moon, Boost, Meteor -->
+  <symbol id="earth" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="20" cy="20" r="16" fill="#fff"/>
+    <path d="M9 13 Q14 8 20 12 Q22 17 16 19 Q12 21 9 18"/><path d="M22 24 Q29 20 33 25 Q30 32 24 31 Q21 28 22 24"/><path d="M27 9 Q30 11 31 14"/></g></symbol>
+  <symbol id="moon" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="20" cy="20" r="16" fill="#fff"/><circle cx="14" cy="15" r="4"/><circle cx="25" cy="25" r="5"/><circle cx="27" cy="12" r="2.4"/><circle cx="12" cy="27" r="2"/></g></symbol>
+  <symbol id="boost" viewBox="0 0 40 40"><g fill="#fff" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <g transform="rotate(45 22 18)"><path d="M17 26 L11 33 V36 L17 33 Z"/><path d="M27 26 L33 33 V36 L27 33 Z"/><path d="M22 3 C29 9 30 17 30 24 V32 H14 V24 C14 17 15 9 22 3 Z"/><circle cx="22" cy="16" r="3.5"/></g>
+    <path d="M4 29 L10 23 M6 36 L14 28 M13 37 L17 33" fill="none"/></g></symbol>
+  <symbol id="meteor" viewBox="0 0 40 40"><g fill="#fff" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M3 6 L15 16 M2 15 L13 22 M10 3 L19 13" fill="none"/>
+    <path d="M18 16 Q24 11 31 14 Q38 17 37 25 Q37 34 28 36 Q19 37 16 30 Q13 22 18 16 Z"/><circle cx="25" cy="22" r="3"/><circle cx="31" cy="29" r="1.8"/></g></symbol>
+
+  <!-- #9 Asteroid tiles (4 shapes) + Home Base dock -->
+  <symbol id="ast1" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M10 38 Q12 16 34 12 L62 6 Q80 3 98 8 L124 12 Q143 18 144 42 L145 84 Q145 106 124 115 L94 124 Q70 128 46 122 L22 114 Q4 104 4 80 Z"/><circle cx="25" cy="30" r="5"/><circle cx="127" cy="106" r="5.5"/><circle cx="131" cy="29" r="3"/></g></symbol>
+  <symbol id="ast2" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M4 60 Q4 28 26 16 Q44 6 70 8 L104 5 Q134 6 142 28 Q146 50 145 76 Q144 106 118 118 Q90 128 62 124 Q30 125 14 108 Q3 90 4 60 Z"/><circle cx="21" cy="101" r="4.5"/><circle cx="128" cy="24" r="5"/><circle cx="135" cy="98" r="3"/></g></symbol>
+  <symbol id="ast3" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M12 30 Q20 9 46 9 L78 11 Q96 4 118 10 Q143 20 144 48 L145 86 Q142 113 114 121 L80 122 Q58 128 36 121 Q8 113 5 88 L4 56 Q5 40 12 30 Z"/><circle cx="26" cy="24" r="4"/><circle cx="119" cy="111" r="4.5"/><circle cx="18" cy="105" r="2.6"/></g></symbol>
+  <symbol id="ast4" viewBox="0 0 148 130" preserveAspectRatio="none"><g fill="var(--ast-fill,#fff)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M5 50 Q10 20 36 14 Q50 5 74 8 Q100 3 122 12 Q145 26 144 56 Q146 84 134 104 Q118 124 86 122 Q62 128 40 121 Q12 115 5 92 Q2 70 5 50 Z"/><circle cx="125" cy="28" r="4"/><circle cx="23" cy="107" r="5"/><circle cx="34" cy="22" r="2.6"/></g></symbol>
+  <symbol id="ship-tb" viewBox="0 0 60 36"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M8 10 L2 4 M8 26 L2 32" fill="none"/><path d="M14 6 H40 C50 6 57 13 58 18 C57 23 50 30 40 30 H14 Q8 30 8 24 V12 Q8 6 14 6 Z"/><circle cx="40" cy="18" r="7"/>
+    <circle cx="38" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="43" cy="16" r="1.3" fill="currentColor" stroke="none"/><path d="M38 20.5 Q40.5 22.5 43 20.5" fill="none" stroke-width="1.6"/></g></symbol>
+  <symbol id="homebase" viewBox="0 0 60 36"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M6 30 H54"/><path d="M12 30 V18 Q12 8 30 8 Q48 8 48 18 V30"/><path d="M24 30 V21 H36 V30"/><path d="M30 8 V2"/><path d="M30 2 H38 L35 5 L38 8 H30" /></g></symbol>
+
+  <!-- #10 Cargo crate with a drawn "?" (path, not a glyph) -->
+  <symbol id="crate" viewBox="0 0 50 50"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="4" y="5" width="42" height="40" rx="3"/><path d="M4 13 H46 M4 37 H46" fill="none"/><path d="M8 13 L42 37 M42 13 L8 37" fill="none" stroke-width="2"/>
+    <rect x="15" y="16" width="20" height="18" rx="2.5"/>
+    <path d="M21.2 22 Q21.2 19 25 19 Q28.8 19 28.8 22.2 Q28.8 24.4 25 25.4 V27.6" fill="none" stroke-width="2.2"/><circle cx="25" cy="31" r="1.3" fill="currentColor" stroke="none"/></g></symbol>
+
+  <!-- #15 scissors -->
+  <symbol id="scissors" viewBox="0 0 64 40"><g fill="#fff" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="30" r="7"/><path d="M16 13 L62 27 M16 27 L62 13" fill="none"/><circle cx="37" cy="20" r="1.6" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="arrow" viewBox="0 0 45 30"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15 H39"/><path d="M28 6 L40 15 L28 24"/></g></symbol>
+  <symbol id="flask" viewBox="0 0 30 40"><g fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M11 3 H19 M12 3 V15 L4 33 Q3 37 7 37 H23 Q27 37 26 33 L18 15 V3"/><path d="M8 26 H22" fill="none"/></g></symbol>
+  <symbol id="magnifier" viewBox="0 0 110 55"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="50" cy="24" r="19" fill="#fff"/><path d="M64 38 L80 52" stroke-width="6"/></g>
+    <text x="50" y="31" text-anchor="middle" font-family="Andika" font-weight="700" font-size="26" fill="currentColor">a</text><circle cx="50" cy="38" r="2.6" fill="currentColor"/></symbol>
+  <symbol id="soundmark" viewBox="0 0 14 20"><path d="M3 3 Q11 10 3 17 M8 1 Q16 10 8 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <!-- BIG WORDS series wordmark is HTML (.wordmark); fold line pattern for lines -->
+</defs>
+</svg>
+
+
+<!-- ============================== p.1 COVER ============================== -->
+<section class="page cover">
+  <div class="cv-top"><span class="wordmark">BIG<i></i>WORDS</span><span class="badge">1st Grade</span></div>
+  <h1>Two-Syllable Words</h1>
+  <div class="cv-sub">Compound Words &amp; Closed Syllables (VC/CV)</div>
+  <svg class="porthole" viewBox="0 0 440 440" id="porthole"></svg>
+  <div class="tagline">Split It! Read It! <span>Blast Off!</span></div>
+  <div class="cpanel"><div class="tab">INSIDE</div>
+    <ul>
+      <li><svg><use href="#btn"/></svg>2 Race to the Moon board games</li>
+      <li><svg><use href="#btn"/></svg>Asteroid maze &amp; mystery riddles</li>
+      <li><svg><use href="#btn"/></svg>Fold-and-read mini-book</li>
+      <li><svg><use href="#btn"/></svg>Cut &amp; paste compound words</li>
+      <li class="wide"><svg><use href="#btn"/></svg>Answer keys included</li>
+    </ul>
+  </div>
+  <div class="cv-strip">
+    <svg viewBox="0 0 816 100" preserveAspectRatio="none"><path d="M-10 110 V52 Q408 -18 826 52 V110 Z" fill="#d6f3f1" stroke="#12b5b0" stroke-width="4"/></svg>
+    <div class="txt"><span><span class="js-npages">15</span> Student Pages</span><svg><use href="#dot"/></svg>No Prep<svg><use href="#dot"/></svg>Answer Keys</div>
+  </div>
+</section>
+
+<!-- ============================== p.2 TEACHER GUIDE ============================== -->
+<section class="page teacher">
+  <h1 class="title">Teacher Guide</h1>
+  <div class="cols2">
+    <div>
+      <h3>The big idea</h3>
+      <p>In Word Rockets, every two-syllable word is a two-stage rocket: students find where it splits, read each stage, and then &ldquo;blast off&rdquo; by reading the whole word.</p>
+    </div>
+    <div>
+      <h3>Oral warm-up (1&ndash;2 minutes before any page)</h3>
+      <p>Say a word and clap each part: sun-set (2 claps), cat (1 clap), nap-kin (2 claps), splash (1 clap), mit-ten (2 claps). Ask: &ldquo;How many parts did you hear?&rdquo; Then show the printed word and find the vowels together.</p>
+    </div>
+  </div>
+  <div class="cols2">
+    <div>
+      <h3>The routine (use it on every page)</h3>
+      <ol>
+        <li><b>Find the vowels.</b> Put a dot under each vowel.</li>
+        <li><b>Split it.</b> Draw one line where the word splits.</li>
+        <li><b>Read each part.</b></li>
+        <li><b>Blast off! Read the whole word.</b> Make it sound like a real word.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Marking convention</h3>
+      <p>One dot under every vowel and one vertical line at the split. In print, the split is shown with a line and a space on each side: <b>nap | kin</b>.</p>
+    </div>
+  </div>
+
+  <h3>Suggested sequence (9 days, 15&ndash;20 minutes a day)</h3>
+  <table class="t" id="seq"></table>
+  <h3>Phonics notes for teachers</h3>
+  <ol class="cols-list" style="column-gap:.3in">
+    <li><b>One vowel letter, one vowel sound.</b> Every word in this resource is made of closed syllables, so each vowel letter stands for one short vowel sound. Later, students will meet words like cake and rain, where two vowel letters make one sound, so keep the language &ldquo;every syllable has one vowel <b>sound</b>.&rdquo;</li>
+    <li><b>The second syllable may sound lighter.</b> In natural speech, kit | ten sounds more like &ldquo;kit-n.&rdquo; That is why step 4 says &ldquo;Make it sound like a real word.&rdquo; Students read each part with a short vowel, then adjust to the word they know.</li>
+    <li><b>Why there is no rocket, planet, comet, robot, or lemon.</b> These words do not follow the closed-syllable VC/CV pattern. Robot splits after the vowel (ro | bot, an open syllable), planet and lemon split after the consonant (plan | et, lem | on), and rocket has the digraph ck, which never splits. These are the next patterns to teach, so they appear only in the pictures and in teacher text.</li>
+    <li><b>2nd grade review.</b> Use the Comet pages (9, 10, 13 spaces 14&ndash;27) and the Mission Check as a quick screener. On pages 11 and 17, ask students how the meanings of the two small words help them predict the meaning of a compound word (CCSS L.2.4.d).</li>
+  </ol>
+</section>
+
+<!-- ============================== p.3 WHAT'S INSIDE & STANDARDS ============================== -->
+<section class="page teacher">
+  <h1 class="title">What&rsquo;s Inside &amp; Standards</h1>
+  <table class="t" id="inside" style="font-size:9.5pt"></table>
+  <h3>Level icons: what the moon, planet, and comet mean <span style="font: 400 10.5pt var(--font-body); color: var(--ink)">(students never see the words &ldquo;easy&rdquo; or &ldquo;hard&rdquo;)</span></h3>
+  <table class="t">
+    <tr><th style="width:.4in">Icon</th><th style="width:.95in">Level</th><th style="width:1.75in">Who it is for</th><th>Words</th></tr>
+    <tr><td><svg class="lvl"><use href="#lvl-moon"/></svg></td><td><b>Level 1: Moon</b></td><td>Students who are just starting, intervention groups, multilingual learners</td><td>Compound words made of two closed one-syllable words; counting 1 or 2 syllables. Examples on the page, word banks, and the first items have the vowels already dotted. You may read directions aloud.</td></tr>
+    <tr><td><svg class="lvl"><use href="#lvl-planet"/></svg></td><td><b>Level 2: Planet</b></td><td>Most of the class (on level)</td><td>Basic VC/CV words: twin consonants (kit | ten) and two different consonants with no blends (nap | kin).</td></tr>
+    <tr><td><svg class="lvl"><use href="#lvl-comet"/></svg></td><td><b>Level 3: Comet</b></td><td>Students who are ready, or 2nd grade review</td><td>VC/CV words with a blend or digraph inside a syllable (bas | ket, trum | pet, pub | lish). No vowels are dotted for students.</td></tr>
+  </table>
+  <p style="margin:.07in 0 0"><b style="color:var(--brand-primary)">Teacher pages:</b> p. 2 Teacher Guide; p. 19 Teacher Prep Guide: Games &amp; Mini-Book; pp. 20&ndash;23 Answer Keys; p. 24 Terms of Use &amp; Credits</p>
+  <h3>Common Core State Standards</h3>
+  <table class="t std-t" style="table-layout:fixed">
+    <tr><td><b>CCSS.ELA-LITERACY.RF.1.3</b></td><td>Know and apply grade-level phonics and word analysis skills in decoding words.</td></tr>
+    <tr><td><b>CCSS.ELA-LITERACY.RF.1.3.E (primary)</b></td><td>Decode two-syllable words following basic patterns by breaking the words into syllables.</td></tr>
+    <tr><td><b>CCSS.ELA-LITERACY.RF.1.3.D</b></td><td>Use knowledge that every syllable must have a vowel sound to determine the number of syllables in a printed word.</td></tr>
+    <tr><th colspan="2">Supporting standards</th></tr>
+    <tr><td><b>CCSS.ELA-LITERACY.RF.1.3.B</b></td><td>Decode regularly spelled one-syllable words.</td></tr>
+    <tr><td><b>CCSS.ELA-LITERACY.RF.1.4.B</b></td><td>Read grade-level text orally with accuracy, appropriate rate, and expression on successive readings.</td></tr>
+  </table>
+</section>
+
+<!-- ============================== p.4 MISSION BRIEFING ============================== -->
+<section class="page" data-std="RF.1.3.d, RF.1.3.e">
+  <div class="title-row"><h1 class="title" data-title="p4"></h1></div>
+  <div class="banner">Split It! Read It! Blast Off!
+    <svg class="ul" viewBox="0 0 340 14" preserveAspectRatio="none"><path d="M4 9 Q85 1 170 7 T336 5" fill="none" stroke="#ff6b7a" stroke-width="4" stroke-linecap="round"/></svg></div>
+  <div class="route">
+    <svg class="path" viewBox="0 0 740 205" preserveAspectRatio="none"><path d="M40 196 C220 186 470 150 728 18" fill="none" stroke="#5b3cc4" stroke-width="3" stroke-dasharray="9 8" stroke-linecap="round"/></svg>
+    <div class="rcard" style="left:0; top:.76in"><span class="num">1</span><svg class="ic"><use href="#magnifier"/></svg><b>Find the vowels.</b></div>
+    <div class="rcard" style="left:1.9in; top:.52in"><span class="num">2</span><svg class="ic"><use href="#mini-rk-split"/></svg><b>Split it.</b></div>
+    <div class="rcard" style="left:3.8in; top:.27in"><span class="num">3</span><svg class="ic" viewBox="0 0 110 55"><use href="#mini-rk-split" y="5" width="110" height="50"/><use href="#soundmark" x="24" y="0" width="10" height="14" transform="rotate(-90 29 7)"/><use href="#soundmark" x="69" y="0" width="10" height="14" transform="rotate(-90 74 7)"/></svg><b>Read each part.</b></div>
+    <div class="rcard" style="left:5.7in; top:0"><span class="num">4</span><svg class="ic" viewBox="0 0 110 55"><use href="#rk2-flame" x="0" y="20" width="26" height="18" style="--flame-coral:#fff"/><use href="#mini-rk" x="16" y="4" width="94" height="44"/></svg><b>Blast off!</b>Read the whole word. Make it sound like a real word.</div>
+  </div>
+  <div class="wtk">
+    <h3>Words to know</h3>
+    <p>A <b>syllable</b> is a word part with one vowel sound.</p>
+    <p>A <b>compound word</b> is two small words put together.</p>
+    <p>A <b>closed syllable</b> ends with a consonant. The vowel is short.</p>
+  </div>
+  <div class="rockets3" id="rockets3">
+    <div class="bubble"><b>tin | bot</b><br>That is me!</div>
+    <svg class="tinbot-pt"><use href="#tb-point"/></svg>
+  </div>
+  <div class="vstrip">Vowels: <span class="vc">a</span><span class="vc">e</span><span class="vc">i</span><span class="vc">o</span><span class="vc">u</span></div>
+</section>
+
+<!-- ============================== p.5 DOCKING WORDS ============================== -->
+<section class="page" data-std="RF.1.3.e, RF.1.3.b">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p5"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-moon"/></svg></span></div>
+  <div class="flavor" data-flavor="p5"></div>
+  <div class="directions"><b>Directions:</b> Read the two small words. Dock them. Write the big word.</div>
+  <div class="exstrip">
+    <span class="lab">EXAMPLE</span>
+    <span class="ship port-r">hand</span><span class="plus">+</span><span class="ship port-l">bag</span>
+    <svg class="arrow"><use href="#arrow"/></svg>
+    <div class="blast"><span>Blast off:</span><div class="pl"><span class="hw">handbag</span></div></div>
+  </div>
+  <div class="dock6" id="dock6"></div>
+  <div class="sub-dir"><b>7&ndash;8.</b> Split the big word. Write the two small words.</div>
+  <div class="dock2" id="dock2"></div>
+</section>
+
+<!-- ============================== p.6 DOCKING STATION ============================== -->
+<section class="page" data-std="RF.1.3.e, RF.1.3.b">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p6"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-moon"/></svg></span></div>
+  <div class="flavor" data-flavor="p6"></div>
+  <div class="directions"><b>Directions:</b> Cut out the word parts. Glue each one to make a real word. Write the word.</div>
+  <div class="dsgrid" id="dsgrid"></div>
+  <div class="cutstrip">
+    <div class="cuthead"><svg class="scissors"><use href="#scissors"/></svg></div>
+    <div class="pieces p6" id="pieces6"></div>
+  </div>
+</section>
+
+<!-- ============================== p.7 ENGINE COUNT ============================== -->
+<section class="page" data-std="RF.1.3.d, RF.1.3.b">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p7"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-moon"/></svg></span></div>
+  <div class="flavor" data-flavor="p7"></div>
+  <div class="directions"><b>Directions:</b> Cut out the cards. Dot the vowels and count them. Glue each card in the right engine.</div>
+  <div class="mat">
+    <div><div class="mat-h"><svg><use href="#engine1"/></svg><span>1 vowel sound =<br>1 syllable</span></div><div class="glues"></div></div>
+    <div><div class="mat-h"><svg><use href="#engine2"/></svg><span>2 vowel sounds =<br>2 syllables</span></div><div class="glues"></div></div>
+  </div>
+  <div class="cutstrip">
+    <div class="cuthead"><svg class="scissors"><use href="#scissors"/></svg></div>
+    <div class="pieces p7" id="pieces7"></div>
+  </div>
+</section>
+
+<!-- ============================== p.8 SPLIT THE STAGES 1 ============================== -->
+<section class="page" data-std="RF.1.3.e, RF.1.3.d">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p8"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-planet"/></svg></span></div>
+  <div class="flavor" data-flavor="p8"></div>
+  <div class="directions"><b>Directions:</b> Dot the vowels. Split the word between the two consonants. Write each stage, then blast off: write the whole word.</div>
+  <div class="sgrid" data-stages="mitten*,happen*,possum,sudden,magnet,cactus,velvet,tidbit"></div>
+</section>
+
+<!-- ============================== p.9 SPLIT THE STAGES 2 ============================== -->
+<section class="page" data-std="RF.1.3.e, RF.1.3.d">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p9"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-comet"/></svg></span></div>
+  <div class="flavor" data-flavor="p9"></div>
+  <div class="directions"><b>Directions:</b> Dot the vowels. Split the word between the two consonants. Write each stage, then blast off: write the whole word.</div>
+  <div class="tip"><svg viewBox="0 0 100 140"><use href="#tb-point" width="100" height="140"/></svg><span><b>bas | ket:</b> s and k are in different stages.</span></div>
+  <div class="sgrid" data-stages="trumpet,insect,plastic,goblet,mascot,publish,chipmunk,splendid"></div>
+</section>
+
+<!-- ============================== p.10 ASTEROID MAZE ============================== -->
+<section class="page" data-std="RF.1.3.e">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p10"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-planet"/></svg><svg class="lvl"><use href="#lvl-comet"/></svg></span></div>
+  <div class="flavor" data-flavor="p10"></div>
+  <div class="directions"><b>Directions:</b> Help Tinbot fly home. Move only on words split the right way.</div>
+  <div class="rule-line">Move up, down, left, or right. No slanted moves.</div>
+  <div class="maze-wrap" id="maze-big">
+    <div class="maze-tag start"><svg><use href="#ship-tb"/></svg>START</div>
+    <div class="maze"></div>
+    <div class="maze-tag home">Home Base<svg><use href="#homebase"/></svg></div>
+  </div>
+</section>
+
+<!-- ============================== p.11 MYSTERY CARGO ============================== -->
+<section class="page" data-std="RF.1.3.e">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p11"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-planet"/></svg></span></div>
+  <div class="flavor" data-flavor="p11"></div>
+  <div class="directions"><b>Directions:</b> Read the clues. Find the word in the Cargo List. Write it and split it.</div>
+  <div class="cargo"><div class="h"><svg><use href="#crate"/></svg>Cargo List</div>
+    <div class="ws"><div>muffin</div><div>lipstick</div><div>sunfish</div><div>hidden</div><div>drumstick</div><div>sundress</div><div>hiccup</div><div>dentist</div></div></div>
+  <div class="crates">
+    <div class="crate"><div class="h"><svg><use href="#crate"/></svg>Crate 1</div><ol><li>I am a compound word.</li><li>I end with stick.</li><li>You can tap a drum with me.</li></ol><div class="ans"><span>I am:</span><div class="pl"></div></div></div>
+    <div class="crate"><div class="h"><svg><use href="#crate"/></svg>Crate 2</div><ol><li>I am not a compound word.</li><li>I have the vowels e and i.</li><li>I can check if you brush.</li></ol><div class="ans"><span>I am:</span><div class="pl"></div></div></div>
+    <div class="crate"><div class="h"><svg><use href="#crate"/></svg>Crate 3</div><ol><li>I am a compound word.</li><li>I have sun in me.</li><li>I can swim.</li></ol><div class="ans"><span>I am:</span><div class="pl"></div></div></div>
+    <div class="crate"><div class="h"><svg><use href="#crate"/></svg>Crate 4</div><ol><li>I have twin consonants.</li><li>I have the vowels i and u.</li><li>You can get me if you gulp milk fast.</li></ol><div class="ans"><span>I am:</span><div class="pl"></div></div></div>
+  </div>
+</section>
+
+<!-- ============================== p.12 / p.13 RACE TO THE MOON (built by script) ============================== -->
+<section class="page board-page" data-std="RF.1.3.e, RF.1.3.b" data-board="A"></section>
+<section class="page board-page" data-std="RF.1.3.e" data-board="B"></section>
+
+<!-- ============================== p.14 FLIGHT LOG ============================== -->
+<section class="page" data-std="RF.1.3.e">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="boardpick">Board: <b>A</b> <b>B</b> <small>(circle one)</small></div>
+  <div class="title-row"><h1 class="title" data-title="p14"></h1></div>
+  <div class="flavor" data-flavor="p14"></div>
+  <div class="directions"><b>Directions:</b> Write each word you land on. Split it into two stages.</div>
+  <table class="flog" id="flog">
+    <tr><th>#</th><th>stage 1</th><th>stage 2</th><th>Blast off! (whole word)</th></tr>
+    <tr class="ex"><td class="n">Example</td><td>sun</td><td>set</td><td>sunset</td></tr>
+  </table>
+  <div class="after">
+    <div>Circle your hardest word.</div>
+    <div class="best"><span>My best word was</span><div class="pl"></div><span>.</span></div>
+  </div>
+  <div class="pieces-row">
+    <svg class="scissors"><use href="#scissors"/></svg>
+    <div class="gp"><svg viewBox="0 0 88 118"><use href="#rk-up" x="14" y="2" width="60" height="86"/><path d="M4 96 H84" stroke="#1f1a3a" stroke-width="1.5" stroke-dasharray="8 3 2 3" fill="none"/><text x="44" y="112" text-anchor="middle" font-family="Andika" font-size="10" font-weight="700" fill="#1f1a3a">fold</text><path d="M30 40 l4 6 M38 40 l4 6" stroke="#1f1a3a" stroke-width="2" /></svg></div>
+    <div class="gp"><svg viewBox="0 0 88 118"><use href="#rk-up" x="14" y="2" width="60" height="86"/><path d="M4 96 H84" stroke="#1f1a3a" stroke-width="1.5" stroke-dasharray="8 3 2 3" fill="none"/><text x="44" y="112" text-anchor="middle" font-family="Andika" font-size="10" font-weight="700" fill="#1f1a3a">fold</text><circle cx="35" cy="43" r="2" fill="#1f1a3a"/><circle cx="44" cy="43" r="2" fill="#1f1a3a"/><circle cx="53" cy="43" r="2" fill="#1f1a3a"/></svg></div>
+  </div>
+</section>
+
+<!-- ============================== p.15 MINI-BOOK (built by script) ============================== -->
+<section class="page mb-page" data-std="RF.1.3.e, RF.1.4.b" id="minibook"></section>
+
+<!-- ============================== p.16 COUNTDOWN READING ============================== -->
+<section class="page" data-std="RF.1.4.b, RF.1.3.e">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p16"></h1><span class="lvls"><svg class="lvl"><use href="#lvl-planet"/></svg></span></div>
+  <div class="flavor" data-flavor="p16"></div>
+  <div class="directions"><b>Directions:</b> Read each launch three times. Color a circle each time.</div>
+  <div class="launch">
+    <div class="lh"><h3>Word Launch</h3><span class="sd">Split each word. Then read it.</span><div class="cd"><span>3</span><span>2</span><span>1</span></div></div>
+    <div class="wl"><div><small>1.</small>catfish</div><div><small>2.</small>possum</div><div><small>3.</small>webcam</div><div><small>4.</small>nugget</div><div><small>5.</small>dentist</div>
+      <div><small>6.</small>wombat</div><div><small>7.</small>potluck</div><div><small>8.</small>tidbit</div><div><small>9.</small>trumpet</div><div><small>10.</small>goblet</div></div>
+  </div>
+  <div class="launch">
+    <div class="lh"><h3>Phrase Launch</h3><div class="cd"><span>3</span><span>2</span><span>1</span></div></div>
+    <ol class="rl"><li>a muffin on a napkin</li><li>a chipmunk in the sandbox</li><li>a plastic bathtub</li><li>ten insects on a cactus</li><li>a bobcat on the hilltop</li></ol>
+  </div>
+  <div class="launch">
+    <div class="lh"><h3>Sentence Launch</h3><div class="cd"><span>3</span><span>2</span><span>1</span></div></div>
+    <ol class="rl"><li>The kitten naps in a hatbox.</li><li>Tinbot can zigzag up a big hill.</li><li>Pack a basket with gumdrops for the picnic.</li></ol>
+  </div>
+  <div class="readto"><span>Blast off! I read to</span><div class="pl"></div><span>.</span></div>
+</section>
+
+<!-- ============================== p.17 INVENT-A-WORD LAB ============================== -->
+<section class="page" data-std="RF.1.3.e, RF.1.3.b">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p17"></h1></div>
+  <div class="flavor" data-flavor="p17"></div>
+  <div class="tray" style="margin-top:.16in"><div class="h"><svg><use href="#flask"/></svg>Word Bank</div>
+    <div class="g"><div>sun</div><div>fish</div><div>bed</div><div>bug</div><div>hat</div><div>box</div><div>pig</div><div>pen</div><div>jet</div><div>cup</div><div>mud</div><div>nut</div></div></div>
+  <div class="part">
+    <h3>Part 1: Real Words</h3>
+    <div class="sub-dir"><b>Directions:</b> Make 2 real compound words from the bank. Split each one.</div>
+    <div class="eqrow"><span class="n">1.</span><div class="pl" style="width:1.3in"></div><span>|</span><div class="pl" style="width:1.3in"></div><span>=</span><div class="pl" style="flex:1"></div></div>
+    <div class="eqrow"><span class="n">2.</span><div class="pl" style="width:1.3in"></div><span>|</span><div class="pl" style="width:1.3in"></div><span>=</span><div class="pl" style="flex:1"></div></div>
+  </div>
+  <div class="part">
+    <h3>Part 2: Silly Word</h3>
+    <div class="sub-dir"><b>Directions:</b> Make a silly new word. Draw it. Finish the sentence.</div>
+    <div class="silly">
+      <div class="drawbox"><svg viewBox="0 0 100 140"><use href="#tb-wave" width="100" height="140"/><use href="#flask" x="70" y="22" width="24" height="32"/></svg></div>
+      <div>
+        <div style="font: 700 16pt/1 var(--font-body); margin: .1in 0 .04in">My silly word:</div>
+        <div class="eqrow"><div class="pl" style="width:1.45in"></div><span>|</span><div class="pl" style="width:1.45in"></div></div>
+      </div>
+    </div>
+    <div class="sentence"><span>A</span><div class="pl" style="width:2.55in"></div><span>is a</span><div class="pl" style="flex:1"></div></div>
+    <div class="sentence"><span>that</span><div class="pl" style="flex:1"></div><span>.</span></div>
+  </div>
+</section>
+
+<!-- ============================== p.18 MISSION CHECK ============================== -->
+<section class="page" data-std="RF.1.3.d, RF.1.3.e">
+  <div class="name-line"><span>Name:</span><span class="short">Date:</span></div>
+  <div class="title-row"><h1 class="title" data-title="p18"></h1></div>
+  <div class="sec" style="margin-top:.12in">
+    <div class="cols2" style="column-gap:.2in">
+      <div>
+        <div class="sh"><svg class="lvl"><use href="#lvl-moon"/></svg><span><b>Dot the vowels.</b> How many syllables? Circle 1 or 2.</span></div>
+        <div class="choice" style="margin:.12in 0 .1in"><span class="n">1.</span><span style="width:1.3in">stump</span><span class="opt num">1</span><span class="opt num">2</span></div>
+        <div class="choice"><span class="n">2.</span><span style="width:1.3in">cobweb</span><span class="opt num">1</span><span class="opt num">2</span></div>
+      </div>
+      <div>
+        <div class="sh"><svg class="lvl"><use href="#lvl-moon"/></svg><span><b>Split the word.</b> Write each stage. Blast off: write the whole word.</span></div>
+        <div data-stage1="3|desktop"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sh"><svg class="lvl"><use href="#lvl-planet"/></svg><span><b>Split the word.</b> Write each stage. Blast off: write the whole word.</span></div>
+    <div class="cols2" style="column-gap:.2in"><div data-stage1="4|puppet"></div><div data-stage1="5|helmet"></div></div>
+    <div class="choice" style="gap:.22in; margin-top:.04in"><span class="sh" style="margin:0; font: 400 12.5pt var(--font-body)"><svg class="lvl"><use href="#lvl-planet"/></svg><b>Circle the right split.</b></span><span class="n">6.</span><span class="opt">tra | ffic</span><span class="opt">traf | fic</span><span class="opt">traff | ic</span></div>
+  </div>
+  <div class="sec">
+    <div class="cols2" style="column-gap:.2in">
+      <div>
+        <div class="sh"><svg class="lvl"><use href="#lvl-comet"/></svg><span><b>Split the word.</b> Write each stage. Blast off: write the whole word.</span></div>
+        <div data-stage1="7|tablet"></div>
+      </div>
+      <div>
+        <div class="sh"><svg class="lvl"><use href="#lvl-comet"/></svg><span><b>Circle the right split.</b></span></div>
+        <div class="choice" style="align-items:flex-start; margin-top:.08in"><span class="n" style="padding-top:.06in">8.</span><div style="display:flex; flex-direction:column; gap:.04in"><span class="opt">skill | et</span><span class="opt">ski | llet</span><span class="opt">skil | let</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="starchart">
+    <h3>My Star Chart <small>Color 1, 2, or 3 stars.</small></h3>
+    <div class="row"><span>I can find the vowels and count syllables.</span><span class="stars"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span></div>
+    <div class="row"><span>I can split and read compound words.</span><span class="stars"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span></div>
+    <div class="row"><span>I can split and read words like nap | kin.</span><span class="stars"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span></div>
+  </div>
+</section>
+
+<!-- ============================== p.19 TEACHER PREP GUIDE ============================== -->
+<section class="page teacher p19">
+  <h1 class="title">Teacher Prep Guide: Games &amp; Mini-Book</h1>
+  <h3>1. How to play Race to the Moon (pp. 12&ndash;13)</h3>
+  <ul class="dots cols-list">
+    <li><b>Players:</b> 2&ndash;4. <b>Time:</b> 10&ndash;15 minutes. Use in literacy centers, small groups, as an early-finisher task, or send home for family play.</li>
+    <li><b>You need:</b> one board, one paper clip, one pencil, and a game piece for each player (cut from the Flight Log, p. 14, or use erasers or coins).</li>
+    <li><b>To play:</b> Players start on Earth. Spin and move that many spaces. Read the word on your space with the routine: split it, read each part, blast off (read the whole word). If the group agrees, stay. If not, check the Split Check strip. If the reading was wrong, go back 1 space.</li>
+    <li><b>Boost and Meteor:</b> Boost = go ahead 2 spaces. Meteor = go back 1 space. After a Boost or Meteor move, read the word on your new space.</li>
+    <li><b>Winning:</b> The first player to reach the Moon wins. An exact spin is not needed.</li>
+    <li><b>Flight Log:</b> Each player records the words they land on (up to 6), then circles the hardest word. Collect the logs as evidence of learning.</li>
+    <li><b>Board A or B?</b> Board A (compound words) for the Moon group. Board B for Planet (spaces 1&ndash;13 are VC/CV words with no blends) and Comet (spaces 14&ndash;27 have blends and digraphs).</li>
+    <li><b>Variations:</b> Partner reading (one partner reads, the other checks with the strip, then switch). Whole-class play: project the board with a document camera and play in two teams.</li>
+  </ul>
+  <div class="cols2" style="grid-template-columns: 1fr 1.25in; column-gap: .2in; align-items: center">
+    <div>
+      <h3>2. Making the spinner</h3>
+      <p>Put the pencil tip through one end of a paper clip, hold the pencil straight up on the center dot, and flick the clip.</p>
+      <h3>3. The Split Check strip</h3>
+      <p>Fold the strip under the board along the fold line before play. Players open it only when the group is not sure about a word.</p>
+    </div>
+    <svg viewBox="0 0 125 110" style="width:1.1in; height:.97in" id="spin-howto"></svg>
+  </div>
+  <h3>4. Folding the mini-book (p. 15)</h3>
+  <p>Before you start, turn the page sideways so that page 1 (the cover) is right side up in the bottom-right box.</p>
+  <ol class="cols-list">
+    <li>Fold the page in half the long way (top edge to bottom edge). Crease and unfold.</li>
+    <li>Fold it in half the short way. Crease and unfold.</li>
+    <li>Fold both short ends in to meet the middle crease. Crease and unfold. You now see 8 boxes.</li>
+    <li>Fold the page in half the short way again. Cut along the cut line from the folded edge to the next crease (the cut goes only across the two middle boxes).</li>
+    <li>Open the page and fold it the long way again. Hold the two ends and push them toward the middle so the cut opens up.</li>
+    <li>Keep pushing until the pages fold flat into a little book. Turn it so the cover (page 1) is on the front. Crease well.</li>
+  </ol>
+  <div class="folds" id="folds"></div>
+  <p><b>No-fold option:</b> Cut the 8 boxes apart, stack the pages in order 1&ndash;8 (page numbers are in the corners), and staple on the left.</p>
+  <div class="cols2">
+    <div>
+      <h3>5. Printing tips</h3>
+      <ul class="dots">
+        <li>Print page 15 one-sided at <b>Actual size / 100%</b> so the fold lines line up.</li>
+        <li>Print the game boards on cardstock or slide them into sheet protectors to reuse them.</li>
+        <li>Do not print pages 6 and 7 double-sided (students cut them).</li>
+      </ul>
+    </div>
+    <div>
+      <h3>6. No-scissors options</h3>
+      <ul class="dots">
+        <li><b>Page 6:</b> Students write the matching word part in each docking port instead of gluing.</li>
+        <li><b>Page 7:</b> Students write 1 or 2 on each card instead of cutting and gluing.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== p.20–23 ANSWER KEYS (built by script) ============================== -->
+<section class="page key" id="key20"></section>
+<section class="page key" id="key21"></section>
+<section class="page key" id="key22"></section>
+<section class="page key" id="key23"></section>
+
+<!-- ============================== p.24 TERMS OF USE & CREDITS ============================== -->
+<section class="page teacher" style="font-size:12pt; line-height:1.4">
+  <h1 class="title">Terms of Use &amp; Credits</h1>
+  <div style="display:flex; justify-content:center; margin:.1in 0 .05in"><svg viewBox="0 0 100 140" style="width:1.1in; height:1.5in; color:var(--ink)"><use href="#tb-wave" width="100" height="140"/></svg></div>
+  <h3>Thank you!</h3>
+  <p>Thank you for downloading this resource from <span class="js-store"></span>. I hope your students love splitting and reading big words.</p>
+  <h3>Terms of Use</h3>
+  <p>Single classroom / single family use. Do not share, resell, or post publicly online.</p>
+  <p style="margin-top:.08in"><b>You may:</b></p>
+  <ul class="dots">
+    <li>print and copy for your own students;</li>
+    <li>use pages in your classroom, in small groups, or for home practice for your own students.</li>
+  </ul>
+  <p><b>You may not:</b></p>
+  <ul class="dots">
+    <li>share this file with other teachers or schools (please send them to the store link);</li>
+    <li>post any part of it online, including school or class websites, shared drives, or social media;</li>
+    <li>sell or claim any part of this resource as your own.</li>
+  </ul>
+  <h3>Credits</h3>
+  <ul class="dots">
+    <li>Fonts: Andika by SIL International; Baloo 2 by The Baloo 2 Project Authors / Ek Type. Both are licensed under the SIL Open Font License 1.1.</li>
+    <li>Illustrations: original SVG artwork by <span class="js-store"></span>.</li>
+  </ul>
+  <h3>Questions?</h3>
+  <p>Contact me through my TPT store: <span class="js-store"></span></p>
+</section>
+
+<script>
+/* ================= STORE CONFIG — owner fills these in once (matches brand/style-guide.md) ================= */
+const STORE = {
+  name: "Your Store Name",
+  url: "https://www.teacherspayteachers.com/store/your-store",
+};
+
+/* ================= CONCEPT TEXT — page titles + flavor lines in ONE place (reskin = edit here) =================
+   p.3 (What's Inside) and the answer-key headings read from here, so titles always match exactly.
+   Flavor lines are left off the two game boards (no room in the plan's 0.85 in header budget). */
+const CONCEPT = {
+  p4:  { title: "Mission Briefing: Syllables" },
+  p5:  { title: "Docking Words: Compound Words",       flavor: "Two small words dock into one big word." },
+  p6:  { title: "Docking Station: Compound Words",     flavor: "Snip, dock, and read!" },
+  p7:  { title: "Engine Count: 1 or 2 Syllables?",    flavor: "One vowel sound means one stage." },
+  p8:  { title: "Split the Stages: VC/CV Words 1",     flavor: "Split between the two consonants." },
+  p9:  { title: "Split the Stages: VC/CV Words 2",     flavor: "Keep blends together inside a stage." },
+  p10: { title: "Asteroid Maze: Syllable Splits",      flavor: "Good splits make a safe path." },
+  p11: { title: "Mystery Cargo: Syllable Riddles",     flavor: "Read the clues. Open the crate!" },
+  p12: { title: "Race to the Moon: Compound Words",    flavor: "Spin, move, split, and read!" },
+  p13: { title: "Race to the Moon: Closed Syllables",  flavor: "Spin, move, split, and read!" },
+  p14: { title: "Flight Log: Two-Syllable Words",      flavor: "Write the words you landed on." },
+  p15: { title: "Mini-Book: Tinbot’s Picnic",    flavor: "A Two-Syllable Word Reader" },
+  p16: { title: "Countdown Reading: 2-Syllable Words", flavor: "Read it three times. Blast off!" },
+  p17: { title: "Invent-a-Word Lab: Compound Words",   flavor: "Make a silly new compound word!" },
+  p18: { title: "Mission Check: Two-Syllable Words" },
+};
+const STUDENT_PAGES = 15;   // cover strip: 14 activity pages + Mission Briefing
+
+/* ================= WORD DATA (from 03-content.md; "|" marks the split) ================= */
+const BOARD_A = ["sun|set","lap|top","cat|nap","pig|pen","B","bath|tub","bob|cat","sand|box","it|self","hub|cap","dish|pan","M","cat|fish","lap|dog","web|cam","B","sun|lit","gum|drop","pot|luck","pad|lock","him|self","dust|pan","bob|sled","M","sun|spot","flat|bed","dish|rag"];
+const BOARD_B = ["nap|kin","mit|ten","com|ment","mag|net","B","kit|ten","ham|let","pol|len","bon|bon","cut|let","tac|tic","M","pel|let","bas|ket","in|sect","B","fran|tic","plas|tic","bris|ket","trum|pet","dis|cus","con|test","seg|ment","M","ab|sent","clas|sic","pig|ment"];
+const MAZE = [
+  ["hill|top","nug|get","hec|tic","pub|lic","mi|tten"],
+  ["sa|ndbox","pla|stic","velv|et","sand|bag","ins|ect"],
+  ["gu|mdrop","con|test","puf|fin","nut|meg","sudd|en"],
+  ["ma|gnet","bed|bug","lapt|op","masc|ot","cact|us"],
+  ["tru|mpet","sum|mit","rus|tic","tom|cat","ab|sent"],
+];
+const MAZE_PATH = ["A1","A2","A3","A4","B4","C4","C3","C2","D2","E2","E3","E4","E5"];
+const MAZE_WRONG = [["mi|tten","mit|ten"],["sa|ndbox","sand|box"],["pla|stic","plas|tic"],["velv|et","vel|vet"],["ins|ect","in|sect"],["gu|mdrop","gum|drop"],["sudd|en","sud|den"],["ma|gnet","mag|net"],["lapt|op","lap|top"],["masc|ot","mas|cot"],["cact|us","cac|tus"],["tru|mpet","trum|pet"]];
+
+/* ================= helpers ================= */
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const sp = s => s.replace("|", " | ");          // "nap|kin" -> "nap | kin"
+const whole = s => s.replace("|", "");
+const dotted = w => [...w].map(ch => /[aeiou]/i.test(ch) ? `<span class="v">${ch}</span>` : ch).join("");
+const LV = n => `<svg class="lvl"><use href="#lvl-${n}"/></svg>`;
+const LVs = n => `<svg class="lvl-sm"><use href="#lvl-${n}"/></svg>`;
+const PL = (w, cls = "") => `<div class="pl ${cls}" style="width:${w}"></div>`;
+const RK = () => `<div class="rk"><svg class="tail"><use href="#rk-tail"/></svg><div class="body"><div class="stg"><div class="pl"></div></div><div class="stg"><div class="pl"></div></div></div><svg class="nose"><use href="#rk-nose"/></svg></div>`;
+const stageItem = (n, w, pre) => `<div class="sitem"><div class="wr"><span class="n">${n}.</span><span class="word">${pre ? dotted(w) : w}</span></div>${RK()}<div class="blast"><span>Blast off:</span>${PL("2.7in")}</div></div>`;
+const FOLD = (label) => `<div class="foldline"><svg class="fl" viewBox="0 0 800 4" preserveAspectRatio="none"><path d="M0 2 H800" stroke="#1f1a3a" stroke-width="1.5" stroke-dasharray="10 4 2 4"/></svg>${label ? `<span>${label}</span>` : ""}</div>`;
+
+/* ================= titles / flavor lines ================= */
+$$("[data-title]").forEach(e => e.textContent = CONCEPT[e.dataset.title].title);
+$$("[data-flavor]").forEach(e => { const f = CONCEPT[e.dataset.flavor].flavor; if (f) e.textContent = f; else e.remove(); });
+$$(".js-npages").forEach(e => e.textContent = STUDENT_PAGES);
+
+/* ================= p.1 cover porthole ================= */
+(() => {
+  const stars = [[160,72,15],[300,58,11],[352,118,17],[248,106,7],[92,300,13],[150,352,9],[122,190,6],[372,300,8],[64,168,7],[276,372,11],[332,82,6]];
+  const dots = [[200,60],[70,210],[110,250],[260,150],[340,160],[180,320],[300,250],[230,400],[100,140],[380,220],[160,260]];
+  const rivets = [...Array(8)].map((_, k) => { const a = (22.5 + 45 * k) * Math.PI / 180; return `<circle cx="${(220 + 200 * Math.cos(a)).toFixed(1)}" cy="${(220 + 200 * Math.sin(a)).toFixed(1)}" r="6.5" fill="#fff" stroke="#1f1a3a" stroke-width="3"/>`; }).join("");
+  $("#porthole").innerHTML = `
+  <defs><clipPath id="pclip"><circle cx="220" cy="220" r="187"/></clipPath><clipPath id="wclip"><circle cx="0" cy="0" r="23"/></clipPath></defs>
+  <circle cx="220" cy="220" r="187" fill="#21174d"/>
+  <g clip-path="url(#pclip)">
+    <ellipse cx="220" cy="318" rx="262" ry="86" fill="none" stroke="#2f2470" stroke-width="3"/>
+    <ellipse cx="220" cy="128" rx="250" ry="64" fill="none" stroke="#2f2470" stroke-width="3"/>
+    <g transform="translate(104 104)"><g transform="rotate(-18)"><ellipse rx="54" ry="13" fill="none" stroke="#3d318f" stroke-width="5"/></g><circle r="30" fill="#2f2470" stroke="#3d318f" stroke-width="3"/><g transform="rotate(-18)"><path d="M-54 0 A54 13 0 0 0 54 0" fill="none" stroke="#3d318f" stroke-width="5"/></g></g>
+    ${stars.map(([x, y, s]) => `<use href="#sparkle" x="${x - s / 2}" y="${y - s / 2}" width="${s}" height="${s}" style="color:#9ee9e4"/>`).join("")}
+    ${dots.map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${i % 3 ? 2 : 2.8}" fill="${i % 2 ? '#fff' : '#9ee9e4'}"/>`).join("")}
+    <g transform="translate(108 150) scale(0.63) rotate(-6 178 70)" style="color:#1f1a3a">
+      <use href="#rk2-flame" x="-104" y="30" width="128" height="80"/>
+      <use href="#rk2-back" x="0" y="0" width="200" height="140" style="--rk-fin:#5b3cc4;--rk-nozzle:#9ee9e4"/>
+      <use href="#rk2-front" x="218" y="0" width="240" height="140" style="--rk-nose:#5b3cc4"/>
+      <path d="M209 12 V128" stroke="#12b5b0" stroke-width="5" stroke-dasharray="11 8" stroke-linecap="round"/>
+      <path d="M198 2 L190 -10 M209 -2 V-17 M220 2 L228 -10 M198 138 L190 150 M209 142 V157 M220 138 L228 150" stroke="#9ee9e4" stroke-width="4.5" stroke-linecap="round"/>
+      <text x="120" y="94" text-anchor="middle" font-family="Andika" font-weight="700" font-size="68" fill="#1f1a3a">n<tspan fill="#ff6b7a">a</tspan>p</text>
+      <text x="294" y="94" text-anchor="middle" font-family="Andika" font-weight="700" font-size="68" fill="#1f1a3a">k<tspan fill="#ff6b7a">i</tspan>n</text>
+      <g transform="translate(400 70)">
+        <path d="M14 -18 L27 -40" stroke="#1f1a3a" stroke-width="11" stroke-linecap="round"/><path d="M14 -18 L27 -40" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="29" cy="-44" r="8" fill="#fff" stroke="#1f1a3a" stroke-width="4"/>
+        <path d="M40 -56 q7 5 4 13 M47 -64 q11 9 6 22" fill="none" stroke="#9ee9e4" stroke-width="4" stroke-linecap="round"/>
+        <circle r="27" fill="#21174d" stroke="#1f1a3a" stroke-width="5"/>
+        <g clip-path="url(#wclip)"><use href="#tb-peek" x="-25" y="-21" width="50" height="44" style="--tb-fill:#fff"/></g>
+        <circle r="27" fill="none" stroke="#1f1a3a" stroke-width="5"/>
+      </g>
+    </g>
+    <g transform="translate(206 296)" style="color:#1f1a3a">
+      <use href="#ship" width="80" height="34" style="--ship-port:#12b5b0"/>
+      <g transform="translate(176 0) scale(-1 1)"><use href="#ship" width="80" height="34" style="--ship-port:#12b5b0"/></g>
+      <text x="37" y="24.5" text-anchor="middle" font-family="Andika" font-weight="700" font-size="21" fill="#1f1a3a">sun</text>
+      <text x="139" y="24.5" text-anchor="middle" font-family="Andika" font-weight="700" font-size="21" fill="#1f1a3a">set</text>
+      <path d="M44 -6 Q64 -24 82 -6 M132 -6 Q112 -24 94 -6" fill="none" stroke="#9ee9e4" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M74 -6 L82 -6 L81 -14 M102 -6 L94 -6 L95 -14" fill="none" stroke="#9ee9e4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <circle cx="220" cy="220" r="200" fill="none" stroke="#5b3cc4" stroke-width="26"/>
+  <circle cx="220" cy="220" r="187" fill="none" stroke="#1f1a3a" stroke-width="4"/>
+  <circle cx="220" cy="220" r="213" fill="none" stroke="#1f1a3a" stroke-width="4"/>
+  ${rivets}`;
+})();
+
+/* ================= p.2 suggested sequence ================= */
+$("#seq").style.tableLayout = "fixed"; $("#seq").innerHTML = `<tr><th style="width:.42in">Day</th><th style="width:2.35in">Whole group (5 min)</th><th>Practice (10&ndash;15 min)</th></tr>` + [
+  ["1", "p. 4 Mission Briefing + clap syllables", "p. 7 Engine Count"],
+  ["2", "Compound words with the routine", "p. 5 Docking Words"],
+  ["3", "Model the game (see p. 19)", "p. 6 Docking Station, then p. 12 Race to the Moon (Board A) + p. 14 Flight Log"],
+  ["4", "VC/CV: twins and napkin words", "p. 8 Split the Stages 1"],
+  ["5", "Blends that land in different stages", "p. 9 (Comet) or repeat p. 8 (Moon/Planet)"],
+  ["6", "Good split or bad split?", "p. 10 Asteroid Maze"],
+  ["7", "Read the clues for one crate together", "p. 11 Mystery Cargo, then p. 13 Race to the Moon (Board B) + p. 14"],
+  ["8", "Repeated reading", "p. 16 Countdown Reading, then p. 15 Mini-Book"],
+  ["9", "&ndash;", "p. 17 Invent-a-Word Lab (also great for early finishers), then p. 18 Mission Check"],
+].map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
+
+/* ================= p.3 what's inside (titles come from CONCEPT) ================= */
+(() => {
+  const L = { M: "moon", P: "planet", C: "comet" };
+  const rows = [
+    [4, "p4", "", "&ndash;", "Anchor chart", "RF.1.3.d, RF.1.3.e", "none", "&ndash;"],
+    [5, "p5", "M", "Moon", "Fill in", "RF.1.3.e, RF.1.3.b", "none", "p. 20"],
+    [6, "p6", "M", "Moon", "Cut &amp; paste", "RF.1.3.e, RF.1.3.b", "scissors + glue", "p. 20"],
+    [7, "p7", "M", "Moon", "Cut &amp; sort", "RF.1.3.d, RF.1.3.b", "scissors + glue", "p. 20"],
+    [8, "p8", "P", "Planet", "Fill in", "RF.1.3.e, RF.1.3.d", "none", "p. 20"],
+    [9, "p9", "C", "Comet", "Fill in", "RF.1.3.e, RF.1.3.d", "none", "p. 21"],
+    [10, "p10", "PC", "Planet + Comet", "Maze", "RF.1.3.e", "none", "p. 21"],
+    [11, "p11", "P", "Planet", "Riddles", "RF.1.3.e", "none", "p. 21"],
+    [12, "p12", "M", "Moon", "Board game", "RF.1.3.e, RF.1.3.b", "paper clip", "p. 22"],
+    [13, "p13", "PC", "Planet to Comet", "Board game", "RF.1.3.e", "paper clip", "p. 22"],
+    [14, "p14", "", "All", "Game record sheet", "RF.1.3.e", "scissors (game pieces)", "p. 22"],
+    [15, "p15", "", "All", "Mini-book", "RF.1.3.e, RF.1.4.b", "fold + 1 cut", "p. 22"],
+    [16, "p16", "P", "Planet", "Fluency", "RF.1.4.b, RF.1.3.e", "none", "p. 23"],
+    [17, "p17", "", "All", "Open-ended", "RF.1.3.e, RF.1.3.b", "none", "p. 23"],
+    [18, "p18", "MPC", "Moon, Planet, Comet (by section)", "Quick check + self-assessment", "RF.1.3.d, RF.1.3.e", "none", "p. 23"],
+  ];
+  $("#inside").innerHTML = `<tr><th style="width:.36in">Page</th><th>Title</th><th style="width:.62in">Level</th><th style="width:1.12in">Activity</th><th style="width:1.22in">Standards</th><th style="width:1.08in">Prep</th><th style="width:.44in">Key</th></tr>` +
+    rows.map(([pg, k, ic, lv, act, std, prep, key]) => {
+      const t = CONCEPT[k].title + (k === "p18" ? " + My Star Chart" : "");
+      const icons = [...ic].map(c => LVs(L[c])).join("");
+      return `<tr><td>${pg}</td><td><b>${t}</b></td><td style="white-space:nowrap">${icons || lv}</td><td>${act}</td><td>${std}</td><td>${prep}</td><td>${key}</td></tr>`;
+    }).join("");
+})();
+
+/* ================= p.4 three rockets ================= */
+(() => {
+  const R = [["sun", "set", "Split between the two small words."], ["nap", "kin", "Split between the two consonants."], ["kit", "ten", "Twin consonants? Split between the twins."]];
+  $("#rockets3").insertAdjacentHTML("afterbegin", `<h3>Three rockets</h3>` + R.map(([a, b, cap]) => `
+    <div class="rrow"><div class="mrk"><svg class="tail"><use href="#rk-tail"/></svg><div class="st">${dotted(a)}</div>
+      <div class="gap"><svg viewBox="0 0 38 20"><path d="M8 18 L4 8 M19 16 V3 M30 18 L34 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+      <div class="st">${dotted(b)}</div><svg class="nose" viewBox="0 0 46 66" preserveAspectRatio="none"><use href="#rk-nose" width="46" height="66"/></svg></div>
+      <div class="cap">${cap}</div></div>`).join(""));
+})();
+
+/* ================= p.5 docking words ================= */
+(() => {
+  const P = [["sand", "box", 1], ["bath", "tub", 1], ["lap", "top"], ["back", "pack"], ["egg", "shell"], ["gum", "drop"]];
+  $("#dock6").innerHTML = P.map(([a, b, pre], i) => `<div class="ditem"><div class="r1"><span class="n">${i + 1}.</span><span class="ship port-r">${pre ? dotted(a) : a}</span><span class="plus">+</span><span class="ship port-l">${pre ? dotted(b) : b}</span></div>
+    <div class="blast"><span>Blast off:</span>${PL("2.75in")}</div></div>`).join("");
+  $("#dock2").innerHTML = ["catfish", "pigpen"].map((w, i) => `<div class="ditem"><div class="r1"><span class="n">${i + 7}.</span><span class="ship long">${w}</span></div>
+    <div class="r2"><span class="ship write port-r"><div class="pl"></div></span><span class="plus">+</span><span class="ship write port-l"><div class="pl"></div></span></div></div>`).join("");
+})();
+
+/* ================= p.6 docking station ================= */
+(() => {
+  const F = ["sun", "dust", "cat", "web", "pad", "hub", "log", "chop"];
+  $("#dsgrid").innerHTML = F.map((w, i) => `<div class="dsitem"><div class="r1"><span class="n">${i + 1}.</span><span class="ship port-r">${w}</span><span class="plus" style="margin-left:.14in">+</span><div class="dport">glue</div></div>${PL("3.0in")}</div>`).join("");
+  $("#pieces6").innerHTML = ["lock", "cap", "spot", "stick", "nip", "jam", "pan", "cam"].map(w => `<div>${w}</div>`).join("");
+})();
+
+/* ================= p.7 engine count ================= */
+$$(".glues").forEach(g => g.innerHTML = Array(6).fill(`<div class="glue">glue</div>`).join(""));
+$("#pieces7").innerHTML = ["stomp", "hatbox", "crisp", "attic", "bonnet", "shrimp", "suntan", "scrub", "drift", "wombat", "splash", "bedrock"].map(w => `<div>${w}</div>`).join("");
+
+/* ================= p.8 / p.9 / p.18 rocket stage items ================= */
+$$("[data-stages]").forEach(g => g.innerHTML = g.dataset.stages.split(",").map((w, i) => stageItem(i + 1, w.replace("*", ""), w.endsWith("*"))).join(""));
+$$("[data-stage1]").forEach(g => { const [n, w] = g.dataset.stage1.split("|"); g.innerHTML = stageItem(n, w, false); });
+
+/* ================= p.10 maze (and the mini copy for the key) ================= */
+function mazeHTML(mini) {
+  let h = "";
+  MAZE.forEach((row, r) => row.forEach((s, c) => {
+    const id = "ABCDE"[r] + (c + 1), ok = MAZE_PATH.includes(id);
+    const [a, b] = s.split("|");
+    h += `<div class="mc${mini && ok ? " ok" : ""}"><svg><use href="#ast${(r * 3 + c * 2) % 4 + 1}"/></svg><span class="sw">${a}<i></i>${b}</span></div>`;
+  }));
+  return h;
+}
+$("#maze-big .maze").innerHTML = mazeHTML(false);
+
+/* ================= p.12 / p.13 Race to the Moon ================= */
+function boardPos(i) {           // i: 0 = START, 1..27 spaces, 28 = FINISH  ->  [col, row], row 1 = bottom
+  if (i <= 4) return [i + 1, 1];
+  if (i === 5) return [5, 2];
+  if (i <= 10) return [5 - (i - 6), 3];
+  if (i === 11) return [1, 4];
+  if (i <= 16) return [i - 11, 5];
+  if (i === 17) return [5, 6];
+  if (i <= 22) return [5 - (i - 18), 7];
+  if (i === 23) return [1, 8];
+  if (i <= 27) return [i - 23, 9];
+  return [5, 9];
+}
+const CX = .05, CW = 1.36, CH = .62, RY = (6.0 - 9 * .62) / 8;
+const bx = c => (c - 1) * (CW + CX), by = r => (9 - r) * (CH + RY);
+function spinnerSVG() {
+  let s = `<svg class="spin" viewBox="0 0 140 140"><circle cx="70" cy="70" r="66" fill="#fff" stroke="#1f1a3a" stroke-width="3"/>`;
+  for (let k = 0; k < 6; k++) { const a = (-90 + 60 * k) * Math.PI / 180; s += `<path d="M70 70 L${(70 + 66 * Math.cos(a)).toFixed(1)} ${(70 + 66 * Math.sin(a)).toFixed(1)}" stroke="#1f1a3a" stroke-width="2.5"/>`; }
+  [1, 2, 3, 1, 2, 3].forEach((n, k) => { const a = (-60 + 60 * k) * Math.PI / 180; s += `<text x="${(70 + 44 * Math.cos(a)).toFixed(1)}" y="${(70 + 44 * Math.sin(a) + 9).toFixed(1)}" text-anchor="middle" font-family="Andika" font-weight="700" font-size="25" fill="#1f1a3a">${n}</text>`; });
+  return s + `<circle cx="70" cy="70" r="9" fill="#fff" stroke="#1f1a3a" stroke-width="2.5"/><circle cx="70" cy="70" r="3.5" fill="#1f1a3a"/></svg>`;
+}
+$$("[data-board]").forEach(sec => {
+  const A = sec.dataset.board === "A", W = A ? BOARD_A : BOARD_B, key = A ? "p12" : "p13";
+  const tag = n => `<span class="tag"><svg><use href="#lvl-${n}"/></svg></span>`;
+  let cells = "", pts = [];
+  for (let i = 0; i <= 28; i++) {
+    const [c, r] = boardPos(i), st = `left:${bx(c).toFixed(3)}in;top:${by(r).toFixed(3)}in`;
+    pts.push(`${(bx(c) * 100 + 68).toFixed(1)},${(by(r) * 100 + 31).toFixed(1)}`);
+    if (i === 0) cells += `<div class="bc end" style="${st}"><svg><use href="#earth"/></svg><span class="t">START</span>${A ? "" : tag("planet")}</div>`;
+    else if (i === 28) cells += `<div class="bc end" style="${st}"><svg><use href="#moon"/></svg><span class="t">FINISH</span></div>`;
+    else if (W[i - 1] === "B") cells += `<div class="bc sp" style="${st}"><span class="no">${i}</span><svg><use href="#boost"/></svg><span class="t">BOOST<small>Go ahead 2.</small></span></div>`;
+    else if (W[i - 1] === "M") cells += `<div class="bc sp" style="${st}"><span class="no">${i}</span><svg><use href="#meteor"/></svg><span class="t">METEOR<small>Go back 1.</small></span></div>`;
+    else cells += `<div class="bc" style="${st}"><span class="no">${i}</span>${whole(W[i - 1])}${!A && i === 14 ? tag("comet") : ""}</div>`;
+  }
+  // a few outline stars in the empty connector rows (white space stays dominant)
+  const deco = [[.55, 2, .22], [2.5, 2, .16], [4.2, 2, .2], [1.9, 4, .18], [3.6, 4, .22], [5.5, 4, .16], [.9, 6, .2], [3.1, 6, .16], [4.6, 6, .2], [2.2, 8, .2], [4.0, 8, .16], [5.6, 8, .22]]
+    .map(([x, r, s]) => `<svg class="bdeco" style="left:${x}in;top:${(by(r) + (CH - s) / 2).toFixed(3)}in;width:${s}in;height:${s}in;color:#8f7fd8"><use href="#star"/></svg>`).join("");
+  const sc = W.map((s, i) => [i + 1, s]).filter(([, s]) => s.includes("|"));
+  sec.innerHTML = `
+    <div class="title-row"><h1 class="title">${CONCEPT[key].title}</h1>${A ? `<span class="lvls left">${LV("moon")}</span>` : ""}</div>
+    <div class="directions"><b>Directions:</b> Play with 2 to 4 players. Spin with a paper clip and a pencil.</div>
+    <div class="board"><svg class="trail" viewBox="0 0 700 600"><polyline points="${pts.join(" ")}" fill="none" stroke="#e6e0fa" stroke-width="22" stroke-linejoin="round"/><polyline points="${pts.join(" ")}" fill="none" stroke="#5b3cc4" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" stroke-linejoin="round"/></svg>${deco}${cells}</div>
+    <div class="band">${spinnerSVG()}
+      <div class="rules"><ol><li>Spin. Move.</li><li>Split it. Read it. Blast off!</li><li>Does your team agree? Stay.</li><li>Not sure? Check the strip. Wrong? Go back 1.</li><li>Get to the Moon first to win!</li></ol></div>
+      <div class="bkey"><div><svg><use href="#boost"/></svg><span><b>Boost:</b> Go ahead 2.</span></div><div><svg><use href="#meteor"/></svg><span><b>Meteor:</b> Go back 1.</span></div></div>
+    </div>
+    ${FOLD("Fold under")}
+    <div class="splitcheck"><div class="h">Split Check</div><div class="g">${sc.map(([n, s]) => `<div><b>${n}</b>${sp(s)}</div>`).join("")}<div></div></div></div>`;
+});
+
+/* ================= p.14 flight log rows ================= */
+$("#flog").insertAdjacentHTML("beforeend", [1, 2, 3, 4, 5, 6].map(n => `<tr><td class="n">${n}</td><td style="width:1.75in"><div class="pl s55"></div></td><td style="width:1.75in"><div class="pl s55"></div></td><td><div class="pl s55"></div></td></tr>`).join(""));
+
+/* ================= p.15 mini-book (8 panels on one sheet; top row upside down) =================
+   Landscape sheet, viewed with the cover bottom-right:  top row (rotated 180) = 5 4 3 2 ; bottom row = 6 7 8 1.
+   One cut: along the middle horizontal crease across the two middle columns only. All other lines are folds. */
+(() => {
+  const g = (s) => `<svg class="art" viewBox="0 0 220 215">${s}</svg>`;
+  const ground = `<path d="M2 205 H218" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>`;
+  const st = (x, y, s) => `<use href="#star" x="${x}" y="${y}" width="${s}" height="${s}"/>`;
+  const ART = {
+    1: `<svg class="art" viewBox="0 0 220 160" style="height:1.5in">
+          ${st(14, 12, 20)}${st(112, 6, 15)}${st(52, 44, 13)}<use href="#crescent" x="166" y="6" width="44" height="44"/>
+          <path d="M-4 158 Q60 98 128 116 Q178 130 224 110 V162 H-4 Z" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <use href="#tb-wave" x="76" y="16" width="86" height="120"/>
+          <use href="#basket" x="54" y="92" width="50" height="41"/></svg>`,
+    2: g(`${ground}<use href="#rk-up" x="160" y="44" width="54" height="90"/>
+          <path d="M150 134 H218" stroke="currentColor" stroke-width="3"/>
+          <rect x="70" y="150" width="145" height="9" rx="2" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M84 159 V205 M200 159 V205" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+          <use href="#basket" x="104" y="84" width="82" height="68"/>
+          <g transform="translate(100 88) scale(-.84 .84)"><use href="#tb-point" width="100" height="140"/></g>`),
+    3: g(`<use href="#napkin" x="40" y="74" width="66" height="53"/>
+          <use href="#basket" x="22" y="88" width="160" height="125"/>
+          <use href="#muffin" x="108" y="36" width="54" height="52"/>
+          <path d="M226 -4 L170 50" stroke="currentColor" stroke-width="13" stroke-linecap="round"/><path d="M226 -4 L170 50" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+          <circle cx="164" cy="55" r="11" fill="#fff" stroke="currentColor" stroke-width="3.2"/>`),
+    4: g(`${ground}<use href="#basket" x="6" y="118" width="112" height="92"/>
+          <g transform="translate(84 30) rotate(14)"><use href="#zz-cat" width="122" height="100"/></g>
+          <path d="M196 150 q10 -16 4 -32 M182 168 q14 -12 12 -30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="5 6"/>`),
+    5: g(`<use href="#sun" x="168" y="58" width="48" height="48"/>
+          <path d="M-4 216 Q96 28 224 120 V216 Z" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <path d="M40 212 Q80 168 70 140 Q64 112 104 92 Q122 84 134 84" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="6 6" stroke-linecap="round"/>
+          <use href="#zz-cat" x="104" y="44" width="62" height="51"/>
+          <use href="#tb-wave" x="34" y="98" width="62" height="87"/><use href="#basket" x="18" y="146" width="36" height="30"/>`),
+    6: g(`<path d="M-4 216 Q110 96 224 216 Z" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <path d="M36 150 H176 L198 182 H14 Z" fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M71 150 L60 182 M106 150 L106 182 M141 150 L152 182 M26 166 H187" stroke="currentColor" stroke-width="1.8"/>
+          <use href="#zz-sleep" x="44" y="100" width="120" height="72"/>
+          <circle cx="170" cy="172" r="2.2" fill="currentColor"/><circle cx="178" cy="166" r="1.8" fill="currentColor"/><circle cx="162" cy="164" r="1.6" fill="currentColor"/>
+          <use href="#muffin" x="172" y="128" width="30" height="29"/>`),
+    7: g(`<use href="#crescent" x="10" y="8" width="40" height="40"/>${st(70, 18, 14)}${st(184, 10, 16)}
+          <g transform="translate(110 150)"><path d="M-62 0 H-48 M48 0 H62 M-44 -44 L-34 -34 M44 -44 L34 -34 M0 -62 V-48" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle r="36" fill="#fff" stroke="currentColor" stroke-width="3"/></g>
+          <path d="M-4 152 Q50 124 104 144 Q160 162 224 132 V216 H-4 Z" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <use href="#rk-up" x="190" y="104" width="18" height="30"/>
+          <path d="M-4 216 Q110 158 224 216 Z" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <use href="#tb-back" x="56" y="100" width="76" height="85"/>
+          <use href="#zz-cat" x="122" y="138" width="56" height="46"/>`),
+  };
+  const TXT = {
+    2: "Tinbot packs a basket for a picnic.",
+    3: "Tinbot sets a muffin and a napkin in it.",
+    4: `A cat hops in.<br><span class="say">I am Zigzag. Can I go?</span>`,
+    5: "Tinbot and Zigzag go up, up, up to the hilltop.",
+    6: "Zigzag has a snack and then a catnap.",
+    7: "Tinbot and Zigzag sit and sit. The sunset is red. Fun, fun, fun!",
+  };
+  const BACK = ["picnic", "basket", "muffin", "napkin", "Zigzag", "hilltop", "catnap", "sunset"];
+  const panel = (p) => {
+    if (p === 1) return `<div class="kind">Mini-Book</div><div class="bt">Tinbot&rsquo;s Picnic</div><div class="subt">${CONCEPT.p15.flavor}</div>${ART[1]}
+      <div class="by"><span>by</span><div class="pl"></div></div><div class="dir">Read the book. Box each two-syllable word.</div>`;
+    if (p === 8) return `<h4>Words I Can Read</h4><ul>${BACK.map(w => `<li><svg><use href="#star"/></svg>${w}</li>`).join("")}</ul>
+      <div class="mbfoot">&copy; <span class="js-store"></span> &middot; RF.1.3.e, RF.1.4.b &middot; Page 15</div>`;
+    return `${ART[p]}<div class="txt">${TXT[p]}</div>`;
+  };
+  // [page, landscape column 0-3, landscape row 0-1 (0 = top row, printed upside down)]
+  const LAYOUT = [[5, 0, 0], [4, 1, 0], [3, 2, 0], [2, 3, 0], [6, 0, 1], [7, 1, 1], [8, 2, 1], [1, 3, 1]];
+  // The landscape sheet is turned 90 deg clockwise onto the portrait page: landscape (x, y) -> portrait (8.5 - y, x).
+  // Each panel is rotated on its own, so no 11-in-wide box ever enters the print layout.
+  const panels = LAYOUT.map(([p, c, r]) => {
+    const X = 8.5 - (2.125 + 4.25 * r), Y = 1.375 + 2.75 * c;
+    // keep the un-rotated 2.75 x 4.25 box inside the 11 in page (boxes that cross the page edge get split by print
+    // fragmentation), then translate it to its real spot after rotating about its center
+    const Ye = Math.min(Math.max(Y, 2.125), 11 - 2.125), rot = r === 0 ? -90 : 90;
+    return `<div class="mbp${r === 0 ? " top" : ""}${p === 1 ? " cover1" : ""}${p === 8 ? " back" : ""}" style="left:${(X - 1.375).toFixed(3)}in;top:${(Ye - 2.125).toFixed(3)}in;transform:translate(0, ${(Y - Ye).toFixed(3)}in) rotate(${rot}deg);padding:${p === 1 ? ".16in" : ".2in"} .3in .3in">${panel(p)}<span class="pg" style="right:.3in">${p}</span></div>`;
+  }).join("");
+  const fl = `stroke="#1f1a3a" stroke-width="1.5" stroke-dasharray="10 4 2 4"`;
+  const tag = (x, y, rot, t) => `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="-17" y="-8" width="34" height="15" fill="#fff"/><text y="4" text-anchor="middle" font-family="Andika" font-weight="700" font-size="${t === "cut" ? 11 : 10}" fill="#1f1a3a">${t}</text></g>`;
+  const lines = `<svg class="lines" viewBox="0 0 850 1100">
+      <path d="M0 275 H850 M0 550 H850 M0 825 H850 M425 0 V275 M425 825 V1100" ${fl} fill="none"/>
+      <path d="M425 275 V825" stroke="#1f1a3a" stroke-width="2.2" stroke-dasharray="9 6" fill="none"/>
+      ${tag(60, 275, 90, "fold")}${tag(60, 550, 90, "fold")}${tag(60, 825, 90, "fold")}${tag(790, 275, 90, "fold")}${tag(790, 550, 90, "fold")}${tag(790, 825, 90, "fold")}${tag(425, 80, 0, "fold")}${tag(425, 1020, 0, "fold")}
+      <g transform="translate(425 300) rotate(90)"><rect x="-19" y="-14" width="38" height="28" fill="#fff"/><use href="#scissors" x="-17" y="-11" width="34" height="22" style="color:#1f1a3a"/></g>
+      ${tag(425, 550, 0, "cut")}
+    </svg>`;
+  $("#minibook").innerHTML = `<div class="mb-sheet">${panels}${lines}</div>`;
+})();
+
+/* ================= p.19 spinner how-to + fold diagrams ================= */
+$("#spin-howto").innerHTML = `<g fill="none" stroke="#1f1a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="60" cy="66" r="40" fill="#fff"/>${[0, 60, 120, 180, 240, 300].map(a => `<path d="M60 66 L${(60 + 40 * Math.cos((a - 90) * Math.PI / 180)).toFixed(1)} ${(66 + 40 * Math.sin((a - 90) * Math.PI / 180)).toFixed(1)}"/>`).join("")}
+  <rect x="56" y="58" width="40" height="16" rx="8" fill="#fff" stroke-width="2.6" transform="rotate(-20 60 66)"/><rect x="61" y="61" width="28" height="10" rx="5" transform="rotate(-20 60 66)"/>
+  <path d="M60 66 L57 54 H63 Z" fill="#1f1a3a"/><rect x="55" y="4" width="10" height="50" rx="1.5" fill="#fff"/><path d="M55 14 H65"/>
+  <path d="M104 40 Q116 66 100 92" stroke-width="2.4"/><path d="M98 84 L100 93 L109 90"/></g>`;
+$("#folds").innerHTML = [
+  `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M10 37 H110" class="f"/><path d="M96 4 Q114 18 100 32"/><path d="M95 26 L100 33 L106 27"/>`,
+  `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M60 10 V64" class="f"/><path d="M104 8 Q90 -2 72 8"/><path d="M78 2 L71 8 L78 13"/>`,
+  `<rect x="10" y="10" width="100" height="54" rx="2"/><path d="M35 10 V64 M60 10 V64 M85 10 V64 M10 37 H110" class="f"/><path d="M4 70 H28 M116 70 H92 M22 66 L28 70 L22 74 M98 66 L92 70 L98 74"/>`,
+  `<rect x="35" y="10" width="50" height="54" rx="2"/><path d="M60 10 V64 M35 37 H85" class="f"/><path d="M35 37 H60" stroke-width="3" stroke-dasharray="5 3"/><use href="#scissors" x="58" y="26" width="22" height="14"/><text x="35" y="74" font-family="Andika" font-size="9" fill="#1f1a3a" stroke="none">folded edge</text>`,
+  `<rect x="10" y="26" width="100" height="26" rx="2"/><path d="M35 26 V52 M85 26 V52" class="f"/><path d="M45 26 L60 10 L75 26 M45 52 L60 68 L75 52"/><path d="M0 39 H8 M120 39 H112 M3 35 L8 39 L3 43 M117 35 L112 39 L117 43"/>`,
+  `<rect x="42" y="8" width="38" height="56" rx="2"/><path d="M42 8 V64" stroke-width="4"/><text x="61" y="44" text-anchor="middle" font-family="Andika" font-weight="700" font-size="20" fill="#1f1a3a" stroke="none">1</text>`,
+].map((s, i) => `<figure><svg viewBox="0 0 120 76"><g fill="#fff" stroke="#1f1a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${s.replace(/class="f"/g, 'stroke-dasharray="7 3 1.5 3" stroke-width="1.5" fill="none"')}</g></svg>Step ${i + 1}</figure>`).join("");
+
+/* ================= Answer keys (pp. 20–23) ================= */
+const KEY = s => `<span class="answer-key">${s}</span>`;
+const kh = (pg, lv) => `<h3>p. ${pg} ${CONCEPT["p" + pg].title}${(lv || "").split(",").filter(Boolean).map(LVs).join("")}</h3>`;
+const kl = (items, cls = "") => `<ol class="kl ${cls}">${items.map((s, i) => `<li><b>${i + 1}.</b><span>${s}</span></li>`).join("")}</ol>`;
+const splitList = arr => arr.map(s => `${KEY(sp(s))}&nbsp;&nbsp;&nbsp;${whole(s)}`);
+$("#key20").innerHTML = `<h1 class="title">Answer Key: pp. 5&ndash;8</h1>
+  ${kh(5, "moon")}${kl(["sandbox", "bathtub", "laptop", "backpack", "eggshell", "gumdrop", "cat + fish", "pig + pen"].map(KEY), "three")}
+  ${kh(6, "moon")}${kl([["sun", "spot"], ["dust", "pan"], ["cat", "nip"], ["web", "cam"], ["pad", "lock"], ["hub", "cap"], ["log", "jam"], ["chop", "stick"]].map(([a, b]) => `${a} + ${KEY(b)} = ${KEY(a + b)}`))}
+  ${kh(7, "moon")}<p style="margin:0 0 .04in">Dots go under the vowels. Any order within a column is correct.</p>
+  <table class="t" style="width:5.2in; font-size:13pt"><tr><th>1 vowel sound = 1 syllable</th><th>2 vowel sounds = 2 syllables</th></tr>
+  ${[["stomp", "hatbox"], ["crisp", "attic"], ["shrimp", "bonnet"], ["scrub", "suntan"], ["drift", "wombat"], ["splash", "bedrock"]].map(([a, b]) => `<tr><td class="answer-key" style="padding-bottom:.05in">${dotted(a)}</td><td class="answer-key" style="padding-bottom:.05in">${dotted(b)}</td></tr>`).join("")}</table>
+  ${kh(8, "planet")}${kl(splitList(["mit|ten", "hap|pen", "pos|sum", "sud|den", "mag|net", "cac|tus", "vel|vet", "tid|bit"]))}`;
+$("#key21").innerHTML = `<h1 class="title">Answer Key: pp. 9&ndash;11</h1>
+  ${kh(9, "comet")}${kl(splitList(["trum|pet", "in|sect", "plas|tic", "gob|let", "mas|cot", "pub|lish", "chip|munk", "splen|did"]))}
+  ${kh(10, "planet,comet")}
+  <div style="display:flex; gap:.25in; align-items:flex-start">
+    <div><div class="mz-mini" id="mz-mini"><div class="maze">${mazeHTML(true)}</div></div>
+      <p style="font-size:10.5pt; margin:.05in 0 0; width:4.5in">The correct path is the thick line with the dashed center: A1, A2, A3, A4, B4, C4, C3, C2, D2, E2, E3, E4, E5.</p></div>
+    <div style="flex:1"><table class="t" style="font-size:11.5pt"><tr><th>On the maze</th><th>Right split</th></tr>${MAZE_WRONG.map(([w, r]) => `<tr><td>${sp(w)}</td><td class="answer-key">${sp(r)}</td></tr>`).join("")}</table></div>
+  </div>
+  <p style="margin:.06in 0 0"><b>Correct path (13 words):</b> ${KEY(["hill|top", "nug|get", "hec|tic", "pub|lic", "sand|bag", "nut|meg", "puf|fin", "con|test", "bed|bug", "sum|mit", "rus|tic", "tom|cat", "ab|sent"].map(sp).join(", "))}</p>
+  ${kh(11, "planet")}<ul class="kl" style="list-style:none">${[["drumstick", "drum|stick"], ["dentist", "den|tist"], ["sunfish", "sun|fish"], ["hiccup", "hic|cup"]].map(([w, s], i) => `<li><span>Crate ${i + 1}: ${KEY(w)}&nbsp;&nbsp;&nbsp;${KEY(sp(s))}</span></li>`).join("")}</ul>`;
+(() => {   // route over the mini maze: thick translucent line + dashed center line (never color alone)
+  const m = $("#mz-mini"), cw = 90, ch = 72;
+  const pts = MAZE_PATH.map(id => `${("ABCDE".indexOf(id[0])) * 0 + (+id[1] - 1) * cw + cw / 2},${"ABCDE".indexOf(id[0]) * ch + ch / 2}`).join(" ");
+  m.insertAdjacentHTML("beforeend", `<svg class="route" viewBox="0 0 450 360"><polyline points="${pts}" fill="none" stroke="#c0392b" stroke-opacity=".22" stroke-width="22" stroke-linejoin="round" stroke-linecap="round"/><polyline points="${pts}" fill="none" stroke="#1f1a3a" stroke-width="2.6" stroke-dasharray="7 5" stroke-linejoin="round" stroke-linecap="round"/></svg>`);
+})();
+const boardTable = (W) => { const cell = (s, i) => s === undefined ? `<td></td><td></td><td></td>` : s === "B" ? `<td>${i + 1}</td><td>Boost</td><td>&ndash;</td>` : s === "M" ? `<td>${i + 1}</td><td>Meteor</td><td>&ndash;</td>` : `<td>${i + 1}</td><td>${whole(s)}</td><td class="answer-key">${sp(s)}</td>`;
+  let h = `<table class="t nowrap" style="font-size:10.5pt"><tr><th>#</th><th>Word</th><th>Split</th><th>#</th><th>Word</th><th>Split</th></tr>`;
+  for (let i = 0; i < 14; i++) h += `<tr>${cell(W[i], i)}${cell(W[i + 14], i + 14)}</tr>`;
+  return h + `</table>`; };
+$("#key22").innerHTML = `<h1 class="title">Answer Key: pp. 12&ndash;15</h1>
+  <div class="cols2" style="column-gap:.25in">
+    <div><h3 style="font-size:11.5pt">p. 12 ${CONCEPT.p12.title} (Board A)</h3>${boardTable(BOARD_A)}</div>
+    <div><h3 style="font-size:11.5pt">p. 13 ${CONCEPT.p13.title} (Board B)</h3>${boardTable(BOARD_B)}</div>
+  </div>
+  <h3>p. 14 ${CONCEPT.p14.title}</h3><p style="margin:0">Answers will vary. Check splits with the Split Check strips.</p>
+  <h3>p. 15 ${CONCEPT.p15.title}: words to box</h3>
+  <table class="t" style="font-size:11pt"><tr><th style="width:.75in">Page</th><th>Two-syllable words</th><th style="width:.75in">Page</th><th>Two-syllable words</th></tr>
+  ${(() => { const R = [["1 (cover)", "Tinbot&rsquo;s, Picnic"], ["2", "Tinbot, basket, picnic"], ["3", "Tinbot, muffin, napkin"], ["4", "Zigzag"], ["5", "Tinbot, Zigzag, hilltop"], ["6", "Zigzag, catnap"], ["7", "Tinbot, Zigzag, sunset"]]; let h = ""; for (let i = 0; i < 4; i++) { const b = R[i + 4]; h += `<tr><td>${R[i][0]}</td><td class="answer-key">${R[i][1]}</td>${b ? `<td>${b[0]}</td><td class="answer-key">${b[1]}</td>` : `<td></td><td></td>`}</tr>`; } return h; })()}
+  <tr><td>8 (back)</td><td colspan="3" class="answer-key">Words I Can Read: picnic, basket, muffin, napkin, Zigzag, hilltop, catnap, sunset</td></tr></table>
+  <p style="margin:.03in 0 0">Note: Tinbot (Tin | bot) and Zigzag (Zig | zag) are two-syllable names, so they are boxed each time.</p>`;
+$("#key23").innerHTML = `<h1 class="title">Answer Key: pp. 16&ndash;18</h1>
+  ${kh(16, "planet")}<p style="margin:0 0 .03in"><b>Word Launch:</b></p>${kl(splitList(["cat|fish", "pos|sum", "web|cam", "nug|get", "den|tist", "wom|bat", "pot|luck", "tid|bit", "trum|pet", "gob|let"]).map(s => s.split("&nbsp;")[0]), "three")}
+  <p style="margin:.05in 0 .02in"><b>Two-syllable words in the phrases:</b> ${KEY("muffin, napkin, chipmunk, sandbox, plastic, bathtub, insects, cactus, bobcat, hilltop")}</p>
+  <p style="margin:0"><b>Two-syllable words in the sentences:</b> ${KEY("kitten, hatbox, Tinbot, zigzag, basket, gumdrops, picnic")}</p>
+  ${kh(17)}<p style="margin:0 0 .03in"><b>Part 1 (any 2):</b> ${KEY("sun | fish, bed | bug, hat | box, pig | pen")}. Also accept these less common real words: ${KEY("box | fish, mud | fish, pig | fish, pig | nut")}. Accept any other real compound word a student can find in a dictionary. (&ldquo;Sun hat&rdquo; is written as two words, but praise the idea.)</p>
+  <p style="margin:0"><b>Part 2:</b> Answers will vary. Example: jet | bug. &ldquo;A jetbug is a bug that zips fast.&rdquo;</p>
+  ${kh(18, "moon,planet,comet")}${kl([`${KEY("1")} (stump: u)`, `${KEY("2")} (cobweb: o, e)`, `${KEY("desk | top")}&nbsp;&nbsp;&nbsp;desktop`, `${KEY("pup | pet")}&nbsp;&nbsp;&nbsp;puppet`, `${KEY("hel | met")}&nbsp;&nbsp;&nbsp;helmet`, KEY("traf | fic"), `${KEY("tab | let")}&nbsp;&nbsp;&nbsp;tablet`, KEY("skil | let")])}
+  <div class="cols2" style="grid-template-columns: 1fr 3.4in; margin-top:.06in">
+    <div><p style="margin:0 0 .03in"><b>Scoring guide</b> (1 point per item)</p><ul class="dots"><li><b>7&ndash;8:</b> Ready for liftoff.</li><li><b>5&ndash;6:</b> Practice more with the pages for the level of the missed items.</li><li><b>0&ndash;4:</b> Reteach with the Mission Briefing (p. 4) in a small group.</li></ul></div>
+    <table class="t" style="font-size:11pt"><tr><th>Items</th><th>Level</th><th>Practice pages</th></tr><tr><td>1&ndash;3</td><td>${LVs("moon")} Moon</td><td>pp. 5&ndash;7, 12</td></tr><tr><td>4&ndash;6</td><td>${LVs("planet")} Planet</td><td>pp. 8, 10, 13</td></tr><tr><td>7&ndash;8</td><td>${LVs("comet")} Comet</td><td>pp. 9, 13</td></tr></table>
+  </div>
+  <h3>Paths by group (suggested page routes)</h3>
+  <ul class="dots cols-list" style="font-size:11.5pt">
+    <li><b>Moon group:</b> 4, 5, 6, 7, 12 + 14, 15 (read it together), 18 (items 1&ndash;3)</li>
+    <li><b>Planet group:</b> 4, 7, 8, 10, 11, 13 (spaces 1&ndash;13) + 14, 16, 15, 18</li>
+    <li><b>Comet group:</b> 8 (quick), 9, 10, 13 (whole board), 17, 18</li>
+    <li><b>2nd grade review:</b> 7, 9, 10, 11, 13, 17, 18</li>
+  </ul>
+`;
+
+/* ================= store name + footers + page numbers ================= */
+document.documentElement.style.setProperty("--store-name", JSON.stringify(STORE.name));
+$$(".page").forEach((p, i) => {
+  if (p.classList.contains("cover") || p.classList.contains("mb-page")) return;
+  p.insertAdjacentHTML("beforeend", `<div class="footer"><span class="store"></span><span class="std">${p.dataset.std || ""}</span><span class="pnum">Page ${i + 1}</span></div>`);
+});
+$$(".js-store").forEach(e => e.textContent = STORE.name);
+$$(".js-store-url").forEach(e => e.textContent = STORE.url);
+</script>
+</body>
+</html>
