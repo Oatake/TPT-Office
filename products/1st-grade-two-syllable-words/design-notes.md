@@ -95,7 +95,7 @@ Titles and flavor lines live in the `CONCEPT` object near the bottom of `workshe
   1. Night sky, "1st Grade" pill (82 px), "Two-Syllable Words" (136 px white), mint subtitle, a big nap | kin rocket splitting (coral vowels, Tinbot peeking from the nose window), sun + set ships, and the bar "Low Prep • 2 Board Games • Answer Keys".
   2. "Race to the Moon!" + "2 Board Games…", p.12 tilted −3° with a paper clip on the spinner, a pencil, and two rocket pieces on START (no board words covered), the coral bubble "Just add a paper clip!", and a small p.13 labeled "Board B".
   3. "Split It! Read It! Blast Off!", 4 routine cards rising along a dashed path, p.9 and p.10, with a short coral line on the first 3 maze cells only (A1→A3), under the words.
-  4. "Everything for Two-Syllable Words", a BIG WORDS wordmark, an open mini-book mockup showing the real pages 6 | 7, pp. 6/7/11/17, and the Control Panel ("15 student pages", "3 levels", "Prints in B&W", "Answer keys"). RF.1.3.e is not used because QA has not confirmed the standards yet.
+  4. "Practice, Play & Read Two-Syllable Words" (changed from "Everything for…", which overstated scope), a BIG WORDS wordmark, an open mini-book mockup showing the real pages 6 | 7, pp. 6/7/11/17, and the Control Panel ("15 student pages", "3 levels", "Prints in B&W", "Answer keys"). RF.1.3.e is not used because QA has not confirmed the standards yet.
   - The page images in the thumbnails come from 1× snapshots (`--thumbnails`), so the mini-book crop is slightly soft.
 
 ## Owner to-do

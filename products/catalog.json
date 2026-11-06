@@ -20,7 +20,7 @@
       "slug": "1st-grade-two-syllable-words",
       "date": "2026-11-06",
       "status": "in-progress",
-      "title": "Two-Syllable Words Worksheets: Compound Words & Closed Syllables (VC/CV) | 1st Grade Phonics",
+      "title": "Two-Syllable Words Worksheets | Compound Words & Closed Syllables | 1st Grade",
       "series": "big-words",
       "subject": "ELA",
       "grades": [
@@ -44,7 +44,9 @@
       ],
       "standards": [
         "RF.1.3.e",
-        "RF.1.3.d"
+        "RF.1.3.d",
+        "RF.1.3.b",
+        "RF.1.4.b"
       ],
       "price": 4.0
     },
