@@ -273,3 +273,7 @@ html:root {
   - ป.2 syllable types: เสนอ `garden-calm` หรือ `doodle-notebook` + hero `color-by-code`/`riddle-code` (เช่น "syllable types เป็นพืช 6 ชนิดในสวน") ให้ตัดสินตอนทำ brief ของชิ้นนั้น
   - ป.3 multisyllabic: `clean-minimal` หรือ `adventure-quest` + `riddle-code`/`escape-room` ดีไซน์ไม่เด็ก ตามที่ research เสนอ (จรวด 3+ ท่อนใช้ได้เฉพาะถ้าดีไซน์ไม่ดูเด็ก)
 - **Freebie ที่เสนอ (ให้ marketing ตัดสิน):** Mission Briefing + Race to the Moon กระดาน A + Flight Log (3 หน้า)
+
+## Owner Decisions (2026-11-06)
+- Plan in `02-plan.md` (24 pages, 14 student pages, $4.00) — **approved**.
+- Concept "Word Rockets", theme `space-lab`, hero `board-game` — **approved**.
