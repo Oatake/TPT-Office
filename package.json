@@ -5,7 +5,10 @@
   "description": "AI agent team for creating Teachers Pay Teachers worksheets",
   "type": "module",
   "scripts": {
-    "pdf": "node scripts/build-pdf.mjs"
+    "pdf": "node scripts/build-pdf.mjs",
+    "office": "node office/server.mjs",
+    "office:status": "node office/server.mjs --once",
+    "test": "node --test office/test/*.test.mjs"
   },
   "devDependencies": {
     "playwright": "^1.47.0"

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TPT Office</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%232f6fdd'/%3E%3Crect x='2' y='1' width='4' height='3' fill='%23f2c9a0'/%3E%3Crect x='2' y='1' width='4' height='1' fill='%233b2a1e'/%3E%3Crect x='1' y='5' width='6' height='3' fill='%23f5a623'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      <div>
+        <h1>TPT Office</h1>
+        <p class="sub">ห้องทำงานของทีม AI agent · <span id="repo">—</span></p>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </header>
+
+  <main>
+    <section class="stage" aria-label="ออฟฟิศ">
+      <div class="frame">
+        <canvas id="office" width="448" height="256" role="img" aria-label="ภาพออฟฟิศแบบ pixel: แต่ละคนคือ agent หนึ่งตำแหน่ง คลิกที่ตัวละครเพื่อดูรายละเอียด"></canvas>
+      </div>
+      <ul class="legend" aria-label="ความหมายของสัญลักษณ์">
+        <li><i class="dot working"></i>กำลังทำงาน (live)</li>
+        <li><i class="dot next"></i>ถึงคิว — รอสั่งงาน</li>
+        <li><i class="dot waiting"></i>รอเจ้าของร้านตอบ</li>
+        <li><i class="dot stalled"></i>งานค้าง</li>
+        <li><i class="dot idle"></i>ว่าง (พักที่เลานจ์)</li>
+      </ul>
+    </section>
+
+    <div class="grid">
+      <section class="panel" aria-labelledby="team-h">
+        <div class="panel-h"><h2 id="team-h">ทีมงาน</h2><span class="count" id="team-count"></span></div>
+        <ul class="team" id="team"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="pipe-h">
+        <div class="panel-h"><h2 id="pipe-h">สายการผลิตสินค้า</h2><span class="count" id="pipe-count"></span></div>
+        <div id="pipeline" class="pipeline"></div>
+        <div class="ideas" id="ideas"></div>
+      </section>
+
+      <div class="side">
+        <section class="panel" aria-labelledby="cmd-h">
+          <div class="panel-h"><h2 id="cmd-h">สั่งงานทีม</h2></div>
+          <p class="hint">พิมพ์หัวข้อ แล้วคัดลอกคำสั่งไปวางใน Claude Code (เปิดในโฟลเดอร์ repo นี้)</p>
+          <label class="field">
+            <span>หัวข้อสินค้า</span>
+            <input id="topic" type="text" placeholder="เช่น 3rd grade multiplication arrays" autocomplete="off">
+          </label>
+          <div class="cmd-list" id="cmds"></div>
+          <button type="button" class="btn" id="variety-btn">ดูรายงานความหลากหลาย (variety report)</button>
+        </section>
+
+        <section class="panel" aria-labelledby="feed-h">
+          <div class="panel-h"><h2 id="feed-h">ความเคลื่อนไหว</h2></div>
+          <ol class="feed" id="feed"></ol>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="sheet" aria-labelledby="sheet-title">
+    <div class="sheet-h">
+      <h2 id="sheet-title"></h2>
+      <button type="button" class="icon-btn" id="sheet-close" aria-label="ปิด">✕</button>
+    </div>
+    <div id="sheet-body" class="sheet-body"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

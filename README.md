@@ -65,6 +65,29 @@
    ใช้ quality-reviewer ตรวจ products/2nd-grade-halloween-subtraction อีกรอบ
    ```
 
+## 🕹️ TPT Office — หน้าดูสถานะทีมแบบ pixel office
+
+ห้องทำงานจำลองแบบ pixel art: agent แต่ละตำแหน่งมีโต๊ะของตัวเอง (เรียงตามลำดับ pipeline) และ PM (Claude หลัก) เดินคุมงาน
+
+![TPT Office](office/screenshot.png)
+
+```bash
+npm run office            # เปิด http://127.0.0.1:4173
+npm run office -- --demo  # ลองดูตอน agent จำลองทำงานไล่ทั้ง pipeline (ไม่แตะไฟล์ใน repo)
+npm run office:status     # พิมพ์สถานะทั้งหมดเป็น JSON
+npm test                  # test ของหน้า office
+```
+| ส่วน | อ่านข้อมูลจาก | แสดงอะไร |
+|---|---|---|
+| ตัวละครในออฟฟิศ | transcript ของ Claude Code (`~/.claude/projects/<repo>/`) | agent ที่ถูกเรียกอยู่จะเดินไปนั่งโต๊ะและพิมพ์งาน ฟองข้อความบอกว่ากำลัง เขียน / อ่าน / ค้นเว็บ / รันคำสั่ง; คนที่ว่างไปพักที่เลานจ์ |
+| ทีมงาน | `.claude/agents/*.md` + git log | สถานะ: กำลังทำงาน · ถึงคิว · รอเจ้าของร้าน · งานค้าง · ว่าง และผลงานล่าสุด |
+| สายการผลิต | `products/catalog.json` + ไฟล์ใน `products/<slug>/` | 9 ขั้นของ `/new-tpt-product` ต่อสินค้า, ผล QA/Appeal, ผลตรวจ listing, thumbnail, ลิงก์ PDF |
+| สั่งงานทีม | — | คัดลอกคำสั่ง `/new-tpt-product`, `/tpt-niche-research` ไปวางใน Claude Code และดู variety report |
+
+- ไม่มี dependency เพิ่ม (Node อย่างเดียว) และเปิดแค่ในเครื่อง (`127.0.0.1`) — หน้าเว็บอ่านได้อย่างเดียว ไม่แก้ไฟล์ใน repo
+- ถ้ารัน Claude Code ที่อื่น ชี้ไปที่โฟลเดอร์ transcript ได้ด้วย `--transcripts <dir>`; ปิดส่วน live ด้วย `--no-live`
+- ปรับหน้าตาตัวละคร / ชื่อตำแหน่งภาษาไทยได้ที่ `office/lib/team.mjs` (agent ใหม่ที่เพิ่มใน `.claude/agents/` จะโผล่อัตโนมัติ)
+
 ## 🎨 ระบบกันซ้ำ (สำหรับการออกสินค้าทุกวัน)
 
 | ส่วนประกอบ | ไฟล์ | ทำอะไร |
