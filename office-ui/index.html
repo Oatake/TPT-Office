@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TPT-Office Live</title>
+<style>
+  :root {
+    --bg: #f6f4ef; --panel: #ffffff; --ink: #1f2328; --muted: #6b6f76; --line: #e4e0d8;
+    --working: #2f6fdb; --working-bg: #e6efff;
+    --supervising: #5a5fd6; --supervising-bg: #ececff;
+    --waiting: #b26b00; --waiting-bg: #fff1d6;
+    --stalled: #c2410c; --stalled-bg: #ffe7d9;
+    --error: #c62828; --error-bg: #fde4e4;
+    --rework: #c62828; --rework-bg: #fde4e4;
+    --done: #1f8a4c; --done-bg: #dff5e7;
+    --idle: #6b6f76; --idle-bg: #efede8;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15171a; --panel: #1e2125; --ink: #e8e6e3; --muted: #9aa0a6; --line: #2e3238;
+      --working: #7aa7ff; --working-bg: #1d2a44; --supervising: #a5a8ff; --supervising-bg: #25264a;
+      --waiting: #ffc266; --waiting-bg: #3a2c12; --stalled: #ff9a66; --stalled-bg: #3d2416;
+      --error: #ff8a8a; --error-bg: #3d1c1c; --rework: #ff8a8a; --rework-bg: #3d1c1c;
+      --done: #6fd39a; --done-bg: #173323; --idle: #9aa0a6; --idle-bg: #26292e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", "Noto Sans Thai", "Sarabun", sans-serif; }
+  header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 2; }
+  header h1 { font-size: 18px; margin: 0; }
+  .conn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--idle); }
+  .dot.on { background: var(--done); } .dot.off { background: var(--error); }
+  header .spacer { flex: 1; }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; padding: 20px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 980px) { main { grid-template-columns: minmax(0, 1fr); padding: 16px; } }
+  h2 { font-size: 15px; margin: 0 0 10px; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+  section { margin-bottom: 24px; }
+
+  .alert { display: none; padding: 12px 16px; border-radius: var(--radius); margin-bottom: 18px; font-weight: 600; }
+  .alert.show { display: block; }
+  .alert.waiting { background: var(--waiting-bg); color: var(--waiting); }
+  .alert.stalled { background: var(--stalled-bg); color: var(--stalled); }
+  .alert.error { background: var(--error-bg); color: var(--error); }
+
+  .team { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px;
+    border-left: 5px solid var(--c, var(--idle)); min-height: 132px; display: flex; flex-direction: column; gap: 6px; }
+  .card.pm { grid-column: 1 / -1; min-height: 0; }
+  .who { display: flex; align-items: center; gap: 10px; }
+  .avatar { font-size: 26px; width: 40px; height: 40px; display: grid; place-items: center;
+    background: var(--cbg, var(--idle-bg)); border-radius: 10px; flex: none; }
+  .card.working .avatar, .card.supervising .avatar { animation: bob 1.2s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-3px); } }
+  @media (prefers-reduced-motion: reduce) { .card .avatar, .step.active .pip { animation: none !important; } }
+  .name { font-weight: 650; line-height: 1.25; }
+  .en { font-size: 12px; color: var(--muted); }
+  .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600;
+    padding: 2px 9px; border-radius: 999px; color: var(--c, var(--idle)); background: var(--cbg, var(--idle-bg)); width: fit-content; }
+  .summary { font-size: 13.5px; overflow-wrap: anywhere; }
+  .meta { font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: auto; }
+  .note { font-size: 13px; color: var(--c); }
+  .slug { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+
+  .working { --c: var(--working); --cbg: var(--working-bg); }
+  .supervising { --c: var(--supervising); --cbg: var(--supervising-bg); }
+  .waiting { --c: var(--waiting); --cbg: var(--waiting-bg); }
+  .stalled { --c: var(--stalled); --cbg: var(--stalled-bg); }
+  .error { --c: var(--error); --cbg: var(--error-bg); }
+  .rework { --c: var(--rework); --cbg: var(--rework-bg); }
+  .done { --c: var(--done); --cbg: var(--done-bg); }
+  .idle { --c: var(--idle); --cbg: var(--idle-bg); }
+
+  .product { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; margin-bottom: 12px;
+    display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; }
+  .thumb { width: 72px; height: 72px; border-radius: 8px; background: var(--idle-bg); object-fit: cover; display: grid; place-items: center; font-size: 28px; }
+  .ptitle { font-weight: 650; overflow-wrap: anywhere; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .pipeline { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; }
+  .step { text-align: center; font-size: 11.5px; color: var(--muted); }
+  .pip { height: 8px; border-radius: 4px; background: var(--line); margin-bottom: 4px; }
+  .step.done .pip { background: var(--done); }
+  .step.done { color: var(--ink); }
+  .step.active .pip { background: var(--working); animation: pulse 1s ease-in-out infinite; }
+  .step.active { color: var(--working); font-weight: 650; }
+  .step.rework .pip { background: var(--rework); }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .links { margin-top: 10px; font-size: 12.5px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .links a { color: var(--working); text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+  @media (max-width: 560px) { .step span { display: none; } .product { grid-template-columns: 52px minmax(0,1fr); } .thumb { width: 52px; height: 52px; } }
+
+  aside .box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 18px; }
+  .tl { list-style: none; margin: 0; padding: 0; max-height: 520px; overflow-y: auto; }
+  .tl li { padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 13.5px; display: grid; grid-template-columns: 46px minmax(0,1fr); gap: 8px; }
+  .tl li:last-child { border-bottom: 0; }
+  .tl time { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; padding-top: 1px; }
+  .tl .k-error, .tl .k-warn { color: var(--error); } .tl .k-wait { color: var(--waiting); }
+  .tl .k-done { color: var(--done); } .tl .k-owner { font-weight: 600; }
+  .empty { color: var(--muted); font-size: 13.5px; }
+  .commits li { grid-template-columns: 60px minmax(0,1fr); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: var(--idle-bg); padding: 1px 5px; border-radius: 5px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏢 TPT-Office Live</h1>
+  <span class="conn"><span id="dot" class="dot"></span><span id="conn">กำลังเชื่อมต่อ…</span></span>
+  <span class="spacer"></span>
+  <span class="conn" id="clock"></span>
+</header>
+
+<main>
+  <div>
+    <div id="alert" class="alert" role="status"></div>
+    <section>
+      <h2>ทีมงาน</h2>
+      <div class="team" id="team"></div>
+    </section>
+    <section>
+      <h2>สินค้า (pipeline)</h2>
+      <div id="products"></div>
+    </section>
+  </div>
+  <aside>
+    <div class="box">
+      <h2>ไทม์ไลน์</h2>
+      <ul class="tl" id="timeline"></ul>
+    </div>
+    <div class="box">
+      <h2>ผู้ช่วยนอกทีม</h2>
+      <ul class="tl" id="guests"></ul>
+    </div>
+    <div class="box">
+      <h2>commit ล่าสุด</h2>
+      <ul class="tl commits" id="commits"></ul>
+    </div>
+  </aside>
+</main>
+
+<script>
+const STATE_LABEL = {
+  working: '⌨️ กำลังทำงาน', supervising: '👀 คุมงานทีม', waiting: '✋ รอเจ้าของร้าน',
+  stalled: '💤 เงียบนานผิดปกติ', error: '❗ มีปัญหา', rework: '↩️ ต้องแก้งาน',
+  done: '✅ เพิ่งส่งงาน', idle: '☕ ว่าง',
+};
+const STATUS_LABEL = { planning: 'วางแผน', 'in-progress': 'กำลังทำ', ready: 'พร้อมขาย', published: 'ลงขายแล้ว', archived: 'เก็บแล้ว' };
+const STATUS_CLASS = { planning: 'working', 'in-progress': 'working', ready: 'done', published: 'done', archived: 'idle' };
+const STAGE_TH = ['วิจัย', 'Brief', 'แผน', 'เนื้อหา', 'ออกแบบ', 'QA', 'Listing', 'การตลาด'];
+const STAGE_FILES = ['01-research.md', '02b-creative-brief.md', '02-plan.md', '03-content.md', null, '05-qa-report.md', '06-listing.md', '07-marketing.md'];
+
+let state = null;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function ago(ts) {
+  if (!ts) return '';
+  const s = Math.max(0, Math.round((Date.now() - Date.parse(ts)) / 1000));
+  if (s < 60) return `${s} วินาที`;
+  if (s < 3600) return `${Math.floor(s / 60)} นาที`;
+  if (s < 86400) return `${Math.floor(s / 3600)} ชม. ${Math.floor((s % 3600) / 60)} นาที`;
+  return `${Math.floor(s / 86400)} วัน`;
+}
+const hhmm = (ts) => ts ? new Date(ts).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) : '';
+
+function renderTeam() {
+  $('team').innerHTML = state.team.map((a) => {
+    // PM แสดง "ล่าสุด" เสมอ (since = ความเคลื่อนไหวล่าสุด) ส่วน agent ที่กำลังทำงานแสดง "ทำมา"
+    const busy = a.id !== 'pm' && (a.state === 'working' || a.state === 'stalled');
+    const time = a.since ? (busy ? `ทำมา ${ago(a.since)}` : `ล่าสุด ${ago(a.since)} ที่แล้ว`) : 'ยังไม่มีงานใน log';
+    const extra = [
+      a.slug ? `<span class="slug">${esc(a.slug)}</span>` : '',
+      a.qaRound ? `<span>QA รอบที่ ${a.qaRound}</span>` : '',
+      a.parallel > 1 ? `<span>ทำพร้อมกัน ${a.parallel} งาน</span>` : '',
+      a.tools ? `<span>${a.tools} ขั้นตอน</span>` : '',
+    ].filter(Boolean).join('');
+    return `<div class="card ${a.state} ${a.id === 'pm' ? 'pm' : ''}">
+      <div class="who"><div class="avatar" aria-hidden="true">${a.icon}</div>
+        <div><div class="name">${esc(a.th)}</div><div class="en">${esc(a.en)}</div></div></div>
+      <span class="chip">${STATE_LABEL[a.state] || a.state}</span>
+      ${a.note ? `<div class="note">${esc(a.note)}</div>` : ''}
+      ${a.summary && a.state !== 'idle' ? `<div class="summary">${esc(a.summary)}</div>` : ''}
+      <div class="meta"><span data-ago="${esc(a.since || '')}" data-busy="${busy}">${time}</span>${extra}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAlert() {
+  const pm = state.team[0];
+  const stuck = state.team.filter((a) => a.state === 'stalled' || a.state === 'error');
+  const el = $('alert');
+  el.className = 'alert';
+  if (pm.state === 'waiting') {
+    el.className = 'alert show waiting';
+    el.textContent = `✋ ผู้จัดการโปรเจกต์รอคุณอยู่: ${pm.note || 'กลับไปที่ Claude Code เพื่อตอบ'}`;
+  } else if (stuck.length) {
+    const a = stuck[0];
+    el.className = `alert show ${a.state}`;
+    el.textContent = `${a.state === 'error' ? '❗' : '💤'} ${a.th}: ${a.note || STATE_LABEL[a.state]}` +
+      (a.state === 'stalled' ? ' (อาจติด rate limit หรือหยุดกลางทาง ลองเช็กใน Claude Code)' : '');
+  }
+  document.title = (pm.state === 'waiting' ? '✋ ' : stuck.length ? '❗ ' : '') + 'TPT-Office Live';
+}
+
+function verdictChip(label, v) {
+  if (!v) return '';
+  const cls = v === 'PASS' ? 'done' : v === 'PASS WITH FIXES' ? 'waiting' : 'error';
+  return `<span class="chip ${cls}">${label}: ${esc(v)}</span>`;
+}
+
+function renderProducts() {
+  if (!state.products.length) { $('products').innerHTML = '<p class="empty">ยังไม่มีสินค้า เริ่มด้วย <code>/new-tpt-product</code></p>'; return; }
+  $('products').innerHTML = state.products.map((p) => {
+    const base = `/files/products/${encodeURIComponent(p.slug)}/`;
+    const thumb = p.thumbnail ? `<img class="thumb" src="/files/${p.thumbnail}" alt="">` : `<div class="thumb" aria-hidden="true">📄</div>`;
+    const steps = p.stages.map((st, i) => {
+      const rework = p.rework && (st.id === 'content' || st.id === 'design' || st.id === 'qa') && !st.active;
+      const cls = st.active ? 'active' : rework ? 'rework' : st.done ? 'done' : '';
+      return `<div class="step ${cls}" title="${STAGE_TH[i]}"><div class="pip"></div><span>${STAGE_TH[i]}</span></div>`;
+    }).join('');
+    const links = p.stages.map((st, i) => st.done && STAGE_FILES[i] ? `<a href="${base}${STAGE_FILES[i]}" target="_blank" rel="noopener">${STAGE_FILES[i]}</a>` : '').filter(Boolean);
+    if (p.stages[4].done) links.push(`<a href="${base}output/${encodeURIComponent(p.slug)}.pdf" target="_blank" rel="noopener">PDF</a>`);
+    return `<article class="product">
+      ${thumb}
+      <div>
+        <div class="ptitle">${esc(p.title)}</div>
+        <div class="badges">
+          <span class="chip ${STATUS_CLASS[p.status] || 'idle'}">${STATUS_LABEL[p.status] || esc(p.status)}</span>
+          ${verdictChip('QA', p.qa)} ${verdictChip('Appeal', p.appeal)}
+          ${p.rework ? '<span class="chip rework">↩️ ส่งกลับแก้</span>' : ''}
+          ${p.qaRounds ? `<span class="chip idle">QA ${p.qaRounds} รอบ</span>` : ''}
+          ${p.theme ? `<span class="chip idle">ธีม ${esc(p.theme)}</span>` : ''}
+          <span class="chip idle slug">${esc(p.slug)}</span>
+        </div>
+        <div class="pipeline">${steps}</div>
+        <div class="links">${links.join('')}</div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function renderLists() {
+  const tl = state.timeline;
+  $('timeline').innerHTML = tl.length
+    ? tl.map((t) => `<li><time>${hhmm(t.ts)}</time><span class="k-${t.kind}">${esc(t.text)}</span></li>`).join('')
+    : `<li class="empty">${state.hasEvents ? 'ยังไม่มีเหตุการณ์สำคัญ' : 'ยังไม่มี log: เปิด Claude Code ในโฟลเดอร์นี้แล้วสั่งงานได้เลย hooks จะเริ่มจดเอง'}</li>`;
+  $('guests').innerHTML = state.guests.length
+    ? state.guests.map((g) => `<li><time>${hhmm(g.lastTs)}</time><span><b>${esc(g.role)}</b> <span class="chip ${g.state}">${STATE_LABEL[g.state] || g.state}</span><br>${esc(g.summary)}</span></li>`).join('')
+    : '<li class="empty">ไม่มี</li>';
+  $('commits').innerHTML = (state.commits || []).map((c) => `<li><time><code>${esc(c.hash)}</code></time><span>${esc(c.subject)}</span></li>`).join('') || '<li class="empty">-</li>';
+}
+
+function render() {
+  if (!state) return;
+  renderAlert(); renderTeam(); renderProducts(); renderLists();
+}
+
+// อัปเดตตัวเลข "ทำมา X นาที" ทุกวินาที โดยไม่ต้องรอ server
+setInterval(() => {
+  $('clock').textContent = new Date().toLocaleTimeString('th-TH');
+  document.querySelectorAll('[data-ago]').forEach((el) => {
+    const ts = el.dataset.ago;
+    if (!ts) return;
+    el.textContent = el.dataset.busy === 'true' ? `ทำมา ${ago(ts)}` : `ล่าสุด ${ago(ts)} ที่แล้ว`;
+  });
+}, 1000);
+
+function connect() {
+  const es = new EventSource('/api/stream');
+  es.onopen = () => { $('dot').className = 'dot on'; $('conn').textContent = 'เชื่อมต่อสด'; };
+  es.onmessage = (e) => { state = JSON.parse(e.data); render(); };
+  es.onerror = () => { $('dot').className = 'dot off'; $('conn').textContent = 'หลุดการเชื่อมต่อ กำลังลองใหม่…'; };
+}
+connect();
+</script>
+</body>
+</html>

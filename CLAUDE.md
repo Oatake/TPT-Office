@@ -25,6 +25,8 @@ products/catalog.json  ทะเบียนสินค้าทั้งหม
 scripts/variety-report.mjs  สรุปสิ่งที่ใช้ไปล่าสุด + เช็กกติกากันซ้ำ
 scripts/build-pdf.mjs  แปลง HTML → PDF / preview / thumbnails
 scripts/listing-preview.mjs  หน้าจำลอง listing (desktop/mobile/search grid) + ตรวจ title/keyword/คำต้องห้าม
+scripts/office-*.mjs   TPT-Office Live: hook บันทึกเหตุการณ์ + server หน้าจอดูสถานะทีม (office-ui/)
+.office/               log เหตุการณ์จาก hooks (ไม่ commit; ลบโฟลเดอร์ = ปิดการบันทึก)
 products/<slug>/       งานของแต่ละสินค้า (01-research … 07-marketing, output/)
 products/_ideas/       ผลวิจัยไอเดียที่ยังไม่ได้สร้างสินค้า
 ```
@@ -39,4 +41,5 @@ node scripts/build-pdf.mjs <in.html> <out-dir> --thumbnails --pages 4 # PNG 1400
 node scripts/build-pdf.mjs <in.html> <out.pdf> --theme space-lab     # ลองธีมอื่นโดยไม่แก้ไฟล์
 node scripts/variety-report.mjs 10                                    # ดูความหลากหลาย 10 ชิ้นล่าสุด
 node scripts/listing-preview.mjs products/<slug>                       # หน้าจำลอง listing + ตรวจ listing อัตโนมัติ
+npm run office                                                         # หน้าจอดูสถานะทีมสด http://127.0.0.1:4777
 ```
