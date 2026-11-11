@@ -17,6 +17,29 @@
   },
   "products": [
     {
+      "slug": "3rd-grade-winter-fractions-number-line",
+      "date": "2026-11-11",
+      "status": "planning",
+      "title": "Winter Fractions on a Number Line Worksheets & Mazes | 3rd Grade 3.NF.A.2 | No Prep",
+      "series": "3rd-grade-fractions",
+      "subject": "Math",
+      "grades": [
+        "3"
+      ],
+      "topic": "fractions on a number line (unit fractions, a/b, equivalent fractions and whole numbers on a number line)",
+      "theme": null,
+      "concept": null,
+      "hero_activity": "maze",
+      "activities": [],
+      "standards": [
+        "3.NF.A.2.a",
+        "3.NF.A.2.b",
+        "3.NF.A.3.a",
+        "3.NF.A.3.c"
+      ],
+      "price": 4
+    },
+    {
       "slug": "1st-grade-two-syllable-words",
       "date": "2026-11-06",
       "status": "ready",
@@ -48,7 +71,7 @@
         "RF.1.3.b",
         "RF.1.4.b"
       ],
-      "price": 4.0
+      "price": 4
     },
     {
       "slug": "2nd-grade-regroup-or-not-subtraction",
@@ -82,7 +105,7 @@
         "2.OA.A.1",
         "2.NBT.B.7"
       ],
-      "price": 5.0
+      "price": 5
     }
   ]
 }
