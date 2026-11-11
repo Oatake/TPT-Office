@@ -33,11 +33,10 @@
       "activities": [
         "draw-model",
         "fill-in",
-        "match-up",
         "maze",
         "open-ended",
-        "always-sometimes-never",
         "spot-mistake",
+        "always-sometimes-never",
         "four-in-row",
         "quick-check",
         "self-assess",
@@ -47,7 +46,8 @@
         "3.NF.A.2.a",
         "3.NF.A.2.b",
         "3.NF.A.3.a",
-        "3.NF.A.3.c"
+        "3.NF.A.3.c",
+        "3.NF.A.3.b"
       ],
       "price": 4
     },
