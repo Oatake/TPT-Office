@@ -103,21 +103,51 @@
   .tl .k-done { color: var(--done); } .tl .k-owner { font-weight: 600; }
   .empty { color: var(--muted); font-size: 13.5px; }
   .commits li { grid-template-columns: 60px minmax(0,1fr); }
+  .tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--bg); }
+  .tabs button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 13px; padding: 4px 12px; border-radius: 999px; cursor: pointer; }
+  .tabs button[aria-pressed="true"] { background: var(--panel); color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .office-wrap { position: relative; background: #3b2f25; border-radius: var(--radius); padding: 0; overflow: hidden; display: flex; justify-content: center; }
+  .office-wrap canvas { display: block; image-rendering: pixelated; touch-action: manipulation; }
+  .office-tip { position: absolute; z-index: 3; max-width: 260px; background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 10px; font-size: 13px; box-shadow: 0 6px 20px rgba(0,0,0,.25); pointer-events: none; }
+  .office-tip .name { font-size: 14px; }
+  .office-tip .chip { margin: 4px 0; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px; margin-top: 10px; }
+  .legend button { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 8px;
+    align-items: center; font-size: 12.5px; line-height: 1.35; padding: 5px 8px; border-radius: 8px; background: var(--panel);
+    border: 1px solid var(--line); border-left: 4px solid var(--c, var(--idle)); }
+  .legend button > span:first-child { grid-row: span 2; font-size: 18px; }
+  .legend button:focus-visible { outline: 2px solid var(--working); }
+  .legend .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .legend .st { color: var(--c); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  body[data-view="office"] #teamSection { display: none; }
+  body[data-view="cards"] #officeSection { display: none; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: var(--idle-bg); padding: 1px 5px; border-radius: 5px; }
 </style>
 </head>
-<body>
+<body data-view="office">
 <header>
   <h1>🏢 TPT-Office Live</h1>
   <span class="conn"><span id="dot" class="dot"></span><span id="conn">กำลังเชื่อมต่อ…</span></span>
   <span class="spacer"></span>
+  <span class="tabs" role="group" aria-label="มุมมอง">
+    <button type="button" data-view="office" aria-pressed="true">🏢 ออฟฟิศ</button>
+    <button type="button" data-view="cards" aria-pressed="false">📋 การ์ด</button>
+  </span>
   <span class="conn" id="clock"></span>
 </header>
 
 <main>
   <div>
     <div id="alert" class="alert" role="status"></div>
-    <section>
+    <section id="officeSection">
+      <h2>ออฟฟิศ</h2>
+      <div class="office-wrap" id="office"></div>
+      <div class="legend" id="legend" aria-label="สถานะทีม"></div>
+      <p class="hint">ชี้หรือแตะที่ตัวละคร/โต๊ะเพื่อดูรายละเอียด • กระดานบนผนังแสดง pipeline ของสินค้าที่กำลังทำ</p>
+    </section>
+    <section id="teamSection">
       <h2>ทีมงาน</h2>
       <div class="team" id="team"></div>
     </section>
@@ -142,6 +172,7 @@
   </aside>
 </main>
 
+<script src="/office.js"></script>
 <script>
 const STATE_LABEL = {
   working: '⌨️ กำลังทำงาน', supervising: '👀 คุมงานทีม', waiting: '✋ รอเจ้าของร้าน',
@@ -254,10 +285,39 @@ function renderLists() {
   $('commits').innerHTML = (state.commits || []).map((c) => `<li><time><code>${esc(c.hash)}</code></time><span>${esc(c.subject)}</span></li>`).join('') || '<li class="empty">-</li>';
 }
 
+function describe(a) {
+  const busy = a.id !== 'pm' && (a.state === 'working' || a.state === 'stalled');
+  const time = a.since ? (busy ? `ทำมา ${ago(a.since)}` : `ล่าสุด ${ago(a.since)} ที่แล้ว`) : '';
+  return `<div class="name">${a.icon || ''} ${esc(a.th)}</div><div class="en">${esc(a.en || '')}</div>
+    <div class="chip ${a.state}">${STATE_LABEL[a.state] || esc(a.state)}</div>
+    ${a.note ? `<div class="note ${a.state}">${esc(a.note)}</div>` : ''}
+    ${a.summary && a.state !== 'idle' ? `<div class="summary">${esc(a.summary)}</div>` : ''}
+    <div class="meta">${time ? `<span>${time}</span>` : ''}${a.slug ? `<span class="slug">${esc(a.slug)}</span>` : ''}${a.qaRound ? `<span>QA รอบที่ ${a.qaRound}</span>` : ''}</div>`;
+}
+
+function renderLegend() {
+  $('legend').innerHTML = state.team.map((a) =>
+    `<button type="button" class="${a.state}" data-id="${a.id}" title="${esc(a.th)}: ${esc(STATE_LABEL[a.state] || a.state)}">
+      <span aria-hidden="true">${a.icon}</span><span class="nm">${esc(a.th)}</span><span class="st">${STATE_LABEL[a.state] || a.state}</span></button>`).join('');
+}
+
 function render() {
   if (!state) return;
-  renderAlert(); renderTeam(); renderProducts(); renderLists();
+  renderAlert(); renderTeam(); renderLegend(); renderProducts(); renderLists();
+  if (window.Office) Office.update(state);
 }
+
+// สลับมุมมอง ออฟฟิศ / การ์ด (จำค่าไว้ในเบราว์เซอร์นี้)
+function setView(v) {
+  document.body.dataset.view = v;
+  document.querySelectorAll('.tabs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  try { localStorage.setItem('tpt-office-view', v); } catch { /* storage ปิดอยู่ก็ไม่เป็นไร */ }
+}
+document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+try { const v = localStorage.getItem('tpt-office-view'); if (v === 'cards' || v === 'office') setView(v); } catch { /* ignore */ }
+// คลิกที่แถบสถานะ = ไปดูการ์ดเต็ม
+$('legend').addEventListener('click', (e) => { if (e.target.closest('button')) setView('cards'); });
+if (window.Office) Office.init($('office'), { describe });
 
 // อัปเดตตัวเลข "ทำมา X นาที" ทุกวินาที โดยไม่ต้องรอ server
 setInterval(() => {

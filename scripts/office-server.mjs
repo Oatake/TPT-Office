@@ -4,6 +4,7 @@
 //   npm run office                    เปิด server ที่ http://127.0.0.1:4777
 //   node scripts/office-server.mjs --port 5000 --host 0.0.0.0
 //   node scripts/office-server.mjs --once        พิมพ์สถานะ (JSON) ครั้งเดียวแล้วจบ
+//   node scripts/office-server.mjs --events demo.jsonl   อ่าน log จากไฟล์อื่น
 //
 // การเปิด server จะสร้างโฟลเดอร์ .office/ ให้อัตโนมัติ = เปิดการบันทึกของ hooks
 // (ดู scripts/office-hook.mjs และ .claude/settings.json) ลบ .office/ = ปิดการบันทึก
@@ -18,7 +19,6 @@ import { createLive, applyEvent, scanProducts, snapshot } from './office-state.m
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OFFICE_DIR = path.join(ROOT, '.office');
-const EVENTS = path.join(OFFICE_DIR, 'events.jsonl');
 const UI = path.join(ROOT, 'office-ui', 'index.html');
 const MAX_REPLAY_BYTES = 5 * 1024 * 1024;
 
@@ -30,31 +30,41 @@ const opt = (name, def) => {
 const PORT = Number(opt('--port', process.env.OFFICE_PORT || 4777));
 const HOST = opt('--host', process.env.OFFICE_HOST || '127.0.0.1');
 const ONCE = args.includes('--once');
+// --events <file> ใช้ไฟล์ log อื่น (เช่น ไฟล์จำลองสำหรับทดสอบ/สาธิต)
+const EVENTS = path.resolve(opt('--events', path.join(OFFICE_DIR, 'events.jsonl')));
 
 fs.mkdirSync(OFFICE_DIR, { recursive: true });
 
 // ---------------------------------------------------------------- อ่าน events (ต่อท้ายทีละส่วน)
-const live = createLive();
+let live = createLive();
+let fileId = null; // inode ของไฟล์ log — เปลี่ยน = ไฟล์ใหม่
 let offset = 0;
-let partial = '';
+let partial = Buffer.alloc(0); // เก็บเป็น byte เพื่อไม่ตัดตัวอักษรไทย (UTF-8) กลางตัว
 
 function readNewEvents() {
   let size;
-  try { size = fs.statSync(EVENTS).size; } catch { return false; }
-  if (size < offset) { offset = 0; partial = ''; } // ไฟล์ถูกลบ/เริ่มใหม่
+  let st;
+  try { st = fs.statSync(EVENTS); } catch { return false; }
+  size = st.size;
+  if (size < offset || (fileId !== null && st.ino !== fileId)) { // ไฟล์ถูกล้าง/สร้างใหม่ → เริ่มนับใหม่
+    offset = 0; partial = Buffer.alloc(0); live = createLive();
+  }
+  fileId = st.ino;
   if (size === offset) return false;
   let start = offset;
-  if (offset === 0 && size > MAX_REPLAY_BYTES) start = size - MAX_REPLAY_BYTES;
+  const skipped = offset === 0 && size > MAX_REPLAY_BYTES; // log ใหญ่มาก: อ่านแค่ส่วนท้าย
+  if (skipped) start = size - MAX_REPLAY_BYTES;
   const fd = fs.openSync(EVENTS, 'r');
   const buf = Buffer.alloc(size - start);
   fs.readSync(fd, buf, 0, buf.length, start);
   fs.closeSync(fd);
   offset = size;
-  let text = partial + buf.toString('utf8');
-  if (start > 0) text = text.slice(text.indexOf('\n') + 1); // ตัดบรรทัดแรกที่อาจขาดครึ่ง
-  const lines = text.split('\n');
-  partial = lines.pop();
-  for (const line of lines) {
+  let data = Buffer.concat([partial, buf]);
+  if (skipped) data = data.subarray(data.indexOf(0x0a) + 1); // ตัดบรรทัดแรกที่อาจขาดครึ่ง
+  const end = data.lastIndexOf(0x0a);
+  partial = Buffer.from(data.subarray(end + 1)); // บรรทัดที่ยังเขียนไม่จบ รอรอบหน้า
+  if (end < 0) return false;
+  for (const line of data.subarray(0, end).toString('utf8').split('\n')) {
     if (!line.trim()) continue;
     try { applyEvent(live, JSON.parse(line)); } catch { /* ข้ามบรรทัดเสีย */ }
   }
@@ -117,6 +127,10 @@ function startServer() {
     if (url.pathname === '/' || url.pathname === '/index.html') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
       return fs.createReadStream(UI).pipe(res);
+    }
+    if (url.pathname === '/office.js') {
+      res.writeHead(200, { 'content-type': 'text/javascript; charset=utf-8', 'cache-control': 'no-store' });
+      return fs.createReadStream(path.join(ROOT, 'office-ui', 'office.js')).pipe(res);
     }
     if (url.pathname === '/api/state') {
       readNewEvents();
