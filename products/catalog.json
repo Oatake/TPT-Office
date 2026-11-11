@@ -27,10 +27,22 @@
         "3"
       ],
       "topic": "fractions on a number line (unit fractions, a/b, equivalent fractions and whole numbers on a number line)",
-      "theme": null,
-      "concept": null,
+      "theme": "clean-minimal",
+      "concept": "Snowshoe Trail: Every Hop Is the Same Size! (Juniper the snowshoe hare hops equal hops from Base Camp (0) to the Cocoa Cabin (1); Birch the moose takes big strides for equivalent fractions; routine: Count the hops, Name one hop, Hop to the spot; self-checking Trail Mazes; non-holiday winter)",
       "hero_activity": "maze",
-      "activities": [],
+      "activities": [
+        "draw-model",
+        "fill-in",
+        "match-up",
+        "maze",
+        "open-ended",
+        "always-sometimes-never",
+        "spot-mistake",
+        "four-in-row",
+        "quick-check",
+        "self-assess",
+        "exit-ticket"
+      ],
       "standards": [
         "3.NF.A.2.a",
         "3.NF.A.2.b",
