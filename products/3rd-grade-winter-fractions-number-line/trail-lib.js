@@ -21,7 +21,7 @@
 <svg class="hidden-defs" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
 <defs>
   <!-- #3 Juniper, snowshoe hare — jumping pose (faces right). Fur fill = var(--fur) (white) -->
-  <symbol id="jun-jump" viewBox="0 0 124 96">
+  <symbol id="jun-jump" viewBox="0 0 124 96" overflow="visible" style="overflow:visible">
     <g ${S} stroke-width="3" fill="var(--fur,#fff)">
       <path d="M40 55 Q26 63 14 74" fill="none"/>
       <path d="M2 80 Q6 70 20 71 Q32 73 30 79 Q22 85 2 80 Z"/>
@@ -43,51 +43,49 @@
     <path d="M86 49 Q74 50 64 44" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 4"/>
   </symbol>
 
-  <!-- #3 Juniper — standing, pointing left (back toward 0) -->
-  <symbol id="jun-point" viewBox="0 0 90 120">
+  <!-- #3 Juniper standing body (faces right, 3/4 side view): long hind feet, haunch, cotton tail, snout + whiskers.
+       Fix Round 1 (QA mn-14): replaces the round "stacked" body that read like a snowman. -->
+  <symbol id="jun-stand" viewBox="0 0 90 120">
     <g ${S} stroke-width="3" fill="var(--fur,#fff)">
-      <ellipse cx="34" cy="111" rx="15" ry="5.5"/>
-      <ellipse cx="60" cy="111" rx="15" ry="5.5"/>
-      <ellipse cx="47" cy="80" rx="21" ry="27"/>
-      <path d="M30 70 Q18 64 6 60" fill="none"/>
-      <circle cx="5" cy="60" r="3.2"/>
-      <path d="M64 72 Q70 82 66 92" fill="none"/>
-      <ellipse cx="39" cy="15" rx="5.8" ry="15.5" transform="rotate(-10 39 15)"/>
-      <ellipse cx="55" cy="15" rx="5.8" ry="15.5" transform="rotate(10 55 15)"/>
-      <circle cx="47" cy="42" r="16"/>
+      <circle cx="19" cy="95" r="6.5"/>
+      <path d="M29 112 Q29 106 36 106 L63 107.5 Q70 108.5 69 112 Q68 115.5 61 115.5 L34 115.5 Q29 115.5 29 112 Z"/>
+      <path d="M26 104 Q16 88 24 72 Q32 58 48 59 Q64 61 67 79 Q70 97 60 107 Q43 113 26 104 Z"/>
+      <path d="M29 103 Q27 86 42 85 Q56 85 57 101" fill="none"/>
+      <path d="M41 111 Q42 105 50 105 L76 107 Q84 108.5 83 112.5 Q82 116 74 116 L45 116 Q41 115.5 41 111 Z"/>
+      <ellipse cx="39" cy="21" rx="5.6" ry="16" transform="rotate(-24 39 21)"/>
+      <ellipse cx="51" cy="20" rx="5.9" ry="16.5" transform="rotate(-7 51 20)"/>
+      <path d="M38 49 Q35 34 49 30 Q62 28 68 39 Q74 45 72 50 Q70 56 61 58 Q44 60 38 49 Z"/>
     </g>
-    <ellipse cx="39" cy="4" rx="4.3" ry="5" transform="rotate(-10 39 15)" fill="#1e293b"/>
-    <ellipse cx="55" cy="4" rx="4.3" ry="5" transform="rotate(10 55 15)" fill="#1e293b"/>
-    <circle cx="41" cy="40" r="2.3" fill="#1e293b"/><circle cx="53" cy="40" r="2.3" fill="#1e293b"/>
-    <path d="M44.5 46 L49.5 46 L47 49 Z" fill="#1e293b" ${S} stroke-width="1.2"/>
-    <path d="M32 57 Q47 64 62 57" fill="none" ${S} stroke-width="6" stroke="var(--scarf,#1e293b)"/>
-    <path d="M32 57 Q47 64 62 57" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="3.5 4"/>
-    <path d="M57 60 L60 76" fill="none" ${S} stroke-width="6" stroke="var(--scarf,#1e293b)"/>
-    <path d="M57 60 L60 76" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="3.5 4"/>
+    <ellipse cx="39" cy="7" rx="4" ry="4.8" transform="rotate(-24 39 21)" fill="#1e293b"/>
+    <ellipse cx="51" cy="6" rx="4.2" ry="5" transform="rotate(-7 51 20)" fill="#1e293b"/>
+    <circle cx="59" cy="41" r="2.5" fill="#1e293b"/>
+    <ellipse cx="71" cy="47.5" rx="2.4" ry="1.9" fill="#1e293b"/>
+    <path d="M70 50 Q69 53.5 65.5 53" fill="none" ${S} stroke-width="1.5"/>
+    <path d="M72 50 L82 47 M72 51.5 L82 52 M71 53 L78 56.5" fill="none" ${S} stroke-width="1.1"/>
+    <path d="M40 58 Q51 64 63 57" fill="none" ${S} stroke-width="6" stroke="var(--scarf,#1e293b)"/>
+    <path d="M40 58 Q51 64 63 57" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="3.5 4"/>
+    <path d="M44 61 L40 75" fill="none" ${S} stroke-width="6" stroke="var(--scarf,#1e293b)"/>
+    <path d="M44 61 L40 75" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="3.5 4"/>
   </symbol>
 
-  <!-- #3 Juniper — standing, waving -->
-  <symbol id="jun-wave" viewBox="0 0 90 120">
-    <g ${S} stroke-width="3" fill="var(--fur,#fff)">
-      <ellipse cx="34" cy="111" rx="15" ry="5.5"/>
-      <ellipse cx="60" cy="111" rx="15" ry="5.5"/>
-      <ellipse cx="47" cy="80" rx="21" ry="27"/>
-      <path d="M30 72 Q24 82 28 92" fill="none"/>
-      <path d="M64 70 Q76 62 80 48" fill="none"/>
-      <circle cx="80.5" cy="46" r="3.4"/>
-      <ellipse cx="39" cy="15" rx="5.8" ry="15.5" transform="rotate(-10 39 15)"/>
-      <ellipse cx="55" cy="15" rx="5.8" ry="15.5" transform="rotate(10 55 15)"/>
-      <circle cx="47" cy="42" r="16"/>
+  <!-- #3 Juniper — standing, pointing back (faces LEFT, toward 0) = mirrored jun-stand + forward paw -->
+  <symbol id="jun-point" viewBox="0 0 90 120">
+    <g transform="translate(90 0) scale(-1 1)">
+      <use href="#jun-stand" width="90" height="120"/>
+      <path d="M58 71 Q72 69 86 65" fill="none" ${S} stroke-width="9.5"/>
+      <path d="M58 71 Q72 69 86 65" fill="none" stroke="var(--fur,#fff)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M52 74 Q58 82 55 89" fill="none" ${S} stroke-width="9.5"/>
+      <path d="M52 74 Q58 82 55 89" fill="none" stroke="var(--fur,#fff)" stroke-width="4" stroke-linecap="round"/>
     </g>
-    <ellipse cx="39" cy="4" rx="4.3" ry="5" transform="rotate(-10 39 15)" fill="#1e293b"/>
-    <ellipse cx="55" cy="4" rx="4.3" ry="5" transform="rotate(10 55 15)" fill="#1e293b"/>
-    <circle cx="41" cy="40" r="2.3" fill="#1e293b"/><circle cx="53" cy="40" r="2.3" fill="#1e293b"/>
-    <path d="M44.5 46 L49.5 46 L47 49 Z" fill="#1e293b" ${S} stroke-width="1.2"/>
-    <path d="M42 51 Q47 54 52 51" fill="none" ${S} stroke-width="1.6"/>
-    <path d="M32 57 Q47 64 62 57" fill="none" ${S} stroke-width="6" stroke="var(--scarf,#1e293b)"/>
-    <path d="M32 57 Q47 64 62 57" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="3.5 4"/>
-    <path d="M37 60 L33 76" fill="none" ${S} stroke-width="6" stroke="var(--scarf,#1e293b)"/>
-    <path d="M37 60 L33 76" fill="none" stroke="#fff" stroke-width="1.7" stroke-dasharray="3.5 4"/>
+  </symbol>
+
+  <!-- #3 Juniper — standing, waving (faces right) -->
+  <symbol id="jun-wave" viewBox="0 0 90 120">
+    <use href="#jun-stand" width="90" height="120"/>
+    <path d="M61 73 Q78 74 84 62" fill="none" ${S} stroke-width="9.5"/>
+    <path d="M61 73 Q78 74 84 62" fill="none" stroke="var(--fur,#fff)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M52 74 Q58 82 55 89" fill="none" ${S} stroke-width="9.5"/>
+    <path d="M52 74 Q58 82 55 89" fill="none" stroke="var(--fur,#fff)" stroke-width="4" stroke-linecap="round"/>
   </symbol>
 
   <!-- Juniper head (icon) -->
@@ -441,7 +439,9 @@
   s += `<use href="#flag" x="${x0 - 30 * k}" y="${y - 100 * k}" width="${64 * k}" height="${85 * k}" style="--flag:#c8325f"/>`;
   s += `<use href="#cabin" x="${X(1) - 52 * k}" y="${y - 118 * k}" width="${104 * k}" height="${104 * k}" style="--door:#dcebf7;--win:#dcebf7"/>`;
   s += `<use href="#birch-wave" x="${X(1) + 28 * k}" y="${y - 60 * k}" width="${60 * k}" height="${56 * k}" style="--hat:#c8325f"/>`;
-  s += `<use href="#jun-jump" x="${X(.5) + 10 * k}" y="${y - 150 * k}" width="${136 * k}" height="${105 * k}" style="--scarf:#c8325f"/>`;
+  // o.junScale (thumbnail 1 only): enlarge Juniper, keeping her feet at the same height
+  const js = o.junScale ?? 1, jx = o.junDx ?? 0;
+  s += `<use href="#jun-jump" x="${X(.5) + 10 * k + jx}" y="${y - 150 * k - 105 * k * (js - 1)}" width="${136 * k * js}" height="${105 * k * js}" style="--scarf:#c8325f"/>`;
   return svgBox(W, H, s, 'cover-scene');
 }
 

@@ -105,6 +105,7 @@
   .cv-title { font-size: 44pt; font-weight: 700; line-height: 1.04; color: var(--ink); margin: 0.2in 0 0.08in; letter-spacing: -0.5px; }
   .cv-sub { font-size: 21pt; font-weight: 600; color: var(--brand-accent); }
   .cv-scene { position: absolute; left: 0.14in; top: 3.0in; }
+  .cv-scene svg { overflow: hidden; }   /* Fix Round 1 (appeal): mountain/pine at x<0 no longer spill onto the left band */
   .cv-tagline { position: absolute; left: 0.78in; top: 7.0in; font-size: 22pt; font-weight: 700; color: var(--trail-berry); }
   .cv-feat { position: absolute; left: 0.78in; top: 7.62in; font-size: 14.5pt; line-height: 1; }
   .cv-feat div { display: flex; align-items: center; gap: 0.12in; height: 0.36in; }
@@ -235,6 +236,16 @@
   table.gk td, table.gk th { border: 1px solid #94a3b8; text-align: center; padding: 1px 2px; height: 0.37in; }
   table.gk th { font-size: 8.5pt; font-weight: 600; height: auto; }
   .note { font-size: 8.6pt; color: var(--soft); }
+
+  /* ===== Fix Round 1 (QA 05-qa-report.md) ===== */
+  /* mn-1: in-line stacked fractions on student pages are never smaller than 12 pt */
+  .stu .fr { font-size: max(1em, 12pt); }
+  /* mn-5 / mn-6: keep "(a/b)." and "1 = [box]/3" together on one line */
+  .nw { white-space: nowrap; }
+  /* mn-15: answer boxes / cards / tickets stay inside the right margin */
+  .ansc .fbox { margin: 0 0 0 0.02in; }
+  .eqn .fbox { margin: 0 0.02in; }
+  .tix { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 </style>
 </head>
 <body>
@@ -316,7 +327,7 @@
 </section>
 
 <!-- ===================================================== P3 TRAIL GUIDE ===================================================== -->
-<section class="page" data-std="3.NF.A.2a, 2b, 3c">
+<section class="page stu" data-std="3.NF.A.2a, 2b, 3c">
   <h1 class="title">Trail Guide: Fractions on a Number Line</h1>
   <p class="flavor">Count the hops. Name one hop. Hop to the spot.</p>
   <div data-draw="p3main" style="margin:0.02in 0 0"></div>
@@ -351,7 +362,7 @@
 </section>
 
 <!-- ===================================================== P4 MARK THE TRAIL ===================================================== -->
-<section class="page" data-std="3.NF.A.2a" data-paws="1">
+<section class="page stu" data-std="3.NF.A.2a" data-paws="1">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title">Mark the Trail: Equal Parts</h1>
   <div class="flv"><p class="flavor">Every hop is the same size!</p><div data-draw="decoJump"></div></div>
@@ -361,7 +372,7 @@
 </section>
 
 <!-- ===================================================== P5 FOOTPRINT FRACTIONS ===================================================== -->
-<section class="page" data-std="3.NF.A.2a, 2b" data-paws="1">
+<section class="page stu" data-std="3.NF.A.2a, 2b" data-paws="1">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title">Footprint Fractions: Name the Point<span class="t2">&amp; Hop to the Spot</span></h1>
   <p class="flavor">Start at 0. Count the hops, not the marks.</p>
@@ -375,7 +386,7 @@
 </section>
 
 <!-- ===================================================== P6 MAZE 1 ===================================================== -->
-<section class="page" data-std="3.NF.A.2a" data-paws="1">
+<section class="page stu" data-std="3.NF.A.2a" data-paws="1">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title">Trail Maze 1: Unit Fractions</h1>
   <p class="flavor">Help Juniper hop to the Cocoa Cabin.</p>
@@ -385,7 +396,7 @@
 </section>
 
 <!-- ===================================================== P7 MAZE 2 ===================================================== -->
-<section class="page" data-std="3.NF.A.2b" data-paws="2">
+<section class="page stu" data-std="3.NF.A.2b" data-paws="2">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title">Trail Maze 2: Fractions on a Number Line</h1>
   <p class="flavor">Only true trail signs lead home.</p>
@@ -396,7 +407,7 @@
 </section>
 
 <!-- ===================================================== P8 SAME SPOT ===================================================== -->
-<section class="page" data-std="3.NF.A.3a, 3b, 3c" data-paws="2">
+<section class="page stu" data-std="3.NF.A.3a, 3b, 3c" data-paws="2">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title" style="font-size:21.5pt">Same Spot, Same Number: Equivalent Fractions</h1>
   <p class="flavor">Birch takes one big step. Juniper takes two hops.</p>
@@ -410,7 +421,7 @@
 </section>
 
 <!-- ===================================================== P9 MAZE 3 ===================================================== -->
-<section class="page" data-std="3.NF.A.3a, 3c" data-paws="3">
+<section class="page stu" data-std="3.NF.A.3a, 3c" data-paws="3">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title" style="font-size:22pt">Trail Maze 3: Same Spot or Whole Number?</h1>
   <p class="flavor">Same spot means same number.</p>
@@ -424,7 +435,7 @@
 </section>
 
 <!-- ===================================================== P10 FIX THE TRAIL SIGN ===================================================== -->
-<section class="page" data-std="3.NF.A.2a, 2b, 3a" data-paws="2">
+<section class="page stu" data-std="3.NF.A.2a, 2b, 3a" data-paws="2">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title">Fix the Trail Sign: Find the Mistake</h1>
   <div class="flv"><p class="flavor">Someone mixed up the signs!</p><div data-draw="decoSign"></div></div>
@@ -434,7 +445,7 @@
 </section>
 
 <!-- ===================================================== P11 TRAIL TALK ===================================================== -->
-<section class="page" data-std="3.NF.A.2a, 2b, 3a, 3b, 3c" data-paws="3">
+<section class="page stu" data-std="3.NF.A.2a, 2b, 3a, 3b, 3c" data-paws="3">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
   <h1 class="title">Trail Talk: Always, Sometimes, or Never?</h1>
   <div style="display:flex;justify-content:space-between;align-items:center">
@@ -447,7 +458,7 @@
 </section>
 
 <!-- ===================================================== P12 GAME ===================================================== -->
-<section class="page" data-std="3.NF.A.2b, 3a, 3c" data-paws="2">
+<section class="page stu" data-std="3.NF.A.2b, 3a, 3c" data-paws="2">
   <div class="hdr"><div class="name-line"><span>Team Snowball:</span><span>Team Mitten:</span></div><div class="lvl"></div></div>
   <h1 class="title">Snowball Four-in-a-Row: Fractions</h1>
   <div class="flv"><p class="flavor">Name the point. Claim the square! <span class="muted small">(2 players)</span></p><div data-draw="decoFlakes"></div></div>
@@ -471,7 +482,7 @@
 </section>
 
 <!-- ===================================================== P13 SUMMIT CHECK ===================================================== -->
-<section class="page" data-std="3.NF.A.2a, 2b, 3a, 3c">
+<section class="page stu" data-std="3.NF.A.2a, 2b, 3a, 3c">
   <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div></div>
   <div style="display:flex;align-items:center;gap:0.12in">
     <svg width="58" height="32" viewBox="0 0 200 110" style="flex:none"><use href="#mtn"/></svg>
@@ -494,7 +505,7 @@
 </section>
 
 <!-- ===================================================== P14 TRAIL TICKETS ===================================================== -->
-<section class="page" data-std="3.NF.A.2a, 2b, 3a, 3c">
+<section class="page stu" data-std="3.NF.A.2a, 2b, 3a, 3c">
   <h1 class="title">Trail Tickets: Exit Tickets</h1>
   <div class="tix" id="p14"></div>
   <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
@@ -658,11 +669,16 @@ function STACK(lines, lay = {}) {
   let s = '';
   let yLast = top;
   const Xs = [];
+  // Fix Round 1 (MJ-1): labBottom = print 0/1 only under the bottom line; guides = faint dotted lines at 0 and 1 (like Maze 3)
+  if (lay.guides && lines.length > 1) {
+    const yB = top + (lines.length - 1) * gap, tw = (lay.common && lay.common.thW) ?? 11.5;
+    [x0, x0 + L].forEach((gx) => s += `<line x1="${gx}" x2="${gx}" y1="${top + tw + 2}" y2="${yB - tw - 2}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="2 3"/>`);
+  }
   lines.forEach((ln, i) => {
     const y = top + i * gap;
     yLast = y;
     const o = Object.assign(T.parseNL(ln.nl), { x0, y, L }, lay.common || {}, ln);
-    if (ln.noLab) o.lab = 'none';
+    if (ln.noLab || (lay.labBottom && i < lines.length - 1)) o.lab = 'none';
     const res = T.line(o);
     Xs.push(res.X);
     s += res.svg;
@@ -699,7 +715,7 @@ DRAW.p3main = () => {
   return svgBox(W, y + 70, s);
 };
 DRAW.p3marks = () => {
-  const x0 = 16, L = 3.2 * IN, y = 46, W = x0 + L + 132;
+  const x0 = 16, L = 3.2 * IN, y = 46, W = x0 + L + 140;
   const res = T.line({ min: 0, max: 1, b: 4, x0, y, L, lab: 'wholes', lfs: 16, arcs: arcsTo(4, 4), arcH: 22, arcSW: 2.4 });
   let s = res.svg;
   const tx = (x, y, t, o = '') => `<text x="${x}" y="${y}" font-family="Lexend" ${o}>${t}</text>`;
@@ -710,12 +726,11 @@ DRAW.p3marks = () => {
   s += tx(x0 + L + 18, y - 6, 'fourths', 'font-weight="700" font-size="13" fill="#c8325f"');
   // gray tick-count numbers under the labels, crossed out + crossed-out note
   const yn = y + 50;
-  res.ticks.forEach((t, i) => s += tx(r2(t.x), yn, i + 1, 'font-size="12" fill="#94a3b8" text-anchor="middle"'));
-  s += `<line x1="${x0 - 8}" y1="${yn - 4}" x2="${x0 + L + 8}" y2="${yn - 4}" stroke="#c8325f" stroke-width="2.2" stroke-linecap="round"/>`;
-  s += tx(x0 + L + 18, yn, '5 marks', 'font-size="12.5" fill="#64748b"');
-  s += `<use href="#arrow" x="${x0 + L + 72}" y="${yn - 9}" width="16" height="9" style="color:#64748b"/>`;
-  s += fracSVG(x0 + L + 100, yn - 5, '1', '5', 12, { color: '#64748b', weight: 400 });
-  s += `<line x1="${x0 + L + 14}" y1="${yn - 4}" x2="${x0 + L + 112}" y2="${yn - 4}" stroke="#c8325f" stroke-width="2.2" stroke-linecap="round"/>`;
+  res.ticks.forEach((t, i) => s += tx(r2(t.x), yn, i + 1, 'font-size="13" font-weight="600" fill="#475569" text-anchor="middle"'));
+  s += tx(x0 + L + 26, yn, '5 marks', 'font-size="12.5" fill="#64748b"');
+  s += `<use href="#arrow" x="${x0 + L + 80}" y="${yn - 9}" width="16" height="9" style="color:#64748b"/>`;
+  s += fracSVG(x0 + L + 108, yn - 5, '1', '5', 12, { color: '#64748b', weight: 400 });
+  s += `<line x1="${x0 + L + 22}" y1="${yn - 4}" x2="${x0 + L + 120}" y2="${yn - 4}" stroke="#c8325f" stroke-width="2.2" stroke-linecap="round"/>`;
   return svgBox(W, yn + 14, s);
 };
 DRAW.p3cabin = () => {
@@ -737,7 +752,7 @@ function p4() {
     { nl: 'NL[0–1, —, point=—, labels=0,1]', ins: 'Juniper\'s hop is 1/3. Draw her hops from 0 to 1. Label each one.', try: 1, noEach: 1 },
   ];
   return items.map((it, i) => {
-    const svg = NL1(it.nl, { Lin: 5.5, padL: 9, padR: 9, arcs: it.arcs, arcH: 22, top: it.arcs ? 30 : 20, gb: it.gb, boxH: 42, h: (it.arcs ? 30 : 20) + 11.5 + 50, bottom: 0 });
+    const svg = NL1(it.nl, { Lin: 5.5, padL: 6, padR: 4, arcs: it.arcs, arcH: 22, top: it.arcs ? 30 : 20, gb: it.gb, boxH: 42, h: (it.arcs ? 30 : 20) + 11.5 + 50, bottom: 0 });
     const ans = `<div class="ansc">
         <div>How many hops from 0 to 1? <span class="numbox"></span></div>
         ${it.noEach ? '' : '<div class="l">Each hop is <span class="fbox sm"><i></i><b></b><i></i></span></div>'}
@@ -753,7 +768,7 @@ function p5a() {
   const it = [['NL[0–1, 3, point=1/3, labels=0,1]'], ['NL[0–1, 8, point=1/8, labels=0,1]'], ['NL[0–1, 2, point=1/2, labels=0,1]'],
               ['NL[0–1, 4, point=2/4, labels=0,1]'], ['NL[0–1, 6, point=4/6, labels=0,1]'], ['NL[0–1, 8, point=7/8, labels=0,1]']];
   // 2 columns x 3 rows, numbered down each column like the content (1-2 / 3-4 / 5-6 read across)
-  return it.map(([nl], i) => `<div class="it"><span class="qn" style="width:0.28in">${i + 1}.</span>${NL1(nl, { Lin: 2.3, top: 22, padL: 10, padR: 12 })}<span class="fbox"><i></i><b></b><i></i></span></div>`).join('');
+  return it.map(([nl], i) => `<div class="it"><span class="qn" style="width:0.28in">${i + 1}.</span>${NL1(nl, { Lin: 2.3, top: 22, padL: 6, padR: 6 })}<span class="fbox"><i></i><b></b><i></i></span></div>`).join('');
 }
 function p5b() {
   const it = [['7.', 'Hop to 2/3.', 'NL[0–1, 3, point=—, labels=0,1]'], ['8.', 'Hop to 5/6.', 'NL[0–1, 6, point=—, labels=0,1]'],
@@ -862,10 +877,10 @@ function p8() {
   const ex = STACK([
     { nl: 'NL[0–1, 2, point=1/2]', icon: icoB, arcs: [[0, .5, 'solid']], arcH: 20 },
     { nl: 'NL[0–1, 4, point=2/4]', icon: icoJ, arcs: [[0, .25, 'solid'], [.25, .5, 'solid']], arcH: 14 },
-  ], { Lin: L, x0: X0, top: 26, gap: 46, iconW: IW, padR: 10, h: 26 + 46 + 11.5 + 19, common: { lfs: 15, labGap: 2 },
+  ], { Lin: L, x0: X0, top: 26, gap: 43, iconW: IW, padR: 10, h: 26 + 43 + 11.5 + 19, common: { lfs: 15, labGap: 2 }, labBottom: 1, guides: 1,
        extra: (Xs, top, gap) => `<line x1="${Xs[0](.5)}" x2="${Xs[0](.5)}" y1="${top + 8}" y2="${top + gap - 8}" stroke="#c8325f" stroke-width="2.2" stroke-dasharray="5 4"/>` });
   const item = (n, top, bot, a, b) => {
-    const svg = STACK([{ nl: top, icon: icoB }, { nl: bot, icon: icoJ }], { Lin: L, x0: X0, top: 17, gap: 37, iconW: IW, padR: 10, h: 17 + 37 + 11.5 + 19, common: { lfs: 15, labGap: 2 } });
+    const svg = STACK([{ nl: top, icon: icoB }, { nl: bot, icon: icoJ }], { Lin: L, x0: X0, top: 17, gap: 35, iconW: IW, padR: 10, h: 17 + 35 + 11.5 + 19, common: { lfs: 15, labGap: 2 }, labBottom: 1, guides: 1 });
     return `<div class="p8i"><span class="qn">${n}.</span> Birch is at ${a}. Draw Juniper's footprint at the same spot.</div>
       <div class="stk">${svg}<div class="eqn">${a} = <span class="fr"><span><span class="bx"></span></span><span>${b}</span></span></div></div>`;
   };
@@ -879,9 +894,9 @@ function p8() {
   // Part B: four stacked trails (halves, fourths, sixths, eighths), 0 and 1 lined up
   const four = STACK([
     { nl: 'NL[0–1, 2, point=1/2]' }, { nl: 'NL[0–1, 4, point=—]' }, { nl: 'NL[0–1, 6, point=—]' }, { nl: 'NL[0–1, 8, point=—]' }],
-    { Lin: 4.2, x0: 12, top: 30, gap: 29, padR: 10, h: 30 + 3 * 29 + 11.5 + 19, common: { lfs: 14, labGap: 1, th: 7, thW: 9.5 },
+    { Lin: 4.2, x0: 12, top: 40, gap: 29, padR: 10, h: 40 + 3 * 29 + 11.5 + 19, common: { lfs: 14, labGap: 1, th: 7, thW: 9.5 }, labBottom: 1,
       extra: (Xs, top) => `<use href="#jun-head" x="${Xs[0](.5) + 12}" y="${top - 31}" width="24" height="28"/>` +
-        fracSVG(Xs[0](.5) - 22, top - 12, '1', '2', 14, { weight: 700 }) });
+        fracSVG(Xs[0](.5) - 22, top - 25, '1', '2', 14, { weight: 700 }) });
   document.getElementById('p8b').innerHTML = `<div class="stk" style="align-items:flex-start"><span class="qn" style="width:0.24in;margin-top:0.1in">3.</span>${four}
      <div class="rt" style="padding-top:0.05in">Juniper is at 1/2. Find 3 more fractions that land on the same spot.
        <div class="eqn" style="margin-top:0.08in;gap:0.03in">1/2 = ${fb} = ${fb} = ${fb}</div></div></div>
@@ -891,7 +906,7 @@ function p8() {
   const l4 = NL1('NL[0–1, 6, point=—, labels=0,1]', { Lin: 3.05, padL: 10, padR: 24, top: 34, h: 34 + 11.5 + 20,
     extra: (X, y) => `<use href="#cabin" x="${X(1) + 8}" y="${y - 36}" width="30" height="30"/>` });
   const l5 = NL1('NL[0–2, 3, point=2, labels=0,1,2]', { Lin: 3.05, padL: 10, padR: 24, top: 40, h: 40 + 11.5 + 20, ptStyle: 'dot',
-    extra: (X, y) => `<use href="#cabin" x="${X(1) - 13}" y="${y - 37}" width="26" height="26"/><use href="#birch-wave" x="${X(2) - 22}" y="${y - 46}" width="42" height="38"/>` });
+    extra: (X, y) => `<use href="#cabin" x="${X(1) - 13}" y="${y - 37}" width="26" height="26"/><use href="#birch-wave" x="${X(2) - 24}" y="${y - 38}" width="36" height="33"/>` });
   document.getElementById('p8c').innerHTML = `<div class="cols2" style="gap:0.25in">
     <div><div class="pc"><div class="p8i"><span class="qn">4.</span> Write 3 different fractions that land on the Cabin (1 whole).</div><div class="eqn" style="gap:0.06in">${fb}${fb}${fb}</div></div>${l4}</div>
     <div><div class="pc"><div class="p8i"><span class="qn">5.</span> ${T.paws(3, 15)} Birch is at Cabin 2. Write 2 fractions that name his spot.</div><div class="eqn" style="gap:0.06in">${fb}${fb}</div></div>${l5}</div></div>`;
@@ -899,17 +914,17 @@ function p8() {
 
 /* ===== p10 Fix the Trail Sign ===== */
 function p10() {
-  const empty = (lab) => `<div class="dr">${lab}</div>${NL1('NL[0–1, —, labels=0,1]', { Lin: 3.0, top: 34, h: 34 + 11.5 + 22, padL: 14 })}`;
+  const empty = (lab) => `<div class="dr">${lab}</div>${NL1('NL[0–1, —, labels=0,1]', { Lin: 3.0, top: 34, h: 34 + 11.5 + 22, padL: 9, padR: 9 })}`;
   const card = (name, svg, sign, frameLbl, emptyLbl) => `<div class="card"><h3>${name}'s trail sign</h3>${svg}
      <div class="sign">${name}'s sign says: <b>“${sign}”</b></div>
      <div class="circ">Circle one: <span class="opt">Correct</span><span class="opt">Needs a fix</span></div>
      <div class="frame">${frameLbl} <span class="blank"></span></div><div class="wl"></div>
      ${empty(emptyLbl)}</div>`;
-  const nad = NL1('NL[0–1, 4, point=1/4, labels=0,1]', { Lin: 3.0, top: 24, padL: 14 });
-  const eme = NL1('NL[0–1, —, point=—, labels=0,1]', { Lin: 3.0, top: 24, padL: 14, tickFr: [0, 0.2, 0.5, 1],
+  const nad = NL1('NL[0–1, 4, point=1/4, labels=0,1]', { Lin: 3.0, top: 24, padL: 9, padR: 9 });
+  const eme = NL1('NL[0–1, —, point=—, labels=0,1]', { Lin: 3.0, top: 24, padL: 9, padR: 9, tickFr: [0, 0.2, 0.5, 1],
     extra: (X, y) => footSVG(X(0.2), y) });   // ticks at 0, 0.2, 0.5, 1 of the line (deliberately unequal)
-  const luc = NL1('NL[0–1, 6, point=2/6, labels=0,1]', { Lin: 3.0, top: 24, padL: 14 });
-  const tob = STACK([{ nl: 'NL[0–1, 4, point=2/4]' }, { nl: 'NL[0–1, 8, point=4/8]' }], { Lin: 3.0, x0: 14, top: 20, gap: 44, h: 96, common: { lfs: 15, labGap: 2 } });
+  const luc = NL1('NL[0–1, 6, point=2/6, labels=0,1]', { Lin: 3.0, top: 24, padL: 9, padR: 9 });
+  const tob = STACK([{ nl: 'NL[0–1, 4, point=2/4]' }, { nl: 'NL[0–1, 8, point=4/8]' }], { Lin: 3.0, x0: 9, top: 20, gap: 44, h: 96, padR: 9, common: { lfs: 15, labGap: 2 }, labBottom: 1, guides: 1 });
   document.getElementById('p10').innerHTML =
     card('Nadia', nad, 'The footprint is at 1/5.', 'The mistake is', 'Draw it right:') +
     card('Emeka', eme, 'The footprint is at 1/3.', 'The mistake is', 'Draw it right:') +
@@ -997,11 +1012,11 @@ function p13() {
 function p14() {
   const L = 3.0;
   const tk = [
-    ['A', '3.NF.A.2a', NL1('NL[0–1, 8, point=—, labels=0,1]', { Lin: L, top: 20 }), 'Draw a dot at 1/8.'],
-    ['B', '3.NF.A.2b', NL1('NL[0–1, 6, point=5/6, labels=0,1]', { Lin: L, top: 22 }), 'What fraction names the footprint? <span class="fbox sm"><i></i><b></b><i></i></span>'],
-    ['C', '3.NF.A.3a', STACK([{ nl: 'NL[0–1, 3, point=1/3]', noLab: 1 }, { nl: 'NL[0–1, 6, point=—]' }], { Lin: L, x0: 16, top: 22, gap: 40, h: 92, common: { lfs: 15 } }),
+    ['A', '3.NF.A.2a', NL1('NL[0–1, 8, point=—, labels=0,1]', { Lin: L, top: 20, padL: 10, padR: 10 }), 'Draw a dot at 1/8.'],
+    ['B', '3.NF.A.2b', NL1('NL[0–1, 6, point=5/6, labels=0,1]', { Lin: L, top: 22, padL: 10, padR: 10 }), 'What fraction names the footprint? <span class="fbox sm"><i></i><b></b><i></i></span>'],
+    ['C', '3.NF.A.3a', STACK([{ nl: 'NL[0–1, 3, point=1/3]', noLab: 1 }, { nl: 'NL[0–1, 6, point=—]' }], { Lin: L, x0: 10, top: 22, gap: 40, h: 92, padR: 10, common: { lfs: 15 } }),
       '1/3 = <span class="fr"><span><span class="bx"></span></span><span>6</span></span>'],
-    ['D', '3.NF.A.3c', NL1('NL[0–1, 3, point=1, labels=0,1]', { Lin: L, top: 22 }), 'Write 1 as a fraction. Use thirds. &nbsp;1 = <span class="fr"><span><span class="bx"></span></span><span>3</span></span>'],
+    ['D', '3.NF.A.3c', NL1('NL[0–1, 3, point=1, labels=0,1]', { Lin: L, top: 22, padL: 10, padR: 10 }), 'Write 1 as a fraction. Use thirds. <span class="nw">1 = <span class="fr"><span><span class="bx"></span></span><span>3</span></span></span>'],
   ];
   document.getElementById('p14').innerHTML = tk.map(([l, std, svg, t]) => `<div>
      <div class="th"><b>Trail Ticket ${l}</b><span class="std">${std}</span></div>
@@ -1116,7 +1131,7 @@ document.querySelectorAll('td[data-paws]').forEach((td) => td.innerHTML = `${T.p
 
 // text pass: "a/b" -> stacked fraction, "→" -> SVG arrow (no glyph fallbacks in the PDF)
 (function stackText() {
-  const re = /(?<![\w\/.])(\d+|a|1)\/(\d+|b)(?![\w\/])|→/g;
+  const re = /(\(?)(?<![\w\/.])(\d+|a|1)\/(\d+|b)(?![\w\/])([).,;:]*)|→/g;
   const re1 = /(?<![\w\/.])(\d+|a|1)\/(\d+|b)(?![\w\/])|→/;
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode: (n) => (n.parentElement.closest('svg, script, style') ? NodeFilter.FILTER_REJECT : re1.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP),
@@ -1125,8 +1140,11 @@ document.querySelectorAll('td[data-paws]').forEach((td) => td.innerHTML = `${T.p
   nodes.forEach((node) => {
     re.lastIndex = 0;
     const span = document.createElement('span');
-    span.innerHTML = node.nodeValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(re, (m, a, b) =>
-      m === '→' ? '<svg class="arr" viewBox="0 0 24 12"><use href="#arrow"/></svg>' : `<span class="fr"><span>${a}</span><span>${b}</span></span>`);
+    span.innerHTML = node.nodeValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(re, (m, pre, a, b, post) => {
+      if (m === '→') return '<svg class="arr" viewBox="0 0 24 12"><use href="#arrow"/></svg>';
+      const f = `<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+      return pre || post ? `<span class="nw">${pre}${f}${post}</span>` : f;   // "(2/3)." never breaks after "(" or before "."
+    });
     node.replaceWith(...span.childNodes);
   });
 })();

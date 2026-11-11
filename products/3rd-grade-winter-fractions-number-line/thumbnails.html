@@ -46,7 +46,6 @@
 <section class="page" id="t2">
   <div class="abs h" style="left:60px;top:34px;font-size:86px">Self-Checking Trail Mazes</div>
   <div class="abs sub" style="left:64px;top:140px;font-size:54px">3 levels: unit to equivalent fractions</div>
-  <div class="abs" id="t2minis" style="left:24px;top:1010px"></div>
   <div class="shot" id="t2page" style="left:96px;top:236px;width:780px;height:1010px;transform:rotate(-2deg)"><img src="thumb-src/page-07.png"><svg class="ov" viewBox="0 0 816 1056"></svg></div>
   <svg class="abs" id="t2mag" style="left:0;top:0" width="1400" height="1400"></svg>
   <div class="abs lbl" style="left:900px;top:1010px;width:470px;font-size:58px;text-align:center">Count the hops, not the marks!</div>
@@ -86,55 +85,61 @@ document.querySelectorAll('.page').forEach((p) => p.insertAdjacentHTML('afterbeg
   `<svg class="hill" viewBox="0 0 1400 130" preserveAspectRatio="none"><path d="M0 70 Q300 20 640 62 Q980 104 1400 44 L1400 130 L0 130 Z" fill="#dcebf7"/><path d="M0 104 Q380 72 760 100 Q1100 124 1400 92 L1400 130 L0 130 Z" fill="#cfe2f3"/></svg>`));
 
 /* ---- 1: big number line scene ---- */
-document.getElementById('t1scene').innerHTML = T.scene({ id: 't1', W: 1400, H: 700, y: 420, x0: 160, L: 1020, k: 1.75, fs: 60,
+document.getElementById('t1scene').innerHTML = T.scene({ id: 't1', W: 1400, H: 700, y: 420, x0: 160, L: 1020, k: 1.75, fs: 60, junScale: 1.2, junDx: -12,
   flakes: [[1180, 30, 64, 'flake'], [1010, 120, 44, 'flake2'], [600, 70, 40, 'flake2']],
   pines: [[0, 420 - 270, 210], [70, 420 - 216, 170], [130, 420 - 250, 196]] });
 
-/* ---- 2: maze page + half-drawn berry trail + magnifier on the 3/5 decoy ---- */
+/* ---- 2: maze page + half-drawn berry trail + magnifier on the 3/5 decoy ----
+   Fix Round 1 (Appeal Review): the berry trail never crosses a fraction, a number line label or "Base Camp".
+   Geometry = Trail Maze 2 SVG on page 7 (measured: left 69.1, top 251.8 CSS px; cells 162 x 112, gaps 16 / 13, first row at y 46).
+   The trail runs ON the cell frames and in the gutters only: from the START arrow along the top edge of row 1,
+   down the outside right edge of column 4, then along the bottom edge of R3C4, and stops in the C3/C4 gutter. */
 (function () {
-  const ox = 69.1, oy = 251.8 + 46, CW = 162, GX = 16, CH = 112, GY = 13;    // Trail Maze 2 SVG on page 7 (CSS px)
-  const cc = (r, c) => [ox + c * (CW + GX) + CW / 2, oy + r * (CH + GY) + CH / 2];
-  const circ = (r, c) => [ox + c * (CW + GX) + CW - 26, oy + r * (CH + GY) + CH - 30];
-  const half = [[0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [2, 3]];
+  const OX = 69.1, OY = 251.8, CW = 162, GX = 16, CH = 112, GY = 13, TOP = 46;
+  const P = (x, y) => `${(OX + x).toFixed(1)} ${(OY + y).toFixed(1)}`;            // maze-local -> page px
+  const cx = (c) => c * (CW + GX), cy = (r) => TOP + r * (CH + GY), band = (r) => cy(r) + 55.5;
+  const visited = [[0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [2, 3]];               // first half of the Maze 2 path
   let s = '';
-  const pts = half.map(([r, c]) => cc(r, c));
-  s += `<path d="M${pts[0][0]} ${oy - 30} L${pts.map((p) => p.join(' ')).join(' L')}" fill="none" stroke="#c8325f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`;
-  half.forEach(([r, c]) => { const [x, y] = circ(r, c); s += `<circle cx="${x}" cy="${y}" r="10" fill="#c8325f" opacity="0.9"/>`; });
-  const [mx, my] = cc(1, 2);
-  s += `<rect x="${mx - CW / 2 - 4}" y="${my - CH / 2 - 4}" width="${CW + 8}" height="${CH + 8}" rx="14" fill="none" stroke="#c8325f" stroke-width="5"/>`;
+  // slate connector: leaves the decoy's right edge, climbs the C3/C4 gutter, runs right in the row 1/2 gutter (crosses no sign)
+  const gutY = cy(1) - GY / 2, gutX = cx(3) - GX / 2, outX = cx(3) + CW + 34;
+  s += `<path d="M${P(cx(2) + CW + 4, cy(1) + CH / 2)} L${P(gutX, cy(1) + CH / 2)} L${P(gutX, gutY)} L${P(outX, gutY)}" fill="none" stroke="#1e293b" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  // berry trail (drawn after the slate connector, so it stays on top where they cross in the row 1/2 gutter)
+  const yTop = TOP - 1, xRt = cx(3) + CW + 1, yBot = cy(2) + CH + 1;
+  s += `<path d="M${P(22, yTop)} L${P(xRt, yTop)} L${P(xRt, yBot)} L${P(gutX, yBot)}" fill="none" stroke="#c8325f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>`;
+  visited.forEach(([r, c]) => s += `<circle cx="${(OX + cx(c) + CW - 26).toFixed(1)}" cy="${(OY + cy(r) + CH - 30).toFixed(1)}" r="10" fill="#c8325f" opacity="0.92"/>`);
+  // decoy highlight (slate = "look closer", not berry = "true")
+  s += `<rect x="${(OX + cx(2) - 4).toFixed(1)}" y="${(OY + cy(1) - 4).toFixed(1)}" width="${CW + 8}" height="${CH + 8}" rx="14" fill="none" stroke="#1e293b" stroke-width="5"/>`;
   document.querySelector('#t2page svg.ov').innerHTML = s;
 
   // magnifier (cell R2C3 redrawn large from its NL spec: fourths line, footprint at 3/4, sign says 3/5)
-  const cx = 1110, cy = 700, R = 250, sc = 2.55;
+  const mx = 1110, my = 700, R = 250, sc = 2.55;
   const o = Object.assign(T.parseNL('NL[0–1,4, point=3/4]'), { x0: 17, y: 27, L: 1.34 * IN, lw: 2.7, th: 7.5, thW: 10, lfs: 16, labGap: 2 });
   let cell = `<rect x="1" y="1" width="160" height="110" rx="11" fill="#fff" stroke="#1e293b" stroke-width="1.7"/><rect x="4.5" y="4.5" width="153" height="103" rx="8" fill="none" stroke="#1e293b" stroke-width="0.8"/>`;
   cell += T.line(o).svg + fracSVG(75, 80, '3', '5', 22, { weight: 700 }) + `<circle cx="136" cy="82" r="10.5" fill="none" stroke="#1e293b" stroke-width="1.8"/>`;
-  // page-cell position in thumbnail coordinates (page shot at left 96, top 236, scale 780/816, rotated -2deg about its centre)
-  const k = 780 / 816, pcx = 96 + 390, pcy = 236 + 505, a = -2 * Math.PI / 180;
-  const lx = 96 + mx * k - pcx, ly = 236 + my * k - pcy;
-  const px = pcx + lx * Math.cos(a) - ly * Math.sin(a), py = pcy + lx * Math.sin(a) + ly * Math.cos(a);
-  let m = `<defs><clipPath id="mclip"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath></defs>`;
-  const ang = Math.atan2(py - cy, px - cx);
-  m += `<line x1="${px + 40}" y1="${py}" x2="${cx + R * Math.cos(ang)}" y2="${cy + R * Math.sin(ang)}" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>`;
-  m += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#fff"/>`;
-  m += `<g clip-path="url(#mclip)"><g transform="translate(${cx - 81 * sc} ${cy - 58 * sc}) scale(${sc})">${cell}</g></g>`;
-  // berry X over the decoy sign
-  const xc = cx - 81 * sc + 136 * sc, yc = cy - 58 * sc + 82 * sc;   // cross out the circle: do not color this sign
+  // page px -> thumbnail px (.shot: left 96, top 236, 780 x 1010 incl. 2px border, image 776 x 1006, rotated -2deg about its centre)
+  const k = 776 / 816, a = -2 * Math.PI / 180;
+  const T2 = (x, y) => { const lx = 2 + x * k - 390, ly = 2 + (1006 - 1056 * k) / 2 + y * k - 505;
+    return [96 + 390 + lx * Math.cos(a) - ly * Math.sin(a), 236 + 505 + lx * Math.sin(a) + ly * Math.cos(a)]; };
+  const [sx, sy] = T2(OX + outX, OY + gutY);
+  const ang = Math.atan2(sy - my, sx - mx);
+  let m = `<defs><clipPath id="mclip"><circle cx="${mx}" cy="${my}" r="${R}"/></clipPath></defs>`;
+  m += `<line x1="${sx}" y1="${sy}" x2="${mx + R * Math.cos(ang)}" y2="${my + R * Math.sin(ang)}" stroke="#1e293b" stroke-width="5.5" stroke-linecap="round"/>`;
+  m += `<circle cx="${mx}" cy="${my}" r="${R}" fill="#fff"/>`;
+  m += `<g clip-path="url(#mclip)"><g transform="translate(${mx - 81 * sc} ${my - 58 * sc}) scale(${sc})">${cell}</g></g>`;
+  // berry X over the decoy sign's circle: do not color this sign
+  const xc = mx - 81 * sc + 136 * sc, yc = my - 58 * sc + 82 * sc;
   m += `<path d="M${xc - 46} ${yc - 46} L${xc + 46} ${yc + 46} M${xc + 46} ${yc - 46} L${xc - 46} ${yc + 46}" stroke="#c8325f" stroke-width="14" stroke-linecap="round"/>`;
-  m += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#1e293b" stroke-width="14"/>`;
-  m += `<path d="M${cx + R * 0.72} ${cy + R * 0.72} L${cx + R * 1.02} ${cy + R * 1.02}" stroke="#1e293b" stroke-width="30" stroke-linecap="round"/>`;
+  m += `<circle cx="${mx}" cy="${my}" r="${R}" fill="none" stroke="#1e293b" stroke-width="14"/>`;
+  m += `<path d="M${mx + R * 0.72} ${my + R * 0.72} L${mx + R * 1.02} ${my + R * 1.02}" stroke="#1e293b" stroke-width="30" stroke-linecap="round"/>`;
   document.getElementById('t2mag').innerHTML = m;
-
-  // minis of Maze 1 and Maze 3 (3 levels)
-  document.getElementById('t2minis').innerHTML =
-    `<div class="shot" style="left:0;top:0;width:200px;height:259px;transform:rotate(-6deg)"><img src="thumb-src/page-06.png"></div>
-     <div class="shot" style="left:120px;top:60px;width:200px;height:259px;transform:rotate(4deg)"><img src="thumb-src/page-09.png"></div>`;
+  // (Fix Round 1: the Maze 1 / Maze 3 minis were removed: they were hidden behind the big page and the subtitle already says "3 levels")
 })();
 
 /* ---- 3: game tokens + same-spot strip ---- */
 (function () {
   const ox = 69.1, oy = 282.8, cw = 696 / 5, ch = 1.48 * IN;              // game board SVG on page 12 (CSS px)
-  const toks = [[0, 1, 'snowball'], [1, 2, 'mitten'], [1, 1, 'snowball'], [2, 2, 'snowball'], [2, 3, 'mitten'], [3, 3, 'snowball']];
+  // Fix Round 1 (Appeal): 4 snowballs : 3 mittens (snowball went first, mitten to play). Mitten blocked the diagonal at R1C1; nobody has 4 in a row.
+  const toks = [[0, 1, 'snowball'], [1, 2, 'mitten'], [1, 1, 'snowball'], [2, 2, 'snowball'], [2, 3, 'mitten'], [3, 3, 'snowball'], [0, 0, 'mitten']];
   let s = '';
   toks.forEach(([r, c, t]) => {
     const x = ox + c * cw + cw / 2, y = oy + r * ch + ch / 2;
