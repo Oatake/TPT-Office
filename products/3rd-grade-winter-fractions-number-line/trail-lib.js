@@ -221,8 +221,8 @@
   <!-- #12 Snowball + mitten tokens -->
   <symbol id="snowball" viewBox="0 0 50 50">
     <circle cx="25" cy="25" r="20" fill="var(--ball,#fff)" stroke="currentColor" stroke-width="3.4"/>
-    <path d="M14 30 Q18 38 28 39" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
-    <circle cx="31" cy="17" r="2" fill="currentColor"/><circle cx="20" cy="20" r="1.6" fill="currentColor"/>
+    <path d="M10 28 Q13 38 24 41" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M30 12 Q36 14 38 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
   </symbol>
   <symbol id="mitten" viewBox="0 0 50 50">
     <g fill="var(--mit,#fff)" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
@@ -230,7 +230,7 @@
       <path d="M14 27 Q5 26 5 18 Q6 11 13.5 15"/>
       <path d="M11 36 L41 36 L41 46 L11 46 Z"/>
     </g>
-    <path d="M18 41 L34 41" stroke="currentColor" stroke-width="2.4" stroke-dasharray="2 4" stroke-linecap="round"/>
+    <path d="M17 37.5 L17 44.5 M23 37.5 L23 44.5 M29 37.5 L29 44.5 M35 37.5 L35 44.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   </symbol>
 
   <!-- #14 Scissors -->
@@ -417,7 +417,7 @@
   // Cover / thumbnail scene: snowy trail = real number line 0..1 in fourths
   function scene(o = {}) {
   const W = o.W ?? 8.36 * IN, H = o.H ?? 3.95 * IN, y = o.y ?? 262;
-  const x0 = o.x0 ?? 136, L = o.L ?? 5.9 * IN, X = (v) => x0 + v * L, k = o.k ?? 1;
+  const x0 = o.x0 ?? 128, L = o.L ?? 6.0 * IN, X = (v) => x0 + v * L, k = o.k ?? 1;
   let s = `<defs><linearGradient id="snowfade${o.id || ''}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dcebf7"/><stop offset="1" stop-color="#dcebf7" stop-opacity="0"/></linearGradient></defs>`;
   // flakes
   (o.flakes ?? [[W - 150, 6, 34, 'flake'], [W - 300, 52, 24, 'flake2'], [X(.36), 18, 22, 'flake2']]).forEach(([fx, fy, fw, id]) =>
@@ -440,7 +440,7 @@
   // Base Camp flag at 0, Cocoa Cabin at 1, Birch beside the cabin, Juniper mid-air between 2/4 and 3/4
   s += `<use href="#flag" x="${x0 - 30 * k}" y="${y - 100 * k}" width="${64 * k}" height="${85 * k}" style="--flag:#c8325f"/>`;
   s += `<use href="#cabin" x="${X(1) - 52 * k}" y="${y - 118 * k}" width="${104 * k}" height="${104 * k}" style="--door:#dcebf7;--win:#dcebf7"/>`;
-  s += `<use href="#birch-wave" x="${X(1) + 40 * k}" y="${y - 62 * k}" width="${62 * k}" height="${58 * k}" style="--hat:#c8325f"/>`;
+  s += `<use href="#birch-wave" x="${X(1) + 28 * k}" y="${y - 60 * k}" width="${60 * k}" height="${56 * k}" style="--hat:#c8325f"/>`;
   s += `<use href="#jun-jump" x="${X(.5) + 10 * k}" y="${y - 150 * k}" width="${136 * k}" height="${105 * k}" style="--scarf:#c8325f"/>`;
   return svgBox(W, H, s, 'cover-scene');
 }
