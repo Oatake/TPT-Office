@@ -62,7 +62,7 @@ Each student page has 1, 2, or 3 pairs of paw prints in the top corner. The paws
 
 | Paws | Level | Best for | What students do |
 |---|---|---|---|
-| 1 pair | Base Camp | New learners, intervention | Unit fractions on 0–1. Tick marks are given, and some hop arcs are drawn. |
+| 1 pair | Base Camp | New learners, intervention | Unit fractions on 0–1. Tick marks are given or guided by dots; some hop arcs are drawn. |
 | 2 pairs | Trail | Most of the class | Any fraction a/b on 0–1, plus some fractions greater than 1 on 0–2 lines. |
 | 3 pairs | Summit | Students ready for a challenge | Equivalent fractions, whole numbers as fractions, 0–3 lines, and written proof. |
 
@@ -84,7 +84,7 @@ Most pages take 15–25 minutes; the game takes about 20 minutes. Every page als
 
 ### Tips
 1. **Keep the Trail Guide (p. 3) close.** Students can keep a copy in a folder or post it as an anchor chart.
-2. **"Count the hops, not the marks."** A line cut into 4 hops has 5 tick marks. This is the most common number line error, and every maze includes it as a trap.
+2. **"Count the hops, not the marks."** A line cut into 4 hops has 5 tick marks. This is the most common number line error, and Mazes 1 and 2 include it as a trap.
 3. **Mazes check themselves.** Each Cocoa Cabin says how many footprints the right trail has. If a student hits a dead end or the count is wrong, they go back to the last sign they colored and re-check it. The answer key (p. 16) shows which mistake each wrong sign matches.
 4. **Name the point with the line's hops.** On a fourths line the answer is 2/4. Students do not need to rewrite fractions with smaller numbers, because that is not a grade 3 standard. If a student writes 1/2 and explains that it is the same point, accept it.
 
@@ -109,7 +109,7 @@ Most pages take 15–25 minutes; the game takes about 20 minutes. Every page als
 
 ### Printing Notes
 - Everything is black-and-white friendly and printed one-sided.
-- **Only two things need cutting:** the Trail Tickets (p. 14, four per page) and the Game Answer Card (p. 17, one per pair of players). Everything else is no prep.
+- **Only two things need cutting:** the Trail Tickets (p. 14, four per page) and the Game Answer Card (p. 17, one per pair; cut it off before handing it out). Everything else is no prep.
 - The full text of each standard is on page 18.
 
 ---
@@ -618,7 +618,7 @@ Check twice: Card 1: hops 0→1/4 = 1 of 4 ✓. Card 3: ticks after 0 → 1/6, 2
 **Title:** Trail Talk: Always, Sometimes, or Never?
 **Flavor line:** Decide, then prove it with a number line.
 
-**Directions:** Read each trail sign. Circle Always, Sometimes, or Never. Prove it with a number line.
+**Directions:** Read each statement. Circle Always, Sometimes, or Never. Prove it with a number line.
 
 **Each row:** statement (13 pt) + three rounded boxes **Always / Sometimes / Never** + a "Prove it" box with an empty 0–1 line (about 4 in, ticks only at 0 and 1, labels 0 and 1) + 2 write lines (0.5 in) + the frame "I know because ___."
 
@@ -741,7 +741,7 @@ How many equal hops from 0 to 1? ___  Each hop is ___.
 Draw a dot at 1/3.
 
 **3.** `NL[0–1, 8, point=5/8, labels=0,1]`
-What fraction names the dot? ___
+What fraction names the footprint? ___
 
 **4.** `NL[0–1, 6, point=—, labels=0,1]`
 Draw a dot at 4/6.
@@ -798,7 +798,7 @@ Score: 1 point each, 8 total. The only fraction greater than 1 is in #8, as the 
 2. How do you know? ________________
 
 **Ticket B** *(tag: 3.NF.A.2b)*
-1. `NL[0–1, 6, point=5/6, labels=0,1]` What fraction names the dot? ___
+1. `NL[0–1, 6, point=5/6, labels=0,1]` What fraction names the footprint? ___
 2. How do you know? ________________
 
 **Ticket C** *(tag: 3.NF.A.3a)*
@@ -959,15 +959,15 @@ Accept any correct number line proof.
 ---
 
 ### Game Answer Card — Snowball Four-in-a-Row
-*(Quarter-page card with a dashed cut line and scissors (#14). Print one per pair. The squares match the board exactly. The "Two trails" answer is the bottom fraction only. If a player says an equal fraction with the trail's hops, it is correct; the "also" answers are for players who explain the same spot.)*
+*(Quarter-page card with a dashed cut line and scissors (#14). The squares match the board exactly. Printed header note: "Print one per pair. Two trails = the bottom fraction." Printed note under the grid: "Cut off this card before handing it out. Also accept any equal fraction if the player explains it is the same point.")*
 
 | | Col 1 | Col 2 | Col 3 | Col 4 | Col 5 |
 |---|---|---|---|---|---|
 | **Row 1** | 1/4 | 3/6 | 5/4 | 8/8 (= 1) | 3/8 |
 | **Row 2** | 6/2 (= 3) | 3/2 | 5/6 | 1/3 | 2/3 |
-| **Row 3** | 4/8 | 2/8 (also 1/4) | 8/4 (= 2) | 1/6 | 4/3 |
-| **Row 4** | 6/4 (also 3/2) | 3/6 (also 1/2) | 3/4 | 1/2 | 3/3 (= 1) |
-| **Row 5** | 4/8 (also 1/2) | 4/2 (= 2) | 5/3 | 3/4 (also 6/8) | 2/3 |
+| **Row 3** | 4/8 | 2/8 | 8/4 (= 2) | 1/6 | 4/3 |
+| **Row 4** | 6/4 | 3/6 | 3/4 | 1/2 | 3/3 (= 1) |
+| **Row 5** | 4/8 | 4/2 (= 2) | 5/3 | 3/4 | 2/3 |
 
 ---
 
@@ -997,6 +997,38 @@ Thank you for your purchase! This resource is for **single classroom / single fa
 
 ### Credits
 - Font: **Lexend** by The Lexend Project Authors, licensed under the SIL Open Font License 1.1.
-- All illustrations are original SVG artwork by [Store Name].
+- All illustrations are original SVG artwork made for this resource.
 - © [Store Name]. All rights reserved.
+
+---
+
+## Fix Round 1 — Change Log
+
+> Date: 2026-11-11 · Source: `05-qa-report.md` (PASS WITH FIXES). Wording only: no math, item values, maze grids, or answers were changed. Apply each change verbatim to `worksheet.html` / `thumbnails.html`, then rebuild PDF, preview, thumb-src, and thumbnails.
+> Scan done: nothing in this file or in `worksheet.html` / `thumbnails.html` claims the set is handmade, AI-free, teacher-written, teacher-made, or drawn by the store.
+
+| # | QA ID | Page / location (HTML line) | Old text (exact) | New text (exact) |
+|---|---|---|---|---|
+| 1 | MJ-2 | p.2 Tips, item 2 (`worksheet.html` ~l.300) | `This is the most common number line error, and every maze includes it as a trap.` | `This is the most common number line error, and Mazes 1 and 2 include it as a trap.` |
+| 2 | MJ-3 | p.18 Credits, bullet 2 (`worksheet.html` ~l.622) | `All illustrations are original SVG artwork by <span class="js-store"></span>.` | `All illustrations are original SVG artwork made for this resource.` (remove the `js-store` span from this line only; keep the `©` store line below it) |
+| 3 | mn-12 | p.2 "What the Paws Mean" table, 1 pair / Base Camp row, last cell (`worksheet.html` ~l.278) | `Unit fractions on 0–1. Tick marks are given, and some hop arcs are drawn.` | `Unit fractions on 0–1. Tick marks are given or guided by dots; some hop arcs are drawn.` |
+| 4 | mn-2 | p.2 Printing Notes, bullet 2 (`worksheet.html` ~l.307) | `the Game Answer Card (p. 17, one per pair of players). Everything else is no prep.` | `the Game Answer Card (p. 17, one per pair; cut it off before handing it out). Everything else is no prep.` |
+| 5 | mn-13 | p.11 Directions (`worksheet.html` ~l.444) | `Read each trail sign. Circle Always, Sometimes, or Never. Prove it with a number line.` | `Read each statement. Circle Always, Sometimes, or Never. Prove it with a number line.` |
+| 6 | mn-4 | p.13 Summit Check #3 (`worksheet.html` ~l.982) | `What fraction names the dot?` | `What fraction names the footprint?` |
+| 7 | mn-4 | p.14 Ticket B (`worksheet.html` ~l.1001) | `What fraction names the dot?` | `What fraction names the footprint?` |
+| 8 | mn-2 + mn-3 | p.17 Game Answer Card, note under the grid (`worksheet.html` ~l.593) | `If a player says an equal fraction with the trail's hops, it is correct; the “also” answers are for players who explain the same spot.` | `Cut off this card before handing it out. Also accept any equal fraction if the player explains it is the same point.` |
+| 9 | mn-3 | p.17 Game Answer Card, Row 3 Col 2 (`GAME_CARD`, ~l.946) | `2/8 (also 1/4)` | `2/8` |
+| 10 | mn-3 | p.17 Game Answer Card, Row 4 Col 1 (~l.947) | `6/4 (also 3/2)` | `6/4` |
+| 11 | mn-3 | p.17 Game Answer Card, Row 4 Col 2 (~l.947) | `3/6 (also 1/2)` | `3/6` |
+| 12 | mn-3 | p.17 Game Answer Card, Row 5 Col 1 (~l.948) | `4/8 (also 1/2)` | `4/8` |
+| 13 | mn-3 | p.17 Game Answer Card, Row 5 Col 4 (~l.948) | `3/4 (also 6/8)` | `3/4` |
+| 14 | mn-10 | Thumbnail 3 heading (`thumbnails.html` ~l.57) | `Games + Real Reasoning` | `Game + Real Reasoning` |
+| 15 | mn-11 | Thumbnail 4 bullet 3 (`thumbnails.html` ~l.74) | `Black &amp; white friendly` | `Self-checking mazes` (keep the "Prints in B&amp;W" label at ~l.69) |
+
+**Not changed on purpose:**
+- p.17 card header note `Print one per pair. Two trails = the bottom fraction.` stays as it is.
+- The whole-number parentheses `(= 1)`, `(= 2)`, `(= 3)` on the card stay, because they are used the same way on every Cabin square.
+- p.13 #8 `Write a fraction for the dot.` stays, because that point is drawn as a dot (`ptStyle: 'dot'`), not a footprint.
+- Purely visual items (MJ-1, mn-1, mn-5 to mn-9, mn-14, mn-15) belong to worksheet-designer.
+- MJ-3 still needs the owner's sign-off, as the QA report says.
 
