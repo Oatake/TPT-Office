@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Visual theme: clean-minimal (02b-creative-brief.md) + winter override in html:root below. Do not edit the theme file. -->
+<meta name="tpt-theme" content="clean-minimal">
+<title>Fractions on a Number Line: Winter Trail Mazes &amp; Practice (3rd Grade)</title>
+<style>
+  /* ===== Base template styles (templates/worksheet-template.html) ===== */
+  :root {
+    --brand-primary: #2f6fdd; --brand-accent: #f5a623; --ink: #222; --muted: #777; --line: #bbb;
+    --font-heading: "Lexend", sans-serif; --font-body: "Lexend", sans-serif;
+    --store-name: "Your Store Name";
+  }
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body, body * { font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "dlig" 0; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-body); color: var(--ink); background: #e9e9e9; }
+  .page {
+    width: 8.5in; height: 11in; padding: 0.42in 0.55in 0.62in 0.72in;
+    margin: 0 auto 0.25in; background: #fff; position: relative; overflow: hidden;
+    page-break-after: always; break-after: page;
+  }
+  @media print { body { background: #fff; } .page { margin: 0; } }
+  .name-line { display: flex; gap: 0.3in; font-size: 12.5pt; }
+  .name-line span { flex: 1; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+  .name-line span.short { flex: 0 0 1.7in; }
+  h1.title { font-family: var(--font-heading); font-size: 24pt; margin: 0 0 0.04in; color: var(--brand-primary); }
+  .directions { font-size: 12pt; padding: 0.06in 0.15in; margin-bottom: 0.14in; }
+  .footer { position: absolute; left: 0.72in; right: 0.55in; bottom: 0.28in; display: flex; font-size: 8.5pt; color: #6b7280; }
+  .footer > span { flex: 1; }
+  .footer .std { text-align: center; }
+  .footer .pnum { text-align: right; }
+  .footer .store::before { content: "© " var(--store-name); }
+  body.preview .page::after {
+    content: "PREVIEW"; position: absolute; top: 45%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg); font-family: "Lexend";
+    font-size: 110pt; font-weight: 700; color: rgba(0,0,0,0.08); pointer-events: none; z-index: 50;
+  }
+
+  /* ===== PRODUCT OVERRIDES (Snowshoe Trail). html:root beats the theme's :root ===== */
+  html:root {
+    --brand-primary: #1e293b;  /* slate ink (theme) */
+    --brand-accent:  #2468a0;  /* glacier blue (replaces teal) */
+    --trail-berry:   #c8325f;  /* the one warm accent: hop arcs, answer marks, cover badge */
+    --ice:           #dcebf7;  /* cover / thumbnails only */
+    --snow:          #f7fafc;
+    --thumb-bg:      #f7fafc;
+    --ink: #1e293b;
+    --soft: #475569;
+  }
+  body { font-weight: 400; }
+  h1.title { white-space: nowrap; line-height: 1.12; letter-spacing: -0.2px; }
+  h1.title .t2 { display: block; font-size: 14pt; font-weight: 600; color: var(--brand-accent); border: 0; letter-spacing: 0; }
+  .flavor { font-size: 11pt; color: var(--soft); margin: 0.02in 0 0.08in; }
+  .flv { display: flex; justify-content: space-between; align-items: flex-start; height: 0.3in; }
+  .flv > div { margin-top: -0.06in; }
+  .hdr { display: flex; align-items: flex-end; gap: 0.25in; margin-bottom: 0.1in; }
+  .hdr .name-line { flex: 1; }
+  .hdr .lvl { display: flex; align-items: center; gap: 4px; font-size: 8pt; color: var(--soft); }
+  .directions { line-height: 1.3; margin-bottom: 0.09in; }
+  .directions b { font-weight: 600; }
+  .sub-dir { font-size: 10.5pt; color: var(--soft); margin-top: 0.03in; }
+  b, strong { font-weight: 600; }
+  .hidden-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  svg { overflow: visible; }
+
+  /* stacked fractions (built by JS from "a/b" text; never ½ ¼ ¾ glyphs) */
+  .fr { display: inline-flex; flex-direction: column; align-items: stretch; vertical-align: middle; text-align: center;
+        font-size: 0.94em; line-height: 1.04; margin: 0 0.06em; font-variant-numeric: tabular-nums; }
+  .fr > span { display: block; padding: 0 0.12em; }
+  .fr > span:first-child { border-bottom: 0.085em solid currentColor; }
+  .fr .bx { display: inline-block; width: 0.36in; height: 0.3in; border: 1.4px dashed #64748b; border-radius: 4px; margin: 2px auto; }
+  svg.arr { width: 1.05em; height: 0.55em; vertical-align: 0.05em; color: currentColor; margin: 0 0.12em; }
+
+  /* blanks + answer boxes */
+  .blank { display: inline-block; border-bottom: 1.5px solid var(--ink); min-width: 0.6in; height: 1.1em; vertical-align: -0.2em; }
+  .blank.w2 { min-width: 1.2in; } .blank.w3 { min-width: 2.2in; } .blank.wide { min-width: 0; flex: 1; }
+  .fbox { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 0.05in; }
+  .fbox i { display: block; width: 0.4in; height: 0.32in; border: 1.6px solid #475569; border-radius: 4px; }
+  .fbox b { display: block; width: 0.5in; height: 0; border-top: 2px solid var(--ink); margin: 3px 0; }
+  .fbox.sm i { width: 0.34in; height: 0.27in; }
+  .numbox { display: inline-block; width: 0.42in; height: 0.34in; border: 1.6px solid #475569; border-radius: 4px; vertical-align: middle; }
+  .wl { border-bottom: 1.5px solid var(--ink); height: 0.42in; }
+  .frame { font-size: 11.5pt; display: flex; align-items: flex-end; gap: 0.06in; white-space: nowrap; }
+  .frame .blank { flex: 1; }
+
+  .qn { font-weight: 600; color: var(--ink); }
+  .part { display: flex; align-items: center; gap: 0.1in; font-size: 14pt; font-weight: 600; color: var(--ink); margin: 0.06in 0 0.03in; }
+  .part .tag { font-size: 9pt; font-weight: 400; color: var(--soft); }
+  .tryit { display: inline-flex; align-items: center; gap: 3px; font-size: 9.5pt; font-weight: 600; color: var(--trail-berry); border: 1.4px solid var(--trail-berry); border-radius: 4px; padding: 0 5px 0 3px; margin-left: 6px; vertical-align: 0.1em; }
+  .tryit svg { width: 0.15in; height: 0.15in; }
+  .ak { color: var(--trail-berry); font-weight: 700; }
+  .tp .fr, .key .fr, .note .fr, table.tt .fr { font-size: 0.8em; line-height: 0.98; }
+  .muted { color: var(--soft); }
+  .small { font-size: 9.5pt; }
+  .hint { font-size: 10.5pt; color: var(--soft); }
+
+  /* ---------- Cover ---------- */
+  html .page.cover { display: block; padding: 0.55in 0.5in 0.45in 0.78in; text-align: left; }
+  .cv-top { display: flex; gap: 0.14in; align-items: center; }
+  .cv-badge { background: var(--trail-berry); color: #fff; font-weight: 700; font-size: 16pt; padding: 0.04in 0.2in 0.06in; border-radius: 4px; }
+  .cv-tag { border: 1.6px solid var(--ink); color: var(--ink); font-weight: 600; font-size: 12pt; padding: 0.04in 0.14in; border-radius: 4px; }
+  .cv-title { font-size: 44pt; font-weight: 700; line-height: 1.04; color: var(--ink); margin: 0.2in 0 0.08in; letter-spacing: -0.5px; }
+  .cv-sub { font-size: 21pt; font-weight: 600; color: var(--brand-accent); }
+  .cv-scene { position: absolute; left: 0.14in; top: 3.0in; }
+  .cv-tagline { position: absolute; left: 0.78in; top: 7.0in; font-size: 22pt; font-weight: 700; color: var(--trail-berry); }
+  .cv-feat { position: absolute; left: 0.78in; top: 7.62in; font-size: 14.5pt; line-height: 1; }
+  .cv-feat div { display: flex; align-items: center; gap: 0.12in; height: 0.36in; }
+  .cv-feat svg { width: 0.26in; height: 0.26in; color: var(--brand-accent); }
+  .cv-bottom { position: absolute; left: 0.78in; right: 0.5in; bottom: 0.45in; display: flex; align-items: center; gap: 0.16in; font-size: 13pt; font-weight: 600; color: var(--ink); border-top: 1.5px solid #cbd5e1; padding-top: 0.12in; }
+  .cv-bottom i { display: inline-block; width: 2px; height: 0.22in; background: var(--brand-accent); }
+
+  /* ---------- Teacher pages ---------- */
+  .tp { font-size: 9.4pt; line-height: 1.3; }
+  .tpc { column-count: 2; column-gap: 0.22in; font-size: 8pt; line-height: 1.2; }
+  .tpc p { margin: 0 0 0.035in; } .tpc li { margin-bottom: 0.01in; }
+  .tpc h2 { font-size: 10.5pt; margin: 0.06in 0 0.02in; } .tpc table.tt { font-size: 7.8pt; line-height: 1.15; } .tpc table.tt td { padding: 1px 4px; }
+  table.wi { font-size: 7.8pt; line-height: 1.12; } table.wi td { padding: 0.5px 5px; height: auto; }
+  .tpc h2 { break-after: avoid; } .tpc table, .tpc li { break-inside: avoid; }
+  .tpc h2:first-child { margin-top: 0; }
+  .tp h2 { font-size: 11.5pt; font-weight: 700; margin: 0.08in 0 0.03in; color: var(--brand-accent); }
+  .tp p { margin: 0 0 0.05in; }
+  .tp ol, .tp ul { margin: 0 0 0.05in; padding-left: 0.2in; }
+  .tp li { margin-bottom: 0.025in; }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25in; }
+  table.tt { border-collapse: collapse; width: 100%; font-size: 8.8pt; line-height: 1.22; }
+  table.tt th, table.tt td { border: 1px solid #cbd5e1; padding: 2px 5px; text-align: left; vertical-align: middle; }
+  table.tt th { background: #fff; font-weight: 600; border-bottom: 1.6px solid var(--ink); }
+  table.tt td.c { text-align: center; }
+
+  /* ---------- p3 Trail Guide ---------- */
+  .callouts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.14in; margin: 0.06in 0 0.12in; }
+  .callout { border: 1.5px solid #94a3b8; border-radius: 8px; padding: 0.07in 0.1in; font-size: 10.5pt; line-height: 1.3; }
+  .callout .h { display: flex; align-items: center; gap: 0.06in; font-weight: 700; font-size: 11.5pt; margin-bottom: 0.03in; }
+  .callout .h .n { display: inline-flex; align-items: center; justify-content: center; width: 0.24in; height: 0.24in; border-radius: 50%; border: 2px solid var(--brand-accent); color: var(--brand-accent); font-size: 10pt; }
+  .callout .to { color: var(--brand-accent); font-weight: 600; font-size: 10.5pt; margin-bottom: 0.03in; }
+  .box { border: 1.5px solid #94a3b8; border-radius: 8px; padding: 0.08in 0.12in; display: flex; align-items: center; gap: 0.15in; margin-bottom: 0.1in; }
+  .box h3 { margin: 0 0 0.04in; font-size: 13pt; }
+  .box p { margin: 0; font-size: 11pt; line-height: 1.32; }
+  .wb { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); grid-auto-flow: column; gap: 0 0.25in; font-size: 10.2pt; }
+  .wb div { display: grid; grid-template-columns: 1.15in 1fr; border-bottom: 1px solid #cbd5e1; padding: 3px 0; align-items: center; }
+  .wb b { font-weight: 600; }
+
+  /* ---------- p4 / p5 items ---------- */
+  .item { display: grid; grid-template-columns: 0.28in 1fr; margin-bottom: 0.01in; }
+  .item .qn { font-size: 12.5pt; }
+  .item .ins { font-size: 12pt; margin-bottom: 0.02in; }
+  .row { display: flex; align-items: center; gap: 0.06in; }
+  .ansc { font-size: 9.6pt; line-height: 1.2; display: flex; flex-direction: column; gap: 0.05in; width: 1.24in; flex: none; }
+  .ansc .l { white-space: nowrap; }
+  .ansc .l { display: flex; align-items: center; gap: 0.02in; }
+  .ansc .numbox { width: 0.36in; height: 0.3in; vertical-align: middle; }
+  .pA { display: grid; grid-template-columns: 1fr 1fr; gap: 0.06in 0.3in; }
+  .pA .it { display: flex; align-items: center; gap: 0.05in; height: 0.82in; }
+  .pB .it { display: flex; align-items: center; gap: 0.1in; height: 1.0in; }
+  .pB .lbl { width: 1.15in; font-size: 12.5pt; line-height: 1.25; }
+
+  /* ---------- p8 ---------- */
+  .stk { display: flex; align-items: center; gap: 0.12in; }
+  .stk .rt { font-size: 11pt; line-height: 1.3; flex: 1; }
+  .eqn { font-size: 15pt; display: flex; align-items: center; gap: 0.05in; white-space: nowrap; }
+  .p8i { font-size: 11.5pt; margin: 0.03in 0 0; }
+  .pc { display: flex; align-items: center; gap: 0.08in; } .pc .p8i { flex: 1; }
+  .cap { font-size: 10pt; color: var(--soft); margin: 0 0 0.04in 0.05in; }
+
+  /* ---------- p10 cards ---------- */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.14in; }
+  .card { border: 1.6px solid #94a3b8; border-radius: 10px; padding: 0.08in 0.12in; height: 4.02in; display: flex; flex-direction: column; }
+  .card h3 { margin: 0 0 0.02in; font-size: 13pt; }
+  .sign { border: 1.5px solid var(--ink); outline: 1px solid var(--ink); outline-offset: 2px; border-radius: 6px; padding: 0.05in 0.1in; font-size: 12pt; margin: 0.06in 0.05in 0.08in; text-align: center; }
+  .circ { font-size: 11pt; display: flex; align-items: center; gap: 0.1in; margin-bottom: 0.05in; }
+  .opt { border: 1.5px solid var(--ink); border-radius: 14px; padding: 1px 10px; font-size: 11pt; }
+  .card .wl { height: 0.36in; }
+  .card .dr { font-size: 10.5pt; font-weight: 600; margin-top: 0.06in; }
+
+  /* ---------- p11 ---------- */
+  .asn { display: grid; grid-template-columns: 2.55in 1fr; gap: 0.15in; border: 1.5px solid #94a3b8; border-radius: 10px; padding: 0.1in 0.12in; margin-bottom: 0.12in; height: 1.86in; }
+  .asn .st { font-size: 13pt; line-height: 1.3; font-weight: 500; }
+  .asn .opts { display: flex; flex-direction: column; gap: 0.06in; margin-top: 0.08in; align-items: flex-start; }
+  .asn .opt { font-size: 11pt; padding: 1px 12px; }
+  .prove { border-left: 1.5px dashed #94a3b8; padding-left: 0.14in; display: flex; flex-direction: column; min-width: 0; }
+  .prove .ph { font-size: 10pt; font-weight: 600; color: var(--soft); }
+  .prove .wl { height: 0.46in; }
+
+  /* ---------- p12 game ---------- */
+  .rules { display: grid; grid-template-columns: 0.95in 1fr 2.3in; gap: 0.12in; border: 1.6px solid #94a3b8; border-radius: 10px; padding: 0.07in 0.12in; height: 1.28in; margin-bottom: 0.1in; font-size: 10pt; line-height: 1.28; }
+  .rules ol { margin: 0; padding-left: 0.18in; }
+  .rules .tok { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 8pt; text-align: center; color: var(--soft); }
+  .rules .tok svg { width: 0.36in; height: 0.36in; color: var(--ink); }
+  .rules .key { border-left: 1.5px dashed #94a3b8; padding-left: 0.1in; font-size: 9pt; line-height: 1.25; }
+  .rules .key div { margin-bottom: 2px; }
+  .ttag { display: inline-block; min-width: 0.17in; text-align: center; border: 1.3px solid var(--ink); border-radius: 3px; font-weight: 600; font-size: 8pt; line-height: 1.2; margin-right: 3px; }
+
+  /* ---------- p13 ---------- */
+  .qc { display: grid; grid-template-columns: 1fr 1fr; gap: 0.06in 0.3in; }
+  .qc .it { border-bottom: 1px solid #e2e8f0; padding: 0.04in 0 0.04in; height: 1.48in; font-size: 11.5pt; line-height: 1.3; display: flex; flex-direction: column; }
+  .qc .it .v { margin-top: auto; }
+  .qc .mc { display: grid; grid-template-columns: auto auto; gap: 0.06in 0.18in; font-size: 12pt; padding-top: 0.04in; }
+  .score { border: 1.6px solid var(--ink); border-radius: 6px; padding: 0.03in 0.12in; font-size: 13pt; font-weight: 600; white-space: nowrap; }
+  .prog { border: 1.5px solid #94a3b8; border-radius: 10px; padding: 0.06in 0.14in; margin-top: 0.1in; }
+  .prog h2 { margin: 0 0 0.02in; font-size: 14pt; }
+  .prog .r { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding: 0.04in 0; font-size: 11.5pt; }
+  .prog .r:last-of-type { border-bottom: 0; }
+  .prog .pp { display: flex; gap: 0.14in; color: var(--ink); }
+  .prog .pp svg { width: 0.36in; height: 0.36in; }
+  .prog .k { font-size: 9.5pt; color: var(--soft); display: flex; gap: 0.2in; margin-top: 0.03in; }
+
+  /* ---------- p14 tickets ---------- */
+  .tix { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 8.92in; border: 2px dashed #64748b; position: relative; }
+  .tix > div { padding: 0.12in 0.16in; display: flex; flex-direction: column; font-size: 11.5pt; }
+  .tix > div:nth-child(odd) { border-right: 2px dashed #64748b; }
+  .tix > div:nth-child(-n+2) { border-bottom: 2px dashed #64748b; }
+  .tix .th { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.06in; }
+  .tix .th b { font-size: 14pt; }
+  .tix .std { font-size: 8.5pt; border: 1.2px solid #64748b; border-radius: 3px; padding: 0 5px; color: var(--soft); }
+  .tix .name { display: flex; gap: 0.06in; font-size: 11pt; margin-bottom: 0.1in; }
+  .tix .name span { flex: 1; border-bottom: 1.5px solid var(--ink); }
+  .tix .wl { height: 0.4in; }
+  .scis { position: absolute; width: 0.4in; height: 0.27in; color: #475569; background: #fff; }
+
+  /* ---------- Answer keys ---------- */
+  .key h2 { font-size: 12pt; margin: 0.08in 0 0.03in; color: var(--brand-accent); }
+  .key { font-size: 10.2pt; line-height: 1.32; }
+  .key .fr { font-size: 0.86em; }
+  .key ol { margin: 0; padding-left: 0.22in; }
+  .key li { margin-bottom: 0.02in; }
+  .kgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.02in 0.25in; }
+  .kit { display: flex; align-items: center; gap: 0.08in; }
+  .kit .t { flex: 1; }
+  .kl { margin: 0.04in 0 0; }
+  .card-cut { border: 2px dashed #64748b; border-radius: 4px; padding: 0.08in 0.1in; position: relative; }
+  table.gk { border-collapse: collapse; width: 100%; font-size: 10pt; }
+  table.gk td, table.gk th { border: 1px solid #94a3b8; text-align: center; padding: 1px 2px; height: 0.37in; }
+  table.gk th { font-size: 8.5pt; font-weight: 600; height: auto; }
+  .note { font-size: 8.6pt; color: var(--soft); }
+</style>
+</head>
+<body>
+
+<!-- ===================================================== P1 COVER ===================================================== -->
+<section class="page cover" data-std="">
+  <div class="cv-top"><span class="cv-badge">3rd Grade</span><span class="cv-tag">3.NF.A.2 &amp; 3.NF.A.3</span></div>
+  <div class="cv-title">Fractions on a<br>Number Line</div>
+  <div class="cv-sub">Winter Trail Mazes &amp; Practice</div>
+  <div class="cv-scene" data-draw="cover"></div>
+  <div class="cv-tagline">Every hop is the same size!</div>
+  <div class="cv-feat">
+    <div><svg><use href="#prints"/></svg>3 self-checking trail mazes</div>
+    <div><svg><use href="#prints"/></svg>Snowball Four-in-a-Row game</div>
+    <div><svg><use href="#prints"/></svg>Equivalent fractions &amp; whole numbers</div>
+    <div><svg><use href="#prints"/></svg>Exit tickets + quick check</div>
+    <div><svg><use href="#prints"/></svg>Answer keys included</div>
+  </div>
+  <div class="cv-bottom"><span>11 Student Pages + Anchor Chart</span><i></i><span>No Prep</span><i></i><span>Prints in Black &amp; White</span></div>
+</section>
+
+<!-- ===================================================== P2 TEACHER GUIDE ===================================================== -->
+<section class="page" data-std="" style="padding-top:0.36in">
+  <h1 class="title" style="font-size:22pt">Teacher Guide &amp; What's Inside</h1>
+  <div class="tp">
+    <div class="tpc">
+      <div>
+        <h2>About This Resource</h2>
+        <p>This no-prep set helps third graders see fractions as numbers on a number line. Students partition 0 to 1 into equal parts, then name and place unit fractions and fractions a/b, including fractions greater than 1. They also find equivalent fractions and whole numbers at the same point. Every page uses one simple story: Juniper the snowshoe hare hops from Base Camp (0) to the Cocoa Cabin (1), and every hop on a trail is the same size.</p>
+        <h2>The Trail Routine (use it every day)</h2>
+        <ol>
+          <li><b>Count the hops.</b> How many equal parts (intervals) are there from 0 to 1? That number is the <b>denominator</b>.</li>
+          <li><b>Name one hop.</b> Each hop is the <b>unit fraction</b> 1/b.</li>
+          <li><b>Hop to the spot.</b> Start at 0 and count hops. The number of hops is the <b>numerator</b>.</li>
+        </ol>
+        <p>Always pair the trail word with the math word: “each hop (equal part),” “the cabin (1 whole).”</p>
+        <h2>What the Paws Mean</h2>
+        <p>Each student page has 1, 2, or 3 pairs of paw prints in the top corner. The paws let you group students without labels like “easy” or “hard.”</p>
+        <table class="tt">
+          <tr><th style="width:0.5in">Paws</th><th style="width:0.5in">Level</th><th style="width:0.8in">Best for</th><th>What students do</th></tr>
+          <tr><td data-paws="1">1 pair</td><td>Base Camp</td><td>New learners, intervention</td><td>Unit fractions on 0–1. Tick marks are given, and some hop arcs are drawn.</td></tr>
+          <tr><td data-paws="2">2 pairs</td><td>Trail</td><td>Most of the class</td><td>Any fraction a/b on 0–1, plus some fractions greater than 1 on 0–2 lines.</td></tr>
+          <tr><td data-paws="3">3 pairs</td><td>Summit</td><td>Students ready for a challenge</td><td>Equivalent fractions, whole numbers as fractions, 0–3 lines, and written proof.</td></tr>
+        </table>
+        <p style="margin-top:0.06in"><b>Differentiate fast:</b> All three Trail Mazes use the same rules, so you can give directions once. Then hand out Maze 1 (Base Camp), Maze 2 (Trail), or Maze 3 (Summit). Pages 4 and 5 get harder as students go down the page, so Base Camp students may stop halfway. Pages 8, 10, and 11 include sentence frames for English learners and reluctant writers.</p>
+        <p><b>Early finishers:</b> On the back of page 8, students design a “trick” trail sign for a friend to check.</p>
+      </div>
+      <div>
+        <h2>Suggested 6-Day Path</h2>
+        <table class="tt">
+          <tr><th style="width:0.3in">Day</th><th style="width:1.55in">Pages</th><th>Focus</th></tr>
+          <tr><td class="c">1</td><td>3 Trail Guide → 4 Mark the Trail → Ticket A</td><td>Partition 0 to 1; unit fractions (3.NF.A.2a)</td></tr>
+          <tr><td class="c">2</td><td>5 Footprint Fractions → 6 Trail Maze 1</td><td>Name and place 1/b and a/b</td></tr>
+          <tr><td class="c">3</td><td>7 Trail Maze 2 → Ticket B</td><td>a/b, including fractions greater than 1 (3.NF.A.2b)</td></tr>
+          <tr><td class="c">4</td><td>8 Same Spot, Same Number → 9 Trail Maze 3 → Ticket C or D</td><td>Equivalent fractions; whole numbers (3.NF.A.3a, 3c)</td></tr>
+          <tr><td class="c">5</td><td>10 Fix the Trail Sign → 11 Trail Talk</td><td>Error analysis and reasoning</td></tr>
+          <tr><td class="c">6</td><td>12 Snowball Four-in-a-Row → 13 Summit Check</td><td>Review and assessment</td></tr>
+        </table>
+        <p style="margin-top:0.05in">Most pages take 15–25 minutes; the game takes about 20 minutes. Every page also works as a math center or small-group task.</p>
+        <h2>Tips</h2>
+        <ol>
+          <li><b>Keep the Trail Guide (p. 3) close.</b> Students can keep a copy in a folder or post it as an anchor chart.</li>
+          <li><b>“Count the hops, not the marks.”</b> A line cut into 4 hops has 5 tick marks. This is the most common number line error, and every maze includes it as a trap.</li>
+          <li><b>Mazes check themselves.</b> Each Cocoa Cabin says how many footprints the right trail has. If a student hits a dead end or the count is wrong, they go back to the last sign they colored and re-check it. The answer key (p. 16) shows which mistake each wrong sign matches.</li>
+          <li><b>Name the point with the line's hops.</b> On a fourths line the answer is 2/4. Students do not need to rewrite fractions with smaller numbers, because that is not a grade 3 standard. If a student writes 1/2 and explains that it is the same point, accept it.</li>
+        </ol>
+        <h2>Printing Notes</h2>
+        <ul>
+          <li>Everything is black-and-white friendly and printed one-sided.</li>
+          <li><b>Only two things need cutting:</b> the Trail Tickets (p. 14, four per page) and the Game Answer Card (p. 17, one per pair of players). Everything else is no prep.</li>
+          <li>The full text of each standard is on page 18.</li>
+        </ul>
+      </div>
+    </div>
+    <h2>What's Inside</h2>
+<table class="tt wi"><tr><th style="width:0.5in">Page</th><th>Title</th><th style="width:0.5in">Paws</th><th style="width:1.75in">Standard</th><th style="width:0.75in">Key on page</th></tr><tr><td class="c">3</td><td>Trail Guide: Fractions on a Number Line</td><td class="c">–</td><td>3.NF.A.2a, 2b, 3c</td><td class="c">–</td></tr><tr><td class="c">4</td><td>Mark the Trail: Equal Parts</td><td class="c">1</td><td>3.NF.A.2a</td><td class="c">15</td></tr><tr><td class="c">5</td><td>Footprint Fractions: Name the Point</td><td class="c">1–2</td><td>3.NF.A.2a, 2b</td><td class="c">15</td></tr><tr><td class="c">6</td><td>Trail Maze 1: Unit Fractions</td><td class="c">1</td><td>3.NF.A.2a</td><td class="c">16</td></tr><tr><td class="c">7</td><td>Trail Maze 2: Fractions on a Number Line</td><td class="c">2</td><td>3.NF.A.2b</td><td class="c">16</td></tr><tr><td class="c">8</td><td>Same Spot, Same Number: Equivalent Fractions</td><td class="c">2–3</td><td>3.NF.A.3a, 3b, 3c</td><td class="c">15</td></tr><tr><td class="c">9</td><td>Trail Maze 3: Same Spot or Whole Number?</td><td class="c">3</td><td>3.NF.A.3a, 3c</td><td class="c">16</td></tr><tr><td class="c">10</td><td>Fix the Trail Sign: Find the Mistake</td><td class="c">2</td><td>3.NF.A.2a, 2b, 3a</td><td class="c">17</td></tr><tr><td class="c">11</td><td>Trail Talk: Always, Sometimes, or Never?</td><td class="c">3</td><td>3.NF.A.2a, 2b, 3a, 3b, 3c</td><td class="c">17</td></tr><tr><td class="c">12</td><td>Snowball Four-in-a-Row: Fractions</td><td class="c">2</td><td>3.NF.A.2b, 3a, 3c</td><td class="c">17</td></tr><tr><td class="c">13</td><td>Summit Check + My Trail Progress</td><td class="c">–</td><td>All</td><td class="c">17</td></tr><tr><td class="c">14</td><td>Trail Tickets: Exit Tickets</td><td class="c">–</td><td>A 2a · B 2b · C 3a · D 3c</td><td class="c">17</td></tr><tr><td class="c">15–17</td><td>Answer Keys</td><td class="c">–</td><td>–</td><td class="c">–</td></tr><tr><td class="c">18</td><td>Standards, Terms of Use &amp; Credits</td><td class="c">–</td><td>–</td><td class="c">–</td></tr></table>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P3 TRAIL GUIDE ===================================================== -->
+<section class="page" data-std="3.NF.A.2a, 2b, 3c">
+  <h1 class="title">Trail Guide: Fractions on a Number Line</h1>
+  <p class="flavor">Count the hops. Name one hop. Hop to the spot.</p>
+  <div data-draw="p3main" style="margin:0.02in 0 0"></div>
+  <div class="callouts">
+    <div class="callout"><div class="h"><span class="n">1</span>Count the hops.</div><div class="to">→ the denominator</div>There are 4 equal hops (equal parts) from 0 to 1. The <b>denominator</b> is 4.</div>
+    <div class="callout"><div class="h"><span class="n">2</span>Name one hop.</div><div class="to">→ the unit fraction</div>Each hop is 1/4 of the whole. 1/4 is a <b>unit fraction</b>.</div>
+    <div class="callout"><div class="h"><span class="n">3</span>Hop to the spot.</div><div class="to">→ the numerator</div>Start at 0. Juniper took 3 hops of 1/4. The <b>numerator</b> is 3. She is at <b>3/4</b>.</div>
+  </div>
+  <div class="box">
+    <div data-draw="p3marks"></div>
+    <div><h3>Count the hops, not the marks!</h3><p><b>0 is where Juniper starts. She has not hopped yet. 4 hops make 5 marks. Count the hops!</b></p></div>
+  </div>
+  <div class="box">
+    <div data-draw="p3cabin"></div>
+    <div><h3>You reached the cabin!</h3><p><b>4 hops of 1/4 reach the cabin. 4/4 = 1 whole.</b></p></div>
+  </div>
+  <div class="part" style="font-size:13pt;margin-top:0.04in">Word Bank</div>
+  <div class="wb">
+    <div><b>number line</b><span>A line that shows numbers in order.</span></div>
+    <div><b>fraction</b><span>A number that names equal parts of a whole.</span></div>
+    <div><b>numerator</b><span>The top number. It counts hops from 0.</span></div>
+    <div><b>denominator</b><span>The bottom number. Equal hops from 0 to 1.</span></div>
+    <div><b>equal parts</b><span>Parts that are all the same size.</span></div>
+    <div><b>unit fraction</b><span>One equal part, like 1/4.</span></div>
+    <div><b>whole</b><span>The whole trail from 0 to 1.</span></div>
+    <div><b>tick mark</b><span>A short line that marks a spot.</span></div>
+    <div><b>interval</b><span>The space between two tick marks. One hop!</span></div>
+    <div><b>equivalent</b><span>Equal. Worth the same amount.</span></div>
+    <div><b>same point</b><span>One spot on the line with two names.</span></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P4 MARK THE TRAIL ===================================================== -->
+<section class="page" data-std="3.NF.A.2a" data-paws="1">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Mark the Trail: Equal Parts</h1>
+  <div class="flv"><p class="flavor">Every hop is the same size!</p><div data-draw="decoJump"></div></div>
+  <div class="directions"><b>Directions:</b> Count the hops (equal parts) from 0 to 1. Write a fraction under each tick mark. Then fill in the blanks.</div>
+  <div id="p4items"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P5 FOOTPRINT FRACTIONS ===================================================== -->
+<section class="page" data-std="3.NF.A.2a, 2b" data-paws="1">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Footprint Fractions: Name the Point<span class="t2">&amp; Hop to the Spot</span></h1>
+  <p class="flavor">Start at 0. Count the hops, not the marks.</p>
+  <div class="part">Part A: Name the Point</div>
+  <div class="directions"><b>Directions:</b> Count the hops (equal parts) from 0 to 1. Write the fraction for each footprint.</div>
+  <div class="pA" id="p5a"></div>
+  <div class="part" style="margin-top:0.08in"><svg width="22" height="22" style="color:#1e293b"><use href="#prints" width="22" height="22"/></svg>Part B: Hop to the Spot</div>
+  <div class="directions"><b>Directions:</b> Start at 0. Draw hops to the fraction. Draw a footprint (dot) where Juniper lands.</div>
+  <div class="pB" id="p5b"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P6 MAZE 1 ===================================================== -->
+<section class="page" data-std="3.NF.A.2a" data-paws="1">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Trail Maze 1: Unit Fractions</h1>
+  <p class="flavor">Help Juniper hop to the Cocoa Cabin.</p>
+  <div class="directions"><b>Directions:</b> Start at Base Camp. Read each trail sign. Does the fraction name the footprint? If YES, color the circle. Hop to the next sign: up, down, left, or right. No diagonal hops. Only true signs lead to the Cocoa Cabin!</div>
+  <div data-maze="1"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P7 MAZE 2 ===================================================== -->
+<section class="page" data-std="3.NF.A.2b" data-paws="2">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Trail Maze 2: Fractions on a Number Line</h1>
+  <p class="flavor">Only true trail signs lead home.</p>
+  <div class="directions"><b>Directions:</b> Start at Base Camp. Read each trail sign. Does the fraction name the footprint? If YES, color the circle. Hop to the next sign: up, down, left, or right. No diagonal hops. Only true signs lead to the Cocoa Cabin!
+    <div class="sub-dir">Some trails go past the cabin to 2. The whole is still 0 to 1.</div></div>
+  <div data-maze="2"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P8 SAME SPOT ===================================================== -->
+<section class="page" data-std="3.NF.A.3a, 3b, 3c" data-paws="2">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title" style="font-size:21.5pt">Same Spot, Same Number: Equivalent Fractions</h1>
+  <p class="flavor">Birch takes one big step. Juniper takes two hops.</p>
+  <div class="directions"><b>Part A: Same Spot.</b> Find where Birch is. Draw Juniper's footprint at the same spot. Fill in the fraction.</div>
+  <div id="p8a"></div>
+  <div class="directions"><b>Part B: Many Answers.</b> Use the trails. Find fractions at the same spot.</div>
+  <div id="p8b"></div>
+  <div class="directions"><b>Part C: Reach the Cabin.</b> Write fractions that name a whole number.</div>
+  <div id="p8c"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P9 MAZE 3 ===================================================== -->
+<section class="page" data-std="3.NF.A.3a, 3c" data-paws="3">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title" style="font-size:22pt">Trail Maze 3: Same Spot or Whole Number?</h1>
+  <p class="flavor">Same spot means same number.</p>
+  <div class="directions" style="font-size:11pt;line-height:1.26"><b>Directions:</b> Start at Base Camp. Read each trail sign.<br>
+    <b>Two trails?</b> Does the bottom fraction land on the same spot as the footprint?<br>
+    <b>One long trail?</b> Does the fraction name the footprint?<br>
+    If YES, color the circle. Hop to the next sign: up, down, left, or right. No diagonal hops. Only true signs lead to the Cocoa Cabin!
+    <div class="sub-dir">The bottom trail has no footprint. Count its hops!</div></div>
+  <div data-maze="3"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P10 FIX THE TRAIL SIGN ===================================================== -->
+<section class="page" data-std="3.NF.A.2a, 2b, 3a" data-paws="2">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Fix the Trail Sign: Find the Mistake</h1>
+  <div class="flv"><p class="flavor">Someone mixed up the signs!</p><div data-draw="decoSign"></div></div>
+  <div class="directions"><b>Directions:</b> Read each trail sign. Circle <b>Correct</b> or <b>Needs a fix</b>. Tell why. Then draw the right trail.</div>
+  <div class="cards" id="p10"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P11 TRAIL TALK ===================================================== -->
+<section class="page" data-std="3.NF.A.2a, 2b, 3a, 3b, 3c" data-paws="3">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Trail Talk: Always, Sometimes, or Never?</h1>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <p class="flavor">Decide, then prove it with a number line.</p>
+    <div data-draw="p11icons"></div>
+  </div>
+  <div class="directions"><b>Directions:</b> Read each trail sign. Circle Always, Sometimes, or Never. Prove it with a number line.</div>
+  <div id="p11"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P12 GAME ===================================================== -->
+<section class="page" data-std="3.NF.A.2b, 3a, 3c" data-paws="2">
+  <div class="hdr"><div class="name-line"><span>Team Snowball:</span><span>Team Mitten:</span></div><div class="lvl"></div></div>
+  <h1 class="title">Snowball Four-in-a-Row: Fractions</h1>
+  <div class="flv"><p class="flavor">Name the point. Claim the square! <span class="muted small">(2 players)</span></p><div data-draw="decoFlakes"></div></div>
+  <div class="rules">
+    <div class="tok"><svg><use href="#snowball"/></svg><span>Snowball = O</span><svg style="margin-top:3px"><use href="#mitten"/></svg><span>Mitten = X</span></div>
+    <div><b>How to play</b>
+      <ol>
+        <li>Pick an open square. Say the fraction.</li>
+        <li>Your partner checks the Answer Card.</li>
+        <li>Correct? Draw your mark (Team Snowball: O, Team Mitten: X).</li>
+        <li>Get 4 in a row across, down, or diagonal to win!</li>
+      </ol></div>
+    <div class="key">
+      <div><span class="ttag">F</span><b>Footprint:</b> Name the footprint. Use the trail's hops.</div>
+      <div><span class="ttag">T</span><b>Two trails:</b> Name the bottom fraction at the same spot.</div>
+      <div><span class="ttag">C</span><b>Cabin:</b> The footprint is on a whole number. Name it as a fraction. Use the trail's hops.</div>
+    </div>
+  </div>
+  <div data-draw="game"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P13 SUMMIT CHECK ===================================================== -->
+<section class="page" data-std="3.NF.A.2a, 2b, 3a, 3c">
+  <div class="hdr"><div class="name-line"><span>Name:</span><span class="short">Date:</span></div></div>
+  <div style="display:flex;align-items:center;gap:0.12in">
+    <svg width="58" height="32" viewBox="0 0 200 110" style="flex:none"><use href="#mtn"/></svg>
+    <h1 class="title" style="flex:1;font-size:20.5pt">Summit Check: Fractions on a Number Line</h1>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:0.05in 0 0.08in">
+    <div class="directions" style="margin:0;flex:1"><b>Directions:</b> Use the number lines. Count the hops from 0.</div>
+    <div class="score">Score: <span class="blank" style="min-width:0.45in"></span> / 8</div>
+  </div>
+  <div class="qc" id="p13"></div>
+  <div class="prog">
+    <h2>My Trail Progress</h2>
+    <div class="hint" style="margin-bottom:0.02in"><b>Directions:</b> Read each sentence. Color the footprints to show how you feel.</div>
+    <div class="r"><span>1. I can make equal hops from 0 to 1 and name one hop.</span><span class="pp"></span></div>
+    <div class="r"><span>2. I can count hops from 0 to name and place a fraction, even past 1.</span><span class="pp"></span></div>
+    <div class="r"><span>3. I can show equal fractions and whole numbers at the same spot.</span><span class="pp"></span></div>
+    <div class="k"><span>1 = I'm starting</span><span>2 = I'm getting there</span><span>3 = I can teach it!</span></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P14 TRAIL TICKETS ===================================================== -->
+<section class="page" data-std="3.NF.A.2a, 2b, 3a, 3c">
+  <h1 class="title">Trail Tickets: Exit Tickets</h1>
+  <div class="tix" id="p14"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P15 KEY: PRACTICE ===================================================== -->
+<section class="page key" data-std="">
+  <h1 class="title" style="font-size:22pt">Answer Key: Practice Pages (pp. 4, 5, 8)</h1>
+  <h2>Page 4 — Mark the Trail: Equal Parts</h2>
+  <div class="kgrid" id="k4"></div>
+  <p class="note" style="margin:0.03in 0 0">Also accept 0/b under 0 and b/b under 1 (for example 0/4 and 4/4).</p>
+  <h2>Page 5 — Footprint Fractions</h2>
+  <div style="display:grid;grid-template-columns:2.1in 1fr;gap:0.2in">
+    <div><b>Part A</b>
+      <ol>
+        <li class="ak">1/3</li><li class="ak">1/8</li><li class="ak">1/2</li>
+        <li><span class="ak">2/4</span> <span class="note">(Also accept 1/2 if the student explains it is the same point.)</span></li>
+        <li><span class="ak">4/6</span> <span class="note">(Also accept 2/3 if the student explains it is the same point.)</span></li>
+        <li class="ak">7/8</li>
+      </ol></div>
+    <div><b>Part B</b> <span class="note">(hop arcs from 0, then a dot)</span><div id="k5b"></div></div>
+  </div>
+  <h2>Page 8 — Same Spot, Same Number</h2>
+  <div id="k8"></div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P16 KEY: MAZES ===================================================== -->
+<section class="page key" data-std="">
+  <h1 class="title" style="font-size:22pt">Answer Key: Trail Mazes (pp. 6, 7, 9)</h1>
+  <p class="note" style="margin:0.02in 0 0.04in">Bold signs on the berry path are true. Every other sign shows its mistake code (see the table). Maze 3: S = two trails (top / bottom), W = whole number (point, then sign).</p>
+  <div data-draw="mazekeys"></div>
+  <h2 style="margin-top:0.1in">If Students Stop Here…</h2>
+  <p style="margin:0 0 0.04in">When a student colors a false sign, its code tells you what they were thinking.</p>
+  <table class="tt" style="font-size:8.6pt">
+    <tr><th style="width:0.42in">Code</th><th style="width:1.35in">What the student did</th><th style="width:2.05in">Example sign in the mazes</th><th style="width:1.35in">What it means</th><th>Next step</th></tr>
+    <tr><td><b>M1</b></td><td>Counted tick marks, not hops</td><td>4 hops, sign says 1/5 (Maze 1 R1C4); 3/5 (Maze 2 R2C3)</td><td>Thinks the marks are the parts</td><td>Have them draw hop arcs and count the arcs, not the marks.</td></tr>
+    <tr><td><b>M2</b></td><td>Counted the tick at 0 as “1”</td><td>point at 1/6, sign says 2/6 (Maze 1 R2C1); 3/8 → 4/8 (Maze 2 R4C3)</td><td>Starts counting before the first hop</td><td>“0 is where Juniper starts. She hasn't hopped yet.”</td></tr>
+    <tr><td><b>M3</b></td><td>Flipped the numerator and denominator</td><td>1/2 → 2/1 (Maze 1 R2C4); 4/8 → 8/4 (Maze 2 R2C2); 6/3 → 3/6 (Maze 3 R3C4)</td><td>Unsure which number is which</td><td>Review: the bottom number is the number of hops in 1 whole.</td></tr>
+    <tr><td><b>M4</b></td><td>Guessed the denominator from the look</td><td>sixths line, sign says 1/8 (Maze 1 R2C2); 5/6 → 5/8 (Maze 2 R4C4)</td><td>Did not count the hops</td><td>Count the hops every time, even when lines look alike.</td></tr>
+    <tr><td><b>M5</b></td><td>Named one hop instead of the spot</td><td>point at 3/4, sign says 1/4 (Maze 1 R3C4)</td><td>Mixes up “size of one hop” and “where she landed”</td><td>Ask: “How big is one hop? How many hops did she take?”</td></tr>
+    <tr><td><b>M6</b></td><td>Used the whole 0–2 line as 1 whole</td><td>point at 6/4, sign says 6/8 (Maze 2 R3C1)</td><td>Thinks the whole is the full line</td><td>Point to the cabin at 1: “The whole is 0 to 1.”</td></tr>
+    <tr><td><b>M7</b></td><td>Wrote the whole number as the numerator</td><td>point at 2 on fourths, sign says 2/4 (Maze 3 R2C3)</td><td>Sees “2” and writes it on top</td><td>“How many fourths does it take to reach Cabin 2?”</td></tr>
+    <tr><td><b>M8</b></td><td>Same numerator = same spot</td><td>1/3 and 1/6 (Maze 3 R1C3)</td><td>Compares top numbers only</td><td>Stack the lines and check whether the points line up.</td></tr>
+    <tr><td><b>M9</b></td><td>Same distance from 1 = equal</td><td>2/3 and 5/6 (Maze 3 R2C1); 3/4 and 7/8 (Maze 3 R4C4)</td><td>“Both are 1 hop from the cabin”</td><td>Hops are different sizes. Compare where the points really are.</td></tr>
+  </table>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P17 KEY: pp.10–14 + GAME CARD ===================================================== -->
+<section class="page key" data-std="" style="font-size:9.7pt">
+  <h1 class="title" style="font-size:21pt">Answer Key: pp. 10–14 + Game Answer Card</h1>
+  <div class="cols2" style="gap:0.22in">
+    <div>
+      <h2>Page 10 — Fix the Trail Sign</h2>
+      <ol>
+        <li><span class="ak">Nadia: Needs a fix.</span> The footprint is at <span class="ak">1/4</span>. <i>Sample: The mistake is she counted 5 tick marks. There are only 4 hops from 0 to 1.</i> “Draw it right”: 4 equal hops with the dot at the end of the first hop, labeled 1/4.</li>
+        <li><span class="ak">Emeka: Needs a fix.</span> <i>Sample: The mistake is the hops are not the same size, so they are not thirds.</i> “Draw it right”: 3 equal hops with the dot at the end of the first hop, labeled 1/3.</li>
+        <li><span class="ak">Lucia: Needs a fix.</span> The footprint is at <span class="ak">2/6</span> (also accept 1/3 if the student explains it is the same point). <i>Sample: The mistake is she counted the mark at 0 as 1. Juniper only took 2 hops.</i></li>
+        <li><span class="ak">Tobias: Correct.</span> <i>Sample: I know because 2 hops of 1/4 and 4 hops of 1/8 both land halfway, on the same point.</i></li>
+      </ol>
+      <h2>Page 11 — Trail Talk</h2>
+      <ol>
+        <li><span class="ak">Always.</span> <i>Sample proof: Split 0 to 1 into 2 hops, then into 4 hops. Each 1/4 hop is shorter than a 1/2 hop because the same whole is shared by more hops.</i></li>
+        <li><span class="ak">Sometimes.</span> <i>Sample proof: 3/4 is less than 1. But 4/4 lands right on 1, and 5/4 is past 1.</i></li>
+        <li><span class="ak">Sometimes.</span> <i>Sample proof: 1/2 and 2/4 land on the same spot. 1/3 and 1/4 do not; 1/3 is farther from 0.</i></li>
+        <li><span class="ak">Never.</span> <i>Sample proof: 4 hops have 5 tick marks, because there is a mark at 0 before the first hop. There is always one more tick mark than hops.</i></li>
+      </ol>
+      <p class="note" style="margin:0.02in 0 0">Accept any correct number line proof.</p>
+    </div>
+    <div>
+      <h2>Page 13 — Summit Check (1 point each)</h2>
+      <ol>
+        <li><span class="ak">6</span> hops; each hop is <span class="ak">1/6</span> (both parts needed)</li>
+        <li>Dot at the first tick after 0 (<span class="ak">1/3</span>)</li>
+        <li class="ak">5/8</li>
+        <li>Dot at the 4th tick after 0 (<span class="ak">4/6</span>)</li>
+        <li class="ak">B. 2/8</li>
+        <li><span class="ak">Yes</span> (4/8 and 3/6 are both halfway)</li>
+        <li class="ak">6/6</li>
+        <li class="ak">4/2</li>
+      </ol>
+      <h2>Page 14 — Trail Tickets</h2>
+      <ul style="list-style:none;padding-left:0">
+        <li><b>A:</b> <span class="ak">Dot at the first tick after 0.</span> <i>Sample: There are 8 equal hops, and 1/8 is the end of the first hop.</i></li>
+        <li><b>B:</b> <span class="ak">5/6.</span> <i>Sample: I counted 5 hops of 1/6 from 0.</i></li>
+        <li><b>C:</b> <span class="ak">2/6.</span> <i>Sample: 2 hops of 1/6 land on the same spot as 1/3.</i></li>
+        <li><b>D:</b> <span class="ak">3/3.</span> <i>Sample: 3 hops of 1/3 reach the cabin at 1.</i></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-cut" style="margin-top:0.16in">
+    <svg class="scis" style="left:-0.2in;top:-0.16in"><use href="#scissors"/></svg>
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:12.5pt">Game Answer Card: Snowball Four-in-a-Row</b><span class="note">Print one per pair. Two trails = the bottom fraction.</span></div>
+    <table class="gk" id="gamecard"></table>
+    <p class="note" style="margin:0.03in 0 0">If a player says an equal fraction with the trail's hops, it is correct; the “also” answers are for players who explain the same spot.</p>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<!-- ===================================================== P18 STANDARDS / TERMS / CREDITS ===================================================== -->
+<section class="page" data-std="">
+  <h1 class="title" style="font-size:21pt">Standards Alignment, Terms of Use &amp; Credits</h1>
+  <div class="tp" style="font-size:10.2pt;line-height:1.38">
+    <h2>Common Core State Standards: Grade 3, Number &amp; Operations—Fractions</h2>
+    <p><b>3.NF.A — Develop understanding of fractions as numbers.</b><br><i>Grade 3 expectations in this domain are limited to fractions with denominators 2, 3, 4, 6, and 8.</i></p>
+    <p><b>CCSS.MATH.CONTENT.3.NF.A.2</b> Understand a fraction as a number on the number line; represent fractions on a number line diagram.</p>
+    <ul>
+      <li><b>3.NF.A.2.A</b> Represent a fraction 1/b on a number line diagram by defining the interval from 0 to 1 as the whole and partitioning it into b equal parts. Recognize that each part has size 1/b and that the endpoint of the part based at 0 locates the number 1/b on the number line. <i>(pp. 3, 4, 5, 6, 10, 11, 13, 14)</i></li>
+      <li><b>3.NF.A.2.B</b> Represent a fraction a/b on a number line diagram by marking off a lengths 1/b from 0. Recognize that the resulting interval has size a/b and that its endpoint locates the number a/b on the number line. <i>(pp. 3, 5, 7, 10, 12, 13, 14)</i></li>
+    </ul>
+    <p><b>CCSS.MATH.CONTENT.3.NF.A.3</b> Explain equivalence of fractions in special cases, and compare fractions by reasoning about their size.</p>
+    <ul>
+      <li><b>3.NF.A.3.A</b> Understand two fractions as equivalent (equal) if they are the same size, or the same point on a number line. <i>(pp. 8, 9, 11, 12, 13, 14)</i></li>
+      <li><b>3.NF.A.3.B</b> Recognize and generate simple equivalent fractions, e.g., 1/2 = 2/4, 4/6 = 2/3. Explain why the fractions are equivalent, e.g., by using a visual fraction model. <i>(pp. 8, 11)</i></li>
+      <li><b>3.NF.A.3.C</b> Express whole numbers as fractions, and recognize fractions that are equivalent to whole numbers. <i>Examples: Express 3 in the form 3 = 3/1; recognize that 6/1 = 6; locate 4/4 and 1 at the same point of a number line diagram.</i> <i>(pp. 3, 8, 9, 11, 12, 13, 14)</i></li>
+    </ul>
+    <p class="note" style="font-size:8.8pt"><i>© Copyright 2010. National Governors Association Center for Best Practices and Council of Chief State School Officers. All rights reserved.</i></p>
+    <!-- TEKS line intentionally omitted: QA has not verified it with TEA / 19 TAC §111.5 (see design-notes.md). -->
+    <h2 style="margin-top:0.22in">Terms of Use</h2>
+    <p>Thank you for your purchase! This resource is for <b>single classroom / single family use</b>. Do not share, resell, or post publicly online. Please purchase additional licenses for each teacher who uses this resource.</p>
+    <h2 style="margin-top:0.18in">Credits</h2>
+    <ul>
+      <li>Font: <b>Lexend</b> by The Lexend Project Authors, licensed under the SIL Open Font License 1.1.</li>
+      <li>All illustrations are original SVG artwork by <span class="js-store"></span>.</li>
+      <li>© <span class="js-store"></span>. All rights reserved.</li>
+    </ul>
+    <div data-draw="p18art" style="margin-top:0.3in"></div>
+  </div>
+  <div class="footer"><span class="store"></span><span class="std"></span><span class="pnum"></span></div>
+</section>
+
+<script src="trail-lib.js"></script>
+<script>
+/* ======================================================================
+   STORE — owner: replace the placeholder name (also in brand/style-guide.md)
+   ====================================================================== */
+const STORE = { name: "Your Store Name" };
+
+const T = window.TRAIL, C = T.C, IN = 96;
+const {frac, fracSVG, numSVG, footSVG, arcSVG, svgBox, r2} = T;
+
+/* generic: one number line in its own SVG
+   lay: L (in), pad, arcs, ptStyle, lab overrides, extra (fn(X,y)->svg) ... */
+function NL1(spec, lay = {}) {
+  const L = (lay.Lin ?? 3) * IN, padL = lay.padL ?? 16, padR = lay.padR ?? 16;
+  const o = T.parseNL(spec);
+  const top = lay.top ?? ((lay.arcs && lay.arcs.length) || o.arc ? (lay.arcH ?? 26) + 12 : (o.pt ? 18 : 14));
+  const fs = lay.lfs ?? 16;
+  const labH = o.lab === 'all' ? fs * 1.95 + 4 : o.lab === 'boxes' ? (lay.boxH ?? 52) + 6 : fs * 0.95 + 2;
+  const h = lay.h ?? (top + 11.5 + 4 + labH + (lay.bottom ?? 4));
+  const res = T.line(Object.assign(o, { x0: padL, y: top, L, gb: lay.gb }, lay));
+  const extra = lay.extra ? lay.extra(res.X, top) : '';
+  return svgBox(padL + L + padR, h, res.svg + extra, 'nl');
+}
+const arcsTo = (n, b, style = 'solid', from = 0) => Array.from({ length: n }, (_, i) => [from + i / b, from + (i + 1) / b, style]);
+
+/* ---------------- stacked lines in one SVG (0 and 1 share x0 and L exactly) ---------------- */
+function STACK(lines, lay = {}) {
+  const L = (lay.Lin ?? 5.5) * IN, x0 = lay.x0 ?? 18, gap = lay.gap ?? 48, top = lay.top ?? 20;
+  let s = '';
+  let yLast = top;
+  const Xs = [];
+  lines.forEach((ln, i) => {
+    const y = top + i * gap;
+    yLast = y;
+    const o = Object.assign(T.parseNL(ln.nl), { x0, y, L }, lay.common || {}, ln);
+    if (ln.noLab) o.lab = 'none';
+    const res = T.line(o);
+    Xs.push(res.X);
+    s += res.svg;
+    if (ln.right) {
+      const f = ln.right.split('/');
+      s += fracSVG(x0 + L + (lay.rightOff ?? 26), y, f[0], f[1], lay.rfs ?? 18, { weight: 700 });
+    }
+    if (ln.icon) s += `<use href="#${ln.icon}" x="${x0 - (lay.iconW ?? 40) - 12}" y="${y - (lay.iconW ?? 40) / 2 - 2}" width="${lay.iconW ?? 40}" height="${lay.iconW ?? 40}"/>`;
+  });
+  const w = x0 + L + (lay.padR ?? 18);
+  const h = lay.h ?? (yLast + 11.5 + 24);
+  const extra = lay.extra ? lay.extra(Xs, top, gap) : '';
+  return svgBox(w, h, s + extra, 'nl');
+}
+
+/* ---------------- draw registry ---------------- */
+const DRAW = {};
+
+/* ===== Cover scene (TRAIL.scene in trail-lib.js, shared with thumbnails.html) ===== */
+DRAW.cover = () => T.scene();
+
+/* ===== p3 Trail Guide ===== */
+DRAW.p3main = () => {
+  const W = 7.25 * IN, x0 = 64, L = 6.25 * IN, y = 112, X = (v) => x0 + v * L;
+  const res = T.line({ min: 0, max: 1, b: 4, x0, y, L, lab: 'all', lfs: 21, lw: 3.2, th: 10, thW: 13,
+    arcs: arcsTo(3, 4), arcH: 44, arcSW: 3, arcHead: 7, pt: frac('3/4'), ptScale: 1.35, labGap: 6 });
+  let s = res.svg;
+  s += `<use href="#flag" x="${x0 - 40}" y="${y - 74}" width="48" height="64"/>`;
+  s += `<text x="${x0 - 12}" y="${y + 66}" font-family="Lexend" font-size="10.5" fill="#475569" text-anchor="middle">Base Camp</text>`;
+  s += `<use href="#cabin" x="${X(1) - 30}" y="${y - 72}" width="60" height="60"/>`;
+  s += `<text x="${X(1)}" y="${y + 66}" font-family="Lexend" font-size="10.5" fill="#475569" text-anchor="middle">Cocoa Cabin</text>`;
+  s += `<use href="#jun-point" x="${X(.75) - 4}" y="${y - 106}" width="66" height="88"/>`;
+  [1, 2, 3].forEach((i) => s += `<text x="${X((i - .5) / 4)}" y="${y - 50}" font-family="Lexend" font-weight="700" font-size="13" fill="#c8325f" text-anchor="middle">hop ${i}</text>`);
+  return svgBox(W, y + 70, s);
+};
+DRAW.p3marks = () => {
+  const x0 = 16, L = 3.2 * IN, y = 46, W = x0 + L + 132;
+  const res = T.line({ min: 0, max: 1, b: 4, x0, y, L, lab: 'wholes', lfs: 16, arcs: arcsTo(4, 4), arcH: 22, arcSW: 2.4 });
+  let s = res.svg;
+  const tx = (x, y, t, o = '') => `<text x="${x}" y="${y}" font-family="Lexend" ${o}>${t}</text>`;
+  // hop numbers above the arcs (berry) + note
+  [1, 2, 3, 4].forEach((i) => s += tx(x0 + (i - .5) / 4 * L, y - 28, i, 'font-weight="700" font-size="12" fill="#c8325f" text-anchor="middle"'));
+  s += tx(x0 + L + 18, y - 22, '4 hops', 'font-weight="700" font-size="13" fill="#c8325f"');
+  s += `<use href="#arrow" x="${x0 + L + 70}" y="${y - 32}" width="18" height="10" style="color:#c8325f"/>`;
+  s += tx(x0 + L + 18, y - 6, 'fourths', 'font-weight="700" font-size="13" fill="#c8325f"');
+  // gray tick-count numbers under the labels, crossed out + crossed-out note
+  const yn = y + 50;
+  res.ticks.forEach((t, i) => s += tx(r2(t.x), yn, i + 1, 'font-size="12" fill="#94a3b8" text-anchor="middle"'));
+  s += `<line x1="${x0 - 8}" y1="${yn - 4}" x2="${x0 + L + 8}" y2="${yn - 4}" stroke="#c8325f" stroke-width="2.2" stroke-linecap="round"/>`;
+  s += tx(x0 + L + 18, yn, '5 marks', 'font-size="12.5" fill="#64748b"');
+  s += `<use href="#arrow" x="${x0 + L + 72}" y="${yn - 9}" width="16" height="9" style="color:#64748b"/>`;
+  s += fracSVG(x0 + L + 100, yn - 5, '1', '5', 12, { color: '#64748b', weight: 400 });
+  s += `<line x1="${x0 + L + 14}" y1="${yn - 4}" x2="${x0 + L + 112}" y2="${yn - 4}" stroke="#c8325f" stroke-width="2.2" stroke-linecap="round"/>`;
+  return svgBox(W, yn + 14, s);
+};
+DRAW.p3cabin = () => {
+  const x0 = 18, L = 3 * IN, y = 46, W = x0 + L + 60;
+  const res = T.line({ min: 0, max: 1, b: 4, x0, y, L, lab: 'wholes', lfs: 16, arcs: arcsTo(4, 4), arcH: 20, arcSW: 2.4, pt: frac('1') });
+  let s = res.svg;
+  s += `<use href="#cabin" x="${x0 + L + 6}" y="${y - 46}" width="48" height="48"/>`;
+  return svgBox(W, y + 36, s);
+};
+
+/* ===== p4 Mark the Trail ===== */
+function p4() {
+  const items = [
+    { nl: 'NL[0–1, 2, point=—, labels=0,1+boxes]', ins: 'Trace the hops. Label the tick mark.', arcs: arcsTo(2, 2, 'trace') },
+    { nl: 'NL[0–1, 3, point=—, labels=0,1+boxes]', ins: 'Label each tick mark.' },
+    { nl: 'NL[0–1, —, point=—, labels=0,1, guide=dots]', ins: 'Make 4 equal hops. Draw the tick marks. Label them.', gb: 4 },
+    { nl: 'NL[0–1, —, point=—, labels=0,1, guide=dots]', ins: 'Make 6 equal hops. Draw the tick marks. Label them.', gb: 6 },
+    { nl: 'NL[0–1, —, point=—, labels=0,1, guide=half]', ins: 'Make 8 equal hops. Draw the tick marks. Label them.', gb: 8, try: 1, hint: 'Hint: Make halves, then halves again, then halves again.' },
+    { nl: 'NL[0–1, —, point=—, labels=0,1]', ins: 'Juniper\'s hop is 1/3. Draw her hops from 0 to 1. Label each one.', try: 1, noEach: 1 },
+  ];
+  return items.map((it, i) => {
+    const svg = NL1(it.nl, { Lin: 5.5, padL: 9, padR: 9, arcs: it.arcs, arcH: 22, top: it.arcs ? 30 : 20, gb: it.gb, boxH: 42, h: (it.arcs ? 30 : 20) + 11.5 + 50, bottom: 0 });
+    const ans = `<div class="ansc">
+        <div>How many hops from 0 to 1? <span class="numbox"></span></div>
+        ${it.noEach ? '' : '<div class="l">Each hop is <span class="fbox sm"><i></i><b></b><i></i></span></div>'}
+      </div>`;
+    return `<div class="item"><span class="qn">${i + 1}.</span><div>
+      <div class="ins">${it.ins}${it.try ? '<span class="tryit"><svg><use href="#star"/></svg>Try it!</span>' : ''}${it.hint ? ` <span class="hint">${it.hint}</span>` : ''}</div>
+      <div class="row">${svg}${ans}</div></div></div>`;
+  }).join('');
+}
+
+/* ===== p5 ===== */
+function p5a() {
+  const it = [['NL[0–1, 3, point=1/3, labels=0,1]'], ['NL[0–1, 8, point=1/8, labels=0,1]'], ['NL[0–1, 2, point=1/2, labels=0,1]'],
+              ['NL[0–1, 4, point=2/4, labels=0,1]'], ['NL[0–1, 6, point=4/6, labels=0,1]'], ['NL[0–1, 8, point=7/8, labels=0,1]']];
+  // 2 columns x 3 rows, numbered down each column like the content (1-2 / 3-4 / 5-6 read across)
+  return it.map(([nl], i) => `<div class="it"><span class="qn" style="width:0.28in">${i + 1}.</span>${NL1(nl, { Lin: 2.3, top: 22, padL: 10, padR: 12 })}<span class="fbox"><i></i><b></b><i></i></span></div>`).join('');
+}
+function p5b() {
+  const it = [['7.', 'Hop to 2/3.', 'NL[0–1, 3, point=—, labels=0,1]'], ['8.', 'Hop to 5/6.', 'NL[0–1, 6, point=—, labels=0,1]'],
+              ['9.', 'Hop to 3/8.', 'NL[0–1, 8, point=—, labels=0,1]'], ['10.', 'Hop to 7/4.', 'NL[0–2, 4, point=—, labels=0,1,2]']];
+  return it.map(([n, t, nl], i) => `<div class="it"><div class="lbl"><span class="qn">${n}</span> ${t}${i === 3 ? `<div style="margin-top:3px">${T.paws(2, 18)}</div><div class="hint" style="font-size:9.5pt;line-height:1.2">This trail goes past the cabin!</div>` : ''}</div>
+     ${NL1(nl, { Lin: 5.6, top: 52, h: 52 + 11.5 + 26 })}</div>`).join('');
+}
+
+/* ===== Maze data (copied from 03-content.md; the answer key on p.16 is drawn from the same arrays) ===== */
+const MAZE = {
+  1: { foot: 10, path: ['R1C1','R1C2','R1C3','R2C3','R3C3','R3C2','R4C2','R5C2','R5C3','R5C4'], cells: [
+    [['NL[0–1,2, point=1/2]','1/2',1], ['NL[0–1,4, point=1/4, arc=1]','1/4',1], ['NL[0–1,3, point=1/3]','1/3',1], ['NL[0–1,4, point=1/4]','1/5',0,'M1']],
+    [['NL[0–1,6, point=1/6, arc=1]','2/6',0,'M2'], ['NL[0–1,6, point=1/6]','1/8',0,'M4'], ['NL[0–1,6, point=1/6, arc=1]','1/6',1], ['NL[0–1,2, point=1/2]','2/1',0,'M3']],
+    [['NL[0–1,3, point=1/3, arc=1]','1/4',0,'M1'], ['NL[0–1,2, point=1/2, arc=1]','1/2',1], ['NL[0–1,8, point=1/8]','1/8',1], ['NL[0–1,4, point=3/4]','1/4',0,'M5']],
+    [['NL[0–1,6, point=1/6]','6/1',0,'M3'], ['NL[0–1,3, point=1/3, arc=1]','1/3',1], ['NL[0–1,2, point=1/2, arc=1]','1/3',0,'M1'], ['NL[0–1,8, point=1/8, arc=1]','1/6',0,'M4']],
+    [['NL[0–1,8, point=1/8]','2/8',0,'M2'], ['NL[0–1,8, point=1/8, arc=1]','1/8',1], ['NL[0–1,4, point=1/4]','1/4',1], ['NL[0–1,6, point=1/6]','1/6',1]] ] },
+  2: { foot: 12, path: ['R1C1','R1C2','R1C3','R1C4','R2C4','R3C4','R3C3','R3C2','R4C2','R5C2','R5C3','R5C4'], cells: [
+    [['NL[0–1,4, point=2/4]','2/4',1], ['NL[0–1,8, point=5/8]','5/8',1], ['NL[0–1,6, point=2/6]','2/6',1], ['NL[0–2,2, point=3/2, labels=0,1,2]','3/2',1]],
+    [['NL[0–1,4, point=1/4]','2/4',0,'M2'], ['NL[0–1,8, point=4/8]','8/4',0,'M3'], ['NL[0–1,4, point=3/4]','3/5',0,'M1'], ['NL[0–1,8, point=7/8]','7/8',1]],
+    [['NL[0–2,4, point=6/4, labels=0,1,2]','6/8',0,'M6'], ['NL[0–2,3, point=5/3, labels=0,1,2]','5/3',1], ['NL[0–1,6, point=4/6]','4/6',1], ['NL[0–1,3, point=2/3]','2/3',1]],
+    [['NL[0–1,3, point=1/3]','3/1',0,'M3'], ['NL[0–1,4, point=3/4]','3/4',1], ['NL[0–1,8, point=3/8]','4/8',0,'M2'], ['NL[0–1,6, point=5/6]','5/8',0,'M4']],
+    [['NL[0–1,6, point=3/6]','3/7',0,'M1'], ['NL[0–1,8, point=2/8]','2/8',1], ['NL[0–1,6, point=5/6]','5/6',1], ['NL[0–1,8, point=6/8]','6/8',1]] ] },
+  // S = [ 'S', topNL, topLabel, bottomNL, claim, true, code ]   W = [ 'W', NL, sign, true, code ]
+  3: { foot: 10, path: ['R1C1','R1C2','R2C2','R3C2','R3C1','R4C1','R5C1','R5C2','R5C3','R5C4'], cells: [
+    [['S','NL[0–1,4, point=2/4]','2/4','NL[0–1,2]','1/2',1], ['W','NL[0–2,3, point=1]','3/3',1], ['S','NL[0–1,3, point=1/3]','1/3','NL[0–1,6]','1/6',0,'M8'], ['W','NL[0–3,2, point=3]','3/2',0,'M7']],
+    [['S','NL[0–1,3, point=2/3]','2/3','NL[0–1,6]','5/6',0,'M9'], ['S','NL[0–1,3, point=1/3]','1/3','NL[0–1,6]','2/6',1], ['W','NL[0–2,4, point=2]','2/4',0,'M7'], ['S','NL[0–1,4, point=1/4]','1/4','NL[0–1,8]','1/8',0,'M8']],
+    [['W','NL[0–2,4, point=2]','8/4',1], ['S','NL[0–1,8, point=4/8]','4/8','NL[0–1,2]','1/2',1], ['S','NL[0–1,2, point=1/2]','1/2','NL[0–1,4]','3/4',0,'M2'], ['W','NL[0–2,3, point=2]','3/6',0,'M3']],
+    [['S','NL[0–1,6, point=4/6]','4/6','NL[0–1,3]','2/3',1], ['S','NL[0–1,6, point=2/6]','2/6','NL[0–1,3]','2/3',0,'M8'], ['W','NL[0–2,2, point=2]','2/2',0,'M7'], ['S','NL[0–1,4, point=3/4]','3/4','NL[0–1,8]','7/8',0,'M9']],
+    [['W','NL[0–3,2, point=2]','4/2',1], ['S','NL[0–1,2, point=1/2]','1/2','NL[0–1,6]','3/6',1], ['S','NL[0–1,8, point=2/8]','2/8','NL[0–1,4]','1/4',1], ['W','NL[0–3,2, point=3]','6/2',1]] ] },
+};
+
+const CW = 162, GX = (7.25 * IN - 4 * CW) / 3;   // cell width, horizontal gap
+function cellFrame(w, h) {
+  return `<rect x="1" y="1" width="${w - 2}" height="${h - 2}" rx="11" fill="#fff" stroke="#1e293b" stroke-width="1.7"/>
+          <rect x="4.5" y="4.5" width="${w - 9}" height="${h - 9}" rx="8" fill="none" stroke="#1e293b" stroke-width="0.8"/>`;
+}
+function mazeCell(c, w, h, m) {
+  let s = cellFrame(w, h);
+  const circ = (cx, cy) => `<circle cx="${cx}" cy="${cy}" r="10.5" fill="none" stroke="#1e293b" stroke-width="1.8"/>`;
+  if (c[0] === 'S') {
+    const [, tnl, tlab, bnl, claim] = c;
+    const x0 = 13, L = 1.16 * IN, yT = 24, yB = 63;          // same x0 and L for both lines: 0 and 1 line up exactly
+    const t = T.line(Object.assign(T.parseNL(tnl), { x0, y: yT, L, lab: 'none', lw: 2.7, th: 7.5, thW: 10 }));
+    const b = T.line(Object.assign(T.parseNL(bnl), { x0, y: yB, L, lab: 'wholes', lw: 2.7, th: 7.5, thW: 10, lfs: 16, labGap: 2 }));
+    s += `<line x1="${x0}" x2="${x0}" y1="${yT + 10}" y2="${yB - 10}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 3"/>`;
+    s += `<line x1="${x0 + L}" x2="${x0 + L}" y1="${yT + 10}" y2="${yB - 10}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 3"/>`;
+    s += t.svg + b.svg;   // bottom line: ticks only, no point
+    const rx = x0 + L + 21;
+    s += fracSVG(rx, yT, ...tlab.split('/'), 16, { weight: 500 });
+    s += fracSVG(rx, yB, ...claim.split('/'), 18, { weight: 700 });
+    s += circ(x0 + L / 2, h - 18);
+  } else {
+    const nl = c[0] === 'W' ? c[1] : c[0], sign = c[0] === 'W' ? c[2] : c[1];
+    const o = T.parseNL(nl);
+    const x0 = 17, L = 1.34 * IN, y = 27;
+    const arcs = o.arc ? [[0, 1 / o.b, 'faint']] : [];
+    const r = T.line(Object.assign(o, { x0, y, L, lw: 2.7, th: 7.5, thW: 10, lfs: 16, labGap: 2, arcs, arcH: 13, arcSW: 1.9, arcHead: 4.5 }));
+    s += r.svg;
+    s += fracSVG(w / 2 - 6, h - 32, ...sign.split('/'), 22, { weight: 700 });
+    s += circ(w - 26, h - 30);
+  }
+  return s;
+}
+function mazeSVG(n) {
+  const M = MAZE[n], CH = n === 3 ? 110 : 112, GY = n === 3 ? 10 : 13;
+  const W = 7.25 * IN, top = n === 3 ? 44 : 46;
+  const gx = (c) => c * (CW + GX), gy = (r) => top + r * (CH + GY);
+  let s = '';
+  // start row
+  s += `<use href="#flag" x="2" y="0" width="34" height="45"/>`;
+  s += `<text x="42" y="22" font-family="Lexend" font-weight="700" font-size="15" fill="#1e293b">Base Camp</text>`;
+  s += `<text x="42" y="38" font-family="Lexend" font-size="11" fill="#475569">START here</text>`;
+  s += `<use href="#arrow" x="12" y="${top - 13}" width="20" height="11" transform="rotate(90 22 ${top - 7.5})" style="color:#1e293b"/>`;
+  if (n === 1) s += `<use href="#jun-jump" x="138" y="0" width="56" height="44"/>`;
+  if (n === 3) { s += `<use href="#birch-wave" x="138" y="-2" width="50" height="46"/><use href="#jun-wave" x="186" y="0" width="34" height="45"/>`; }
+  // connectors (faint footprints between neighbouring signs)
+  for (let r = 0; r < 5; r++) for (let c = 0; c < 4; c++) {
+    if (c < 3) { const cx = gx(c) + CW + GX / 2, cy = gy(r) + CH / 2; s += `<use href="#prints" x="${cx - 8}" y="${cy - 8}" width="16" height="16" transform="rotate(90 ${cx} ${cy})" style="color:#c3ccd6"/>`; }
+    if (r < 4) { const cx = gx(c) + CW / 2, cy = gy(r) + CH + GY / 2; s += `<use href="#prints" x="${cx - 7}" y="${cy - 7}" width="14" height="14" transform="rotate(180 ${cx} ${cy})" style="color:#c3ccd6"/>`; }
+  }
+  // cells
+  M.cells.forEach((row, r) => row.forEach((c, k) => s += `<g transform="translate(${gx(k)} ${gy(r)})">${mazeCell(c, CW, CH, n)}</g>`));
+  // finish row
+  const fy = gy(5) - GY + 4;
+  const cx4 = gx(3) + CW / 2;
+  s += `<use href="#arrow" x="${cx4 - 8}" y="${fy}" width="22" height="12" transform="rotate(90 ${cx4 + 3} ${fy + 6})" style="color:#1e293b"/>`;
+  s += `<use href="#cabin" x="${cx4 - 2}" y="${fy + 2}" width="66" height="66"/>`;
+  s += `<text x="${cx4 - 14}" y="${fy + 40}" font-family="Lexend" font-weight="700" font-size="15" fill="#1e293b" text-anchor="end">Cocoa Cabin</text>`;
+  s += `<text x="${cx4 - 14}" y="${fy + 56}" font-family="Lexend" font-size="11" fill="#475569" text-anchor="end">FINISH</text>`;
+  if (n === 2) s += `<use href="#birch-wave" x="${cx4 - 178}" y="${fy + 8}" width="62" height="58"/>`;
+  // self-check box
+  const bx = 0, bw = 3.65 * IN, by = fy + 8, bh = 50;
+  s += `<rect x="${bx + 1}" y="${by}" width="${bw}" height="${bh}" rx="8" fill="#fff" stroke="#1e293b" stroke-width="1.6"/>`;
+  s += `<use href="#prints-o" x="${bx + 12}" y="${by + 11}" width="30" height="30" style="color:#2468a0"/>`;
+  s += `<text x="${bx + 52}" y="${by + 22}" font-family="Lexend" font-weight="700" font-size="13" fill="#1e293b">Self-check: The right trail has ${M.foot} footprints.</text>`;
+  s += `<text x="${bx + 52}" y="${by + 41}" font-family="Lexend" font-size="12" fill="#1e293b">Count yours! I colored <tspan font-weight="700">______</tspan> footprints.</text>`;
+  return svgBox(W, by + bh + 4, s);
+}
+
+/* ===== p8 Same Spot ===== */
+function p8() {
+  const icoB = 'birch-head', icoJ = 'jun-head';
+  const L = 5.5, X0 = 46, IW = 32;
+  const fb = '<span class="fbox sm"><i></i><b></b><i></i></span>';
+  // worked example (Birch = halves on top, Juniper = fourths below; 0 and 1 share x0 and L)
+  const ex = STACK([
+    { nl: 'NL[0–1, 2, point=1/2]', icon: icoB, arcs: [[0, .5, 'solid']], arcH: 20 },
+    { nl: 'NL[0–1, 4, point=2/4]', icon: icoJ, arcs: [[0, .25, 'solid'], [.25, .5, 'solid']], arcH: 14 },
+  ], { Lin: L, x0: X0, top: 26, gap: 46, iconW: IW, padR: 10, h: 26 + 46 + 11.5 + 19, common: { lfs: 15, labGap: 2 },
+       extra: (Xs, top, gap) => `<line x1="${Xs[0](.5)}" x2="${Xs[0](.5)}" y1="${top + 8}" y2="${top + gap - 8}" stroke="#c8325f" stroke-width="2.2" stroke-dasharray="5 4"/>` });
+  const item = (n, top, bot, a, b) => {
+    const svg = STACK([{ nl: top, icon: icoB }, { nl: bot, icon: icoJ }], { Lin: L, x0: X0, top: 17, gap: 37, iconW: IW, padR: 10, h: 17 + 37 + 11.5 + 19, common: { lfs: 15, labGap: 2 } });
+    return `<div class="p8i"><span class="qn">${n}.</span> Birch is at ${a}. Draw Juniper's footprint at the same spot.</div>
+      <div class="stk">${svg}<div class="eqn">${a} = <span class="fr"><span><span class="bx"></span></span><span>${b}</span></span></div></div>`;
+  };
+  let s = `<div class="stk">${ex}<div class="eqn"><b>1/2 = 2/4</b></div></div>
+     <div class="cap">Example: Birch took 1 step of 1/2. Juniper took 2 hops of 1/4. They land on the same spot, so 1/2 = 2/4.</div>`;
+  s += item(1, 'NL[0–1, 3, point=2/3]', 'NL[0–1, 6, point=—]', '2/3', '6');
+  s += item(2, 'NL[0–1, 4, point=3/4]', 'NL[0–1, 8, point=—]', '3/4', '8');
+  s += `<div class="frame" style="margin:0.03in 0 0.08in 0.24in">They land on the same spot, so <span class="blank"></span></div>`;
+  document.getElementById('p8a').innerHTML = s;
+
+  // Part B: four stacked trails (halves, fourths, sixths, eighths), 0 and 1 lined up
+  const four = STACK([
+    { nl: 'NL[0–1, 2, point=1/2]' }, { nl: 'NL[0–1, 4, point=—]' }, { nl: 'NL[0–1, 6, point=—]' }, { nl: 'NL[0–1, 8, point=—]' }],
+    { Lin: 4.2, x0: 12, top: 30, gap: 29, padR: 10, h: 30 + 3 * 29 + 11.5 + 19, common: { lfs: 14, labGap: 1, th: 7, thW: 9.5 },
+      extra: (Xs, top) => `<use href="#jun-head" x="${Xs[0](.5) + 12}" y="${top - 31}" width="24" height="28"/>` +
+        fracSVG(Xs[0](.5) - 22, top - 12, '1', '2', 14, { weight: 700 }) });
+  document.getElementById('p8b').innerHTML = `<div class="stk" style="align-items:flex-start"><span class="qn" style="width:0.24in;margin-top:0.1in">3.</span>${four}
+     <div class="rt" style="padding-top:0.05in">Juniper is at 1/2. Find 3 more fractions that land on the same spot.
+       <div class="eqn" style="margin-top:0.08in;gap:0.03in">1/2 = ${fb} = ${fb} = ${fb}</div></div></div>
+     <div class="frame" style="margin:0.0in 0 0.08in 0.24in">I know they are equal because <span class="blank"></span></div>`;
+
+  // Part C: two columns
+  const l4 = NL1('NL[0–1, 6, point=—, labels=0,1]', { Lin: 3.05, padL: 10, padR: 24, top: 34, h: 34 + 11.5 + 20,
+    extra: (X, y) => `<use href="#cabin" x="${X(1) + 8}" y="${y - 36}" width="30" height="30"/>` });
+  const l5 = NL1('NL[0–2, 3, point=2, labels=0,1,2]', { Lin: 3.05, padL: 10, padR: 24, top: 40, h: 40 + 11.5 + 20, ptStyle: 'dot',
+    extra: (X, y) => `<use href="#cabin" x="${X(1) - 13}" y="${y - 37}" width="26" height="26"/><use href="#birch-wave" x="${X(2) - 22}" y="${y - 46}" width="42" height="38"/>` });
+  document.getElementById('p8c').innerHTML = `<div class="cols2" style="gap:0.25in">
+    <div><div class="pc"><div class="p8i"><span class="qn">4.</span> Write 3 different fractions that land on the Cabin (1 whole).</div><div class="eqn" style="gap:0.06in">${fb}${fb}${fb}</div></div>${l4}</div>
+    <div><div class="pc"><div class="p8i"><span class="qn">5.</span> ${T.paws(3, 15)} Birch is at Cabin 2. Write 2 fractions that name his spot.</div><div class="eqn" style="gap:0.06in">${fb}${fb}</div></div>${l5}</div></div>`;
+}
+
+/* ===== p10 Fix the Trail Sign ===== */
+function p10() {
+  const empty = (lab) => `<div class="dr">${lab}</div>${NL1('NL[0–1, —, labels=0,1]', { Lin: 3.0, top: 34, h: 34 + 11.5 + 22, padL: 14 })}`;
+  const card = (name, svg, sign, frameLbl, emptyLbl) => `<div class="card"><h3>${name}'s trail sign</h3>${svg}
+     <div class="sign">${name}'s sign says: <b>“${sign}”</b></div>
+     <div class="circ">Circle one: <span class="opt">Correct</span><span class="opt">Needs a fix</span></div>
+     <div class="frame">${frameLbl} <span class="blank"></span></div><div class="wl"></div>
+     ${empty(emptyLbl)}</div>`;
+  const nad = NL1('NL[0–1, 4, point=1/4, labels=0,1]', { Lin: 3.0, top: 24, padL: 14 });
+  const eme = NL1('NL[0–1, —, point=—, labels=0,1]', { Lin: 3.0, top: 24, padL: 14, tickFr: [0, 0.2, 0.5, 1],
+    extra: (X, y) => footSVG(X(0.2), y) });   // ticks at 0, 0.2, 0.5, 1 of the line (deliberately unequal)
+  const luc = NL1('NL[0–1, 6, point=2/6, labels=0,1]', { Lin: 3.0, top: 24, padL: 14 });
+  const tob = STACK([{ nl: 'NL[0–1, 4, point=2/4]' }, { nl: 'NL[0–1, 8, point=4/8]' }], { Lin: 3.0, x0: 14, top: 20, gap: 44, h: 96, common: { lfs: 15, labGap: 2 } });
+  document.getElementById('p10').innerHTML =
+    card('Nadia', nad, 'The footprint is at 1/5.', 'The mistake is', 'Draw it right:') +
+    card('Emeka', eme, 'The footprint is at 1/3.', 'The mistake is', 'Draw it right:') +
+    card('Lucia', luc, 'The footprint is at 3/6.', 'The mistake is', 'Draw it right:') +
+    card('Tobias', tob, '2/4 = 4/8 because they are the same point.', 'I know because', 'Show why:');
+}
+
+/* ===== p11 Trail Talk ===== */
+function p11() {
+  const st = ['The more equal hops from 0 to 1, the smaller each hop is.', 'A fraction is less than 1.',
+              'Two fractions with different denominators land on the same spot.', 'If you count all the tick marks from 0 to 1, you get the denominator.'];
+  document.getElementById('p11').innerHTML = st.map((t, i) => `<div class="asn"><div><div class="st"><span class="qn">${i + 1}.</span> ${t}</div>
+     <div class="opts"><span class="opt">Always</span><span class="opt">Sometimes</span><span class="opt">Never</span></div></div>
+     <div class="prove"><span class="ph">Prove it:</span>${NL1('NL[0–1, —, labels=0,1]', { Lin: 3.85, top: 22, h: 22 + 11.5 + 22, padL: 10, padR: 10 })}
+       <div class="frame" style="margin-top:0.02in">I know because <span class="blank"></span></div><div class="wl"></div></div></div>`).join('');
+}
+DRAW.decoJump = () => svgBox(96, 32, `<use href="#prints" x="2" y="14" width="13" height="14" style="color:#c8325f"/><use href="#prints" x="22" y="10" width="13" height="14" style="color:#c8325f"/><use href="#jun-jump" x="44" y="0" width="46" height="36"/>`);
+DRAW.decoSign = () => svgBox(100, 34, `<use href="#jun-point" x="62" y="-8" width="32" height="42"/><rect x="14" y="0" width="42" height="24" rx="4" fill="#fff" stroke="#1e293b" stroke-width="2"/><path d="M35 24 L35 34" stroke="#1e293b" stroke-width="2.4"/>`);
+DRAW.decoFlakes = () => svgBox(90, 30, `<use href="#flake" x="6" y="0" width="28" height="28" style="color:#2468a0"/><use href="#flake2" x="52" y="6" width="20" height="20" style="color:#2468a0"/>`);
+DRAW.p11icons = () => svgBox(110, 46, `<use href="#birch-wave" x="0" y="0" width="52" height="46"/><use href="#jun-wave" x="70" y="2" width="36" height="46" transform="translate(176 0) scale(-1 1)"/>`);
+
+/* ===== p12 Game ===== */
+const GAME = [
+  [['F','NL[0–1,4, point=1/4]'], ['T','NL[0–1,4, point=2/4]','2/4','NL[0–1,6]'], ['F','NL[0–2,4, point=5/4, labels=0,1,2]'], ['C','NL[0–1,8, point=1]'], ['F','NL[0–1,8, point=3/8]']],
+  [['C','NL[0–3,2, point=3, labels=0,1,2,3]'], ['F','NL[0–2,2, point=3/2, labels=0,1,2]'], ['F','NL[0–1,6, point=5/6]'], ['T','NL[0–1,6, point=2/6]','2/6','NL[0–1,3]'], ['F','NL[0–2,3, point=2/3, labels=0,1,2]']],
+  [['T','NL[0–1,2, point=1/2]','1/2','NL[0–1,8]'], ['F','NL[0–1,8, point=2/8]'], ['C','NL[0–2,4, point=2, labels=0,1,2]'], ['F','NL[0–1,6, point=1/6]'], ['F','NL[0–2,3, point=4/3, labels=0,1,2]']],
+  [['F','NL[0–2,4, point=6/4, labels=0,1,2]'], ['F','NL[0–1,6, point=3/6]'], ['T','NL[0–1,8, point=6/8]','6/8','NL[0–1,4]'], ['F','NL[0–2,2, point=1/2, labels=0,1,2]'], ['C','NL[0–2,3, point=1, labels=0,1,2]']],
+  [['F','NL[0–1,8, point=4/8]'], ['C','NL[0–2,2, point=2, labels=0,1,2]'], ['F','NL[0–2,3, point=5/3, labels=0,1,2]'], ['F','NL[0–2,4, point=3/4, labels=0,1,2]'], ['T','NL[0–1,6, point=4/6]','4/6','NL[0–1,3]']],
+];
+// Answer card text (03-content.md, p.17). Checked against the board data by script before building.
+const GAME_CARD = [
+  ['1/4', '3/6', '5/4', '8/8 (= 1)', '3/8'],
+  ['6/2 (= 3)', '3/2', '5/6', '1/3', '2/3'],
+  ['4/8', '2/8 (also 1/4)', '8/4 (= 2)', '1/6', '4/3'],
+  ['6/4 (also 3/2)', '3/6 (also 1/2)', '3/4', '1/2', '3/3 (= 1)'],
+  ['4/8 (also 1/2)', '4/2 (= 2)', '5/3', '3/4 (also 6/8)', '2/3'],
+];
+DRAW.game = () => {
+  const W = 7.25 * IN, cw = W / 5, ch = 1.48 * IN;
+  let s = '';
+  GAME.forEach((row, r) => row.forEach((q, c) => {
+    const gx = c * cw, gy = r * ch;
+    let g = `<rect x="0" y="0" width="${cw}" height="${ch}" fill="#fff" stroke="#1e293b" stroke-width="1.4"/>`;
+    g += `<rect x="5" y="5" width="15" height="15" rx="3" fill="#fff" stroke="#1e293b" stroke-width="1.2"/><text x="12.5" y="16.5" font-family="Lexend" font-weight="600" font-size="10.5" text-anchor="middle" fill="#1e293b">${q[0]}</text>`;
+    const x0 = 16, L = 1.17 * IN;
+    const base = { x0, L, lw: 2.7, th: 7.5, thW: 10, lfs: 16, labGap: 2 };
+    if (q[0] === 'T') {
+      const yT = 50, yB = 96;
+      base.L = 1.0 * IN; const L = base.L;
+      g += T.line(Object.assign(T.parseNL(q[1]), base, { y: yT, lab: 'none' })).svg;
+      g += T.line(Object.assign(T.parseNL(q[3]), base, { y: yB })).svg;
+      g += fracSVG(x0 + L + 15, yT, ...q[2].split('/'), 16, { weight: 700 });
+      g += `<line x1="${x0}" x2="${x0}" y1="${yT + 10}" y2="${yB - 10}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 3"/><line x1="${x0 + L}" x2="${x0 + L}" y1="${yT + 10}" y2="${yB - 10}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 3"/>`;
+    } else {
+      g += T.line(Object.assign(T.parseNL(q[1]), base, { y: 70 })).svg;
+    }
+    s += `<g transform="translate(${r2(gx)} ${r2(gy)})">${g}</g>`;
+  }));
+  s += `<rect x="0" y="0" width="${W}" height="${5 * ch}" fill="none" stroke="#1e293b" stroke-width="2.4"/>`;
+  return svgBox(W, 5 * ch, s);
+};
+
+/* ===== p13 Summit Check ===== */
+function p13() {
+  const L = 2.95, fb = '<span class="fbox sm"><i></i><b></b><i></i></span>';
+  const small = { lfs: 13, th: 6.5, thW: 9, labGap: 1 };
+  const q = [
+    ['1.', 'How many equal hops from 0 to 1? <span class="numbox"></span>&nbsp; Each hop is ' + fb, NL1('NL[0–1, 6, point=—, labels=0,1]', { Lin: L, top: 18 })],
+    ['2.', 'Draw a dot at 1/3.', NL1('NL[0–1, 3, point=—, labels=0,1]', { Lin: L, top: 18 })],
+    ['3.', 'What fraction names the dot? ' + fb, NL1('NL[0–1, 8, point=5/8, labels=0,1]', { Lin: L, top: 22 })],
+    ['4.', 'Draw a dot at 4/6.', NL1('NL[0–1, 6, point=—, labels=0,1]', { Lin: L, top: 18 })],
+    ['5.', 'Which fraction is at the same point as 1/4? Circle one.',
+      `<div class="row" style="align-items:flex-start;gap:0.12in">${STACK([{ nl: 'NL[0–1, 4, point=1/4]', lab: 'none' }, { nl: 'NL[0–1, 8, point=—]' }], { Lin: 1.95, x0: 10, top: 20, gap: 30, padR: 10, h: 20 + 30 + 9 + 18, common: small })}
+       <div class="mc"><span>(A) 1/8</span><span>(B) 2/8</span><span>(C) 4/1</span><span>(D) 2/4</span></div></div>`],
+    ['6.', 'Does 3/6 land on the same spot as 4/8? Circle: <b>Yes</b> &nbsp;/&nbsp; <b>No</b>',
+      STACK([{ nl: 'NL[0–1, 8, point=4/8]', lab: 'none', right: '4/8' }, { nl: 'NL[0–1, 6, point=—]' }], { Lin: L - 0.35, x0: 10, top: 20, gap: 32, padR: 40, h: 20 + 32 + 9 + 18, rfs: 14, rightOff: 22, common: small })],
+    ['7.', 'Write 1 as a fraction with denominator 6.', '<div class="eqn" style="margin:0.1in 0 0 0.3in">1 = <span class="fr"><span><span class="bx"></span></span><span>6</span></span></div>'],
+    ['8.', 'Write a fraction for the dot. Use halves. <span class="fr"><span><span class="bx"></span></span><span>2</span></span>', NL1('NL[0–2, 2, point=2, labels=0,1,2]', { Lin: L, top: 18, ptStyle: 'dot' })],
+  ];
+  document.getElementById('p13').innerHTML = q.map(([n, t, svg]) => `<div class="it"><div><span class="qn">${n}</span> ${t}</div><div class="v">${svg}</div></div>`).join('');
+  document.querySelectorAll('.prog .pp').forEach((p) => p.innerHTML = [1, 2, 3].map(() => '<svg viewBox="0 0 40 44"><use href="#prints-o"/></svg>').join(''));
+}
+
+/* ===== p14 tickets ===== */
+function p14() {
+  const L = 3.0;
+  const tk = [
+    ['A', '3.NF.A.2a', NL1('NL[0–1, 8, point=—, labels=0,1]', { Lin: L, top: 20 }), 'Draw a dot at 1/8.'],
+    ['B', '3.NF.A.2b', NL1('NL[0–1, 6, point=5/6, labels=0,1]', { Lin: L, top: 22 }), 'What fraction names the dot? <span class="fbox sm"><i></i><b></b><i></i></span>'],
+    ['C', '3.NF.A.3a', STACK([{ nl: 'NL[0–1, 3, point=1/3]', noLab: 1 }, { nl: 'NL[0–1, 6, point=—]' }], { Lin: L, x0: 16, top: 22, gap: 40, h: 92, common: { lfs: 15 } }),
+      '1/3 = <span class="fr"><span><span class="bx"></span></span><span>6</span></span>'],
+    ['D', '3.NF.A.3c', NL1('NL[0–1, 3, point=1, labels=0,1]', { Lin: L, top: 22 }), 'Write 1 as a fraction. Use thirds. &nbsp;1 = <span class="fr"><span><span class="bx"></span></span><span>3</span></span>'],
+  ];
+  document.getElementById('p14').innerHTML = tk.map(([l, std, svg, t]) => `<div>
+     <div class="th"><b>Trail Ticket ${l}</b><span class="std">${std}</span></div>
+     <div class="name"><span>Name:</span></div>
+     <div><span class="qn">1.</span> ${t}</div><div style="margin:0.08in 0 0.1in">${svg}</div>
+     <div><span class="qn">2.</span> How do you know?</div><div class="wl"></div><div class="wl"></div><div class="wl"></div>
+     <div style="flex:1"></div><div style="display:flex;justify-content:flex-end;color:#94a3b8"><svg width="30" height="30"><use href="#prints-o" width="30" height="30"/></svg></div></div>`).join('') +
+    `<svg class="scis" style="left:-0.2in;top:calc(50% - 0.14in)"><use href="#scissors"/></svg><svg class="scis" style="left:calc(50% - 0.2in);top:-0.15in;transform:rotate(90deg)"><use href="#scissors"/></svg>`;
+}
+
+/* ===== Answer keys ===== */
+function keys() {
+  // p4: completed lines (berry labels)
+  const k4 = [[2, '1/2', 2], [3, '1/3', 3], [4, '1/4', 4], [6, '1/6', 6], [8, '1/8', 8], [3, '1/3', 3]];
+  document.getElementById('k4').innerHTML = k4.map(([b, each, hops], i) => {
+    const extraLab = Array.from({ length: b - 1 }, (_, k) => [(k + 1) / b, k + 1, b]);
+    const svg = NL1(`NL[0–1, ${b}, point=—, labels=0,1]`, { Lin: 2.3, top: 26, arcs: arcsTo(b, b), arcH: 11, arcSW: 1.8, arcHead: 3.5, extraLab, lfs: 12.5, h: 26 + 11.5 + 30, padL: 8, padR: 8 });
+    return `<div class="kit"><b>${i + 1}.</b>${svg}<div class="t">Hops: <span class="ak">${hops}</span><br>${i === 5 ? '<span class="note">(3/3 under 1 is also correct)</span>' : `Each hop is <span class="ak">${each}</span>`}</div></div>`;
+  }).join('');
+  // p5 part B
+  const k5 = [['7.', 'NL[0–1, 3, point=2/3, labels=0,1]', 2, 3, 0, '2 hops, dot at the 2nd tick after 0 (2/3).'], ['8.', 'NL[0–1, 6, point=5/6, labels=0,1]', 5, 6, 0, '5 hops, dot at the 5th tick after 0, one hop before 1 (5/6).'],
+              ['9.', 'NL[0–1, 8, point=3/8, labels=0,1]', 3, 8, 0, '3 hops, dot at the 3rd tick after 0 (3/8).'], ['10.', 'NL[0–2, 4, point=7/4, labels=0,1,2]', 7, 4, 0, '7 hops of 1/4, dot 3 ticks past 1, one hop before 2 (7/4).']];
+  document.getElementById('k5b').innerHTML = k5.map(([n, nl, a, b, , t]) => `<div class="kit">${n}${NL1(nl, { Lin: 2.25, top: 24, arcs: arcsTo(a, b), arcH: 10, arcSW: 1.7, arcHead: 3.5, ptStyle: 'dot', ptColor: C.berry, dotR: 4.5, lfs: 12, h: 24 + 11.5 + 16, padL: 8, padR: 8 })}<span class="t small">${t}</span></div>`).join('');
+  // p8
+  const st = (a, b, pa) => STACK([{ nl: a, noLab: 1 }, { nl: b, pt: frac(pa), ptStyle: 'dot', ptColor: C.berry, dotR: 4.5 }], { Lin: 2.3, x0: 10, top: 14, gap: 26, h: 60, common: { lfs: 12, th: 6, thW: 8, labGap: 1, lw: 2.2 },
+    extra: (Xs, top, gap) => `<line x1="${Xs[0](frac(pa).v)}" x2="${Xs[0](frac(pa).v)}" y1="${top}" y2="${top + gap}" stroke="#c8325f" stroke-width="1.6" stroke-dasharray="4 3"/>` });
+  document.getElementById('k8').innerHTML = `
+    <div class="kit"><b>1.</b>${st('NL[0–1, 3, point=2/3]', 'NL[0–1, 6]', '4/6')}<span class="t">Dot on the sixths line at the 4th tick. <span class="ak">2/3 = 4/6</span></span></div>
+    <div class="kit"><b>2.</b>${st('NL[0–1, 4, point=3/4]', 'NL[0–1, 8]', '6/8')}<span class="t">Dot on the eighths line at the 6th tick. <span class="ak">3/4 = 6/8</span><br><i>Sample frame: They land on the same spot, so 3/4 = 6/8.</i></span></div>
+    <div class="kl"><b>3.</b> <span class="ak">2/4, 3/6, 4/8</span> (any order). These are the only answers on these four lines. <i>Sample: I know they are equal because they all land halfway between 0 and 1, the same spot as 1/2.</i></div>
+    <div class="kl"><b>4.</b> Answers will vary. Accept any 3 different fractions equal to 1: <span class="ak">2/2, 3/3, 4/4, 6/6, 8/8</span> (also accept 1/1). <i>Sample: 6/6 is 6 hops of 1/6, and that reaches the cabin.</i></div>
+    <div class="kl"><b>5.</b> <span class="ak">6/3</span> and one more. Accept any of <span class="ak">4/2, 8/4, 2/1, 12/6, 16/8</span>. Answers will vary. <i>Sample: Birch took 6 hops of 1/3. 3 hops reach Cabin 1, and 3 more reach Cabin 2.</i></div>`;
+  // game card
+  document.getElementById('gamecard').innerHTML = '<tr><th></th>' + [1, 2, 3, 4, 5].map((c) => `<th>Col ${c}</th>`).join('') + '</tr>' +
+    GAME_CARD.map((row, r) => `<tr><th>Row ${r + 1}</th>${row.map((v) => `<td>${v.replace(/\((also|=) ([^)]+)\)/, '<span class="note">($1 $2)</span>')}</td>`).join('')}</tr>`).join('');
+}
+
+/* maze answer keys: schematic grids drawn from MAZE data */
+DRAW.mazekeys = () => {
+  const W = 7.25 * IN, gw = 2.3 * IN, gap = (W - 3 * gw) / 2, cw = (gw - 16) / 4, ch = 48, top = 20;
+  let s = '';
+  const titles = { 1: 'Trail Maze 1: Unit Fractions', 2: 'Trail Maze 2: Fractions on a Number Line', 3: 'Trail Maze 3: Same Spot or Whole Number?' };
+  [1, 2, 3].forEach((n, gi) => {
+    const M = MAZE[n], ox = gi * (gw + gap), gx0 = ox + 16;
+    s += `<text x="${ox}" y="11" font-family="Lexend" font-weight="700" font-size="10" fill="#1e293b">${titles[n].replace(': ', ': ')}</text>`;
+    for (let c = 0; c < 4; c++) s += `<text x="${gx0 + c * cw + cw / 2}" y="${top + 10}" font-family="Lexend" font-size="8" fill="#64748b" text-anchor="middle">C${c + 1}</text>`;
+    const y0 = top + 14;
+    const ctr = (id) => { const r = +id[1] - 1, c = +id[3] - 1; return [gx0 + c * cw + cw / 2, y0 + r * ch + ch / 2]; };
+    // 1) cell boxes
+    M.cells.forEach((row, r) => {
+      s += `<text x="${ox + 6}" y="${y0 + r * ch + ch / 2 + 3}" font-family="Lexend" font-size="8" fill="#64748b" text-anchor="middle">R${r + 1}</text>`;
+      row.forEach((c, k) => s += `<rect x="${gx0 + k * cw}" y="${y0 + r * ch}" width="${cw}" height="${ch}" fill="#fff" stroke="#94a3b8" stroke-width="1"/>`);
+    });
+    // 2) berry path through the cell centres, in order (drawn under the signs)
+    const pts = M.path.map(ctr);
+    const d = `M${pts[0][0]} ${y0 - 12} L` + pts.map((p) => p.join(' ')).join(' L') + ` L${pts[pts.length - 1][0]} ${y0 + 5 * ch + 8}`;
+    s += `<path d="${d}" fill="none" stroke="#c8325f" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    // 3) signs: true = bold on a white badge with a berry ring; false = gray + mistake code
+    M.cells.forEach((row, r) => row.forEach((c, k) => {
+      const x = gx0 + k * cw, y = y0 + r * ch, isT = c[0] === 'S' ? c[5] : c[0] === 'W' ? c[3] : c[2];
+      const code = c[0] === 'S' ? c[6] : c[0] === 'W' ? c[4] : c[3];
+      const col = isT ? '#1e293b' : '#64748b', wt = isT ? 700 : 400;
+      const cy = isT ? y + ch / 2 + 1 : y + 19;
+      if (isT) s += `<rect x="${x + 4}" y="${y + 6}" width="${cw - 8}" height="${ch - 12}" rx="7" fill="#fff" stroke="#c8325f" stroke-width="2"/>`;
+      if (c[0] === 'S') {
+        s += fracSVG(x + cw * 0.3, cy, ...c[2].split('/'), 10, { color: col, weight: wt });
+        s += `<text x="${x + cw / 2}" y="${cy + 3}" font-family="Lexend" font-size="9" fill="${col}" text-anchor="middle">/</text>`;
+        s += fracSVG(x + cw * 0.7, cy, ...c[4].split('/'), 10, { color: col, weight: wt });
+        s += `<text x="${x + 3}" y="${y + 9}" font-family="Lexend" font-size="7" fill="#64748b">S</text>`;
+      } else if (c[0] === 'W') {
+        const p = T.parseNL(c[1]).pt.v;
+        s += `<text x="${x + cw * 0.27}" y="${cy + 4}" font-family="Lexend" font-size="10" font-weight="${wt}" fill="${col}" text-anchor="middle">${p}</text>`;
+        s += `<use href="#arrow" x="${x + cw * 0.38}" y="${cy - 4}" width="12" height="7" style="color:${col}"/>`;
+        s += fracSVG(x + cw * 0.74, cy, ...c[2].split('/'), 10, { color: col, weight: wt });
+        s += `<text x="${x + 3}" y="${y + 9}" font-family="Lexend" font-size="7" fill="#64748b">W</text>`;
+      } else {
+        s += fracSVG(x + cw / 2, cy, ...c[1].split('/'), 12, { color: col, weight: wt });
+      }
+      if (!isT) s += `<text x="${x + cw / 2}" y="${y + ch - 4}" font-family="Lexend" font-size="8.5" font-weight="600" fill="#475569" text-anchor="middle">${code}</text>`;
+    }));
+    const yb = y0 + 5 * ch + 22;
+    s += `<text x="${ox}" y="${yb}" font-family="Lexend" font-weight="700" font-size="10" fill="#c8325f">${M.foot} footprints</text>`;
+    // path list (commas, not arrow characters)
+    const lines = [M.path.slice(0, 6).join(', ') + ',', M.path.slice(6).join(', ')];
+    lines.forEach((t, i) => s += `<text x="${ox}" y="${yb + 13 + i * 11}" font-family="Lexend" font-size="8" fill="#475569">${i === 0 ? 'Path: ' : ''}${t}</text>`);
+  });
+  return svgBox(W, top + 14 + 5 * 48 + 60, s);
+};
+
+DRAW.p18art = () => {
+  const W = 7.2 * IN, y = 60, x0 = 160, L = 4.2 * IN;
+  let s = T.line({ min: 0, max: 1, b: 4, x0, y, L, lab: 'wholes', lfs: 14, arcs: arcsTo(4, 4, 'solid'), arcH: 20, arcSW: 2.2, lw: 2.4 }).svg;
+  s += `<use href="#jun-wave" x="${x0 - 70}" y="${y - 70}" width="52" height="68"/>`;
+  s += `<use href="#cabin" x="${x0 + L + 10}" y="${y - 54}" width="54" height="54"/>`;
+  s += `<text x="${x0 + L / 2}" y="${y + 50}" font-family="Lexend" font-size="12" fill="#475569" text-anchor="middle">Thank you for hopping along!</text>`;
+  return svgBox(W, y + 60, s);
+};
+
+/* ======================================================================
+   BUILD
+   ====================================================================== */
+document.getElementById('p4items').innerHTML = p4();
+document.getElementById('p5a').innerHTML = p5a();
+document.getElementById('p5b').innerHTML = p5b();
+p8(); p10(); p11(); p13(); p14(); keys();
+document.querySelectorAll('[data-maze]').forEach((el) => el.innerHTML = mazeSVG(+el.dataset.maze));
+document.querySelectorAll('[data-draw]').forEach((el) => el.innerHTML = DRAW[el.dataset.draw]());
+
+// paws: page corner + teacher table
+document.querySelectorAll('.page[data-paws]').forEach((p) => { const l = p.querySelector('.hdr .lvl'); if (l) l.innerHTML = T.paws(+p.dataset.paws, 26); });
+document.querySelectorAll('td[data-paws]').forEach((td) => td.innerHTML = `${T.paws(+td.dataset.paws, 14)} <span style="white-space:nowrap">${td.textContent}</span>`);
+
+// text pass: "a/b" -> stacked fraction, "→" -> SVG arrow (no glyph fallbacks in the PDF)
+(function stackText() {
+  const re = /(?<![\w\/.])(\d+|a|1)\/(\d+|b)(?![\w\/])|→/g;
+  const re1 = /(?<![\w\/.])(\d+|a|1)\/(\d+|b)(?![\w\/])|→/;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (n.parentElement.closest('svg, script, style') ? NodeFilter.FILTER_REJECT : re1.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP),
+  });
+  const nodes = []; let n; while ((n = walker.nextNode())) nodes.push(n);
+  nodes.forEach((node) => {
+    re.lastIndex = 0;
+    const span = document.createElement('span');
+    span.innerHTML = node.nodeValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(re, (m, a, b) =>
+      m === '→' ? '<svg class="arr" viewBox="0 0 24 12"><use href="#arrow"/></svg>' : `<span class="fr"><span>${a}</span><span>${b}</span></span>`);
+    node.replaceWith(...span.childNodes);
+  });
+})();
+
+// store name + footers + page numbers
+document.documentElement.style.setProperty('--store-name', JSON.stringify(STORE.name));
+document.querySelectorAll('.js-store').forEach((e) => e.textContent = STORE.name);
+document.querySelectorAll('.page').forEach((p, i) => {
+  const n = p.querySelector('.pnum'); if (n) n.textContent = 'Page ' + (i + 1);
+  const s = p.querySelector('.footer .std'); if (s) s.textContent = p.dataset.std || '';
+});
+</script>
+</body>
+</html>
